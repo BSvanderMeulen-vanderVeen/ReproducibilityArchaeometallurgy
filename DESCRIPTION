@@ -1,9 +1,10 @@
 Package: ReproducibilityArchaeometallurgy
 Title: Investigating the Reproducibility of Published Research in Archeometallurgy
 Version: 0.0.0.9000
-Authors@R:
-        person("Rose", "Thomas", comment = c(ORCID = "0000-0002-8186-3566"), role = c("cre", "aut"), email = "roseth@posteo.com"),
-        person("van der Meulen-van der Veen", "Berber", comment = c(ORCID = "0000-0001-5297-0269"), role = "aut")
+Authors@R: c(
+    person("Rose", "Thomas", comment = c(ORCID = "0000-0002-8186-3566"), role = c("cre", "aut"), email = "roseth@posteo.com"),
+    person("van der Meulen-van der Veen", "Berber", comment = c(ORCID = "0000-0001-5297-0269"), role = "aut")
+    )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 ByteCompile: true
@@ -11,8 +12,8 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Imports: 
-    here
+Imports:  
+    rcrossref
 Suggests: 
     devtools,
     git2r
