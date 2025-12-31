@@ -1,0 +1,134 @@
+---
+title: "Title Goes Here"
+author:
+  - name: Berber S. van der Meulen-van der Veen:
+    correspondence: "yes"
+    email: b.s.vandermeulen@uva.nl
+    orcid: 0000-0001-5297-0269
+    affiliations:
+      - name: Universiteit van Amsterdam
+        department: 
+        address: ...
+      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
+        group: Research Area Archaeometallurgy
+        address: ...
+    role: 
+      - list CRediT roles  
+  - name: Thomas Rose:
+    orcid: 0000-0002-8186-3566
+    email: roseth@posteo.com
+    affiliations:
+      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
+        group: Research Area Archaeometallurgy
+        address: ...
+      - name: Massachusettes Institute of Technology, Cambridge, Massachusetts, USA
+        department: Department of Material Science and Engineering
+        address: ...
+    role: 
+      - list CRediT roles
+        
+title-block-published: "Last updated"  
+date: now
+date-format: long
+format: 
+  docx:
+    reference-doc: "../templates/template.docx" # Insert path for the DOCX file
+execute:
+  echo: true
+  warning: false
+  message: false
+  comment: "#>"
+  fig-path: "../figures/"
+  fig-dpi: 600
+filters:
+  - ../templates/scholarly-metadata.lua
+  - ../templates/author-info-blocks.lua
+  - ../templates/pagebreak.lua
+bibliography: references.bib
+csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
+abstract: |
+  Text of abstract
+keywords: |
+  keyword 1; keyword 2; keyword 3
+highlights: |
+  These are the highlights. 
+---
+
+<!-- With the following code you can access and display values from the yml header above. -->
+
+Keywords: `r rmarkdown::metadata$keywords`
+
+Highlights: `r rmarkdown::metadata$highlights`
+
+<!-- The actual document text starts here: -->
+
+# Introduction
+
+Here is a citation [@Marwick2017]
+
+# Background
+
+# Methods
+
+# Results
+
+<!-- Here's some example analysis code: -->
+
+```{r}
+#| label: get-data
+#| eval: false
+# Note the path that we need to use to access our data files when rendering this document
+my_data <- read.csv(here::here('analysis/data/raw_data/my_csv_file.csv'))
+```
+
+```{r}
+#| label: fig-demo-plot
+#| fig-cap: "A plot of random numbers"
+plot(rnorm(10))
+```
+
+@fig-demo-plot shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with `fig-`
+
+```{r}
+#| label: demo-inline-code
+#| echo: false
+x <- round(pi, 2)
+```
+
+Here is an example of inline code `r x` in the middle of a sentence.
+
+# Discussion
+
+# Conclusion
+
+# Acknowledgements
+
+# Funding
+
+# Author declarations
+
+# References
+
+::: {#refs}
+:::
+
+\newpage
+
+### Colophon
+
+This report was generated on `r Sys.time()` using the following computational environment and dependencies:
+
+```{r}
+#| label: colophon
+#| cache: false
+
+# which R packages and versions?
+if ("devtools" %in% installed.packages()) devtools::session_info()
+```
+
+The current Git commit details are:
+
+```{r}
+# what commit is this file at? 
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+```
