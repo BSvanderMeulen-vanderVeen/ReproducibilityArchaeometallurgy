@@ -94,7 +94,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "graphite", "obsidian", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
 
     # search terms related to plant and animal remains and diet
-    "skelet", "species", "camel", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
+    "skelet", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
 
     # search terms related to architecture and building materials
     "architect", "plaster", "paint", "mortar", "inscription", "structure",
@@ -165,9 +165,9 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
       "10.1007/s10816-025-09694-9|10.1016/j.jasrep.2024.104811|10.1016/j.jasrep.2025.105390|10.1007/s12520-025-02327-y|
       10.1111/arcm.13093|10.54841/hm.670|10.54841/hm.674|10.1007/s12520-025-02318-z|10.1016/j.jasrep.2025.105379|
       10.1016/j.jasrep.2025.105333|10.1016/j.jasrep.2024.104850|10.1111/arcm.13056|10.1111/arcm.70006|10.1016/j.jasrep.2025.105068|
-      10.1016/j.jasrep.2024.104801|10.1111/arcm.13088|10.1007/s10963-025-09199-z|10.1016/j.jasrep.2025.105268|10.1016/j.jasrep.2025.105114",
+      10.1016/j.jasrep.2024.104801|10.1007/s10963-025-09204-5|10.1111/arcm.13088|10.1007/s10963-025-09199-z|10.1016/j.jasrep.2025.105268|10.1016/j.jasrep.2025.105114",
       results_filtered$doi)
-    )
+  )
 
   # Anonymise publications, assigning randomly generated ID number and adding columns for data entry
 
