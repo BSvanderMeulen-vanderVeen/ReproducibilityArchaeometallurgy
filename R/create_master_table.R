@@ -198,5 +198,5 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   results_anon[, columns_add] <- NA
 
   # Export anonymised data frame as .csv (; as separator)
-  utils::write.csv2(results_anon, "reprod_astr_2024-11-25_anonymised.csv", na = "", row.names = FALSE)
+  utils::write.csv2(results_anon, "reprod_astr_2026-02-01_anonymised.csv", na = "", row.names = FALSE)
 }
