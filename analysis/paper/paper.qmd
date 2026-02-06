@@ -70,6 +70,294 @@ Here is a citation [@Marwick2017]
 
 # Methods
 
+It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by Marwick (references), this also enabled us to test compliance with increasingly high standards regarding data availability.
+
+In order to find these publications, a Crossref API search was performed using the **rcrossref** package in R. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to February 31, 2026.
+
+The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only 11 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters. This was decided because including journals that yielded low numbers of hits would introduce disproportionate background noise of irrelevant papers that would need to be filtered out later down the line. The initial retrieval of publications was performed solely on the journal title and date range, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency.
+
+```{r}
+create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
+                          journal_issn = source("./analysis/supplementary-materials/journals.R")
+                          ){
+
+  results <- rcrossref::cr_journals(issn = journal_issn,
+                                    works = TRUE,
+                                    filter = c(from_pub_date = start_date,
+                                               until_pub_date = end_date),
+                                    limit = 1000,
+                                    async = TRUE
+  )
+```
+
+From the resulting output, a dataframe was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. A total of 1240 individual papers resulted from this initial search.
+
+```{r}
+results_data <- results$data[!is.na(results$data$title),
+                               c("deposited", "container.title", "title", "issn",
+                                 "doi", "abstract")]
+```
+
+These were narrowed down using a combination of positive and negative filters to only select papers related to archaeometallurgy, using a selection of search terms appearing in either the article title or abstract. Positive filters for methodology included such terms as “provenance” and “metal”, while negative terms included “genome” and “geospatial”. Positive filters for specific materials were further targeted towards metals, including both alloy types and individual metals. Negative filters aimed at excluding papers on non-metal materials. A handful of search terms for materials were filtered through a masking filter to ensure papers on composite objects or papers that discussed multiple types of material culture were kept in. These filters were all compiled iteratively, meaning we repeated the initial broad search multiple times, scanning the article titles and abstracts to identify non-archaeometallurgical papers and adding filter terms as we went to weed those papers out. This process was repeated multiple times before the code was finalised as the current published version.
+
+```{r}
+pattern_pos <- paste(
+
+    # general search terms
+    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
+
+    # specific materials or alloys
+    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
+    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
+    sep = "|")
+
+    # Create a vector that selects rows passing the filter and trim dataset accordingly
+  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
+    any(grepl(pattern_pos, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_data[filtering_pos, ]
+
+  # This should result in 523 observations
+
+  # Explicitly filter out non-metal materials.
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_mat1 <- paste(
+
+    # search terms related to environmental archaeology
+    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
+
+    # search terms related to mineralogy
+    "cinnabar", "malachite",
+
+    # search terms related to stable isotopes
+    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
+
+    # search terms related to ceramic artefacts
+    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
+
+    # search terms related to glass artefacts
+    "faience", "glaze", "vitr", "beads",
+
+    # search terms related to stone artefacts
+    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
+
+    # search terms related to plant and animal remains and diet
+    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
+
+    # search terms related to architecture and building materials
+    "architect", "plaster", "paint", "mortar", "inscription", "structure",
+    sep = "|")
+
+  # Create a vector that selects rows not passing the filter and trim dataset accordingly
+  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_filtered[filtering_neg_mat1, ]
+
+  # This should results in 160 results
+
+  # Apply filtering mask to ensure multi-material approaches are kept in
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
+
+  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
+                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
+                  sep = "|") # set filter mask terms
+
+  # Create a vector that selects rows passing the filter and trim dataset accordingly
+  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
+    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
+    return(!has_neg | has_metal)
+    })
+
+  results_filtered <- results_filtered[filtering_neg_mat2, ]
+
+  # This should result in 127 observations
+
+  # Explicitly filter out non-metallurgical methodologies
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_meth <- paste(
+
+    # general terms
+    "typological", "experiment",
+
+    # methodologies related to environmental studies
+    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
+
+    # methodologies related to human and animal mobility, health, diet and death
+    "demograph", "organic", "botan", "patholog", "genome",
+    sep = "|")
+
+  # Create a vector that selects rows not passing the filter and trim dataset accordingly
+  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_filtered[filtering_neg_meth, ]
+
+  # This should result in 115 observations
+```
+
+The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works.
+
+```{r}
+pattern_pos <- paste(
+
+    # general search terms
+    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
+
+    # specific materials or alloys
+    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
+    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
+    sep = "|")
+
+    # Create a vector that selects rows passing the filter and trim dataset accordingly
+  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
+    any(grepl(pattern_pos, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_data[filtering_pos, ]
+
+  # This should result in 523 observations
+
+  # Explicitly filter out non-metal materials.
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_mat1 <- paste(
+
+    # search terms related to environmental archaeology
+    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
+
+    # search terms related to mineralogy
+    "cinnabar", "malachite",
+
+    # search terms related to stable isotopes
+    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
+
+    # search terms related to ceramic artefacts
+    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
+
+    # search terms related to glass artefacts
+    "faience", "glaze", "vitr", "beads",
+
+    # search terms related to stone artefacts
+    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
+
+    # search terms related to plant and animal remains and diet
+    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
+
+    # search terms related to architecture and building materials
+    "architect", "plaster", "paint", "mortar", "inscription", "structure",
+    sep = "|")
+
+  # Create a vector that selects rows not passing the filter and trim dataset accordingly
+  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_filtered[filtering_neg_mat1, ]
+
+  # This should results in 160 results
+
+  # Apply filtering mask to ensure multi-material approaches are kept in
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
+
+  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
+                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
+                  sep = "|") # set filter mask terms
+
+  # Create a vector that selects rows passing the filter and trim dataset accordingly
+  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
+    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
+    return(!has_neg | has_metal)
+    })
+
+  results_filtered <- results_filtered[filtering_neg_mat2, ]
+
+  # This should result in 127 observations
+
+  # Explicitly filter out non-metallurgical methodologies
+  # The list of terms was compiled iteratively against the dataset
+  pattern_neg_meth <- paste(
+
+    # general terms
+    "typological", "experiment",
+
+    # methodologies related to environmental studies
+    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
+
+    # methodologies related to human and animal mobility, health, diet and death
+    "demograph", "organic", "botan", "patholog", "genome",
+    sep = "|")
+
+  # Create a vector that selects rows not passing the filter and trim dataset accordingly
+  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
+    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
+    })
+
+  results_filtered <- results_filtered[filtering_neg_meth, ]
+
+  # This should result in 115 observations
+
+  # Filter out publications other than research papers (reviews, responses, comments, editorials) in article title
+  results_filtered <- subset(results_filtered, !grepl(
+    "\\(ed\\.\\)\\.|hardback|reply|£|€|\\$|corrigendum|comment|editorial|response",
+    results_filtered$title, ignore.case = TRUE)
+  )
+
+  # This should result in 112 observations
+
+  ## Manual identification and exclusion of 19 additional papers (total 93) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
+  results_final  <- subset(
+    results_filtered, !grepl(
+      "10.1007/s10816-025-09694-9|10.1016/j.jasrep.2024.104811|10.1016/j.jasrep.2025.105390|10.1007/s12520-025-02327-y|10.1016/j.jasrep.2025.105455|
+      10.54841/hm.670|10.54841/hm.674|10.1007/s12520-025-02318-z|10.1016/j.jasrep.2025.105379|10.1016/j.jasrep.2024.104801|10.54841/hm.670|10.1016/j.jasrep.2025.105333|
+      10.1016/j.jasrep.2025.105333|10.1016/j.jasrep.2024.104850|10.1111/arcm.13056|10.1111/arcm.70006|10.1016/j.jasrep.2025.105068|10.1016/j.jasrep.2025.105414|
+      10.1016/j.jasrep.2024.104801|10.1007/s10963-025-09204-5|10.1111/arcm.13088|10.1007/s10963-025-09199-z|10.1016/j.jasrep.2025.105268|10.1016/j.jasrep.2025.105114",
+      results_filtered$doi)
+  )
+
+  # This should result in 93 observations
+```
+
+Finally, to create the master table that would form the basis of our dataframe, the results were anonymised by setting a seed, giving each paper a unique ID number between 1 and 93, removing all other identifying information and adding a number of columns to store the scores for each phase of the index as well as additional comments for each explaining the chosen score. A final column was added as a free field to include comments on the accessibility of the paper. This dataframe was then saved as a .csv file to the set working directory.
+
+```{r}
+ # Set seed for reproducibility and add column 'ID' with random numbers to dataset
+  set.seed(42)
+
+  results_final$ID <- sample(nrow(results_final), replace = FALSE)
+
+    # Define columns with identifying information and remove them from dataset
+  columns_remove <- c("doi", "deposited", "container.title", "title", "issn", "abstract")
+  results_anon <- results_final[, !names(results_final) %in% columns_remove]
+
+  # Add columns for data entry (12 stages of reproducibility index and additional comments)
+  columns_add <- c("Stage_1", "Comments_1",
+                   "Stage_2", "Comments_2",
+                   "Stage_3", "Comments_3",
+                   "Stage_4", "Comments_4",
+                   "Stage_5", "Comments_5",
+                   "Stage_6", "Comments_6",
+                   "Stage_7", "Comments_7",
+                   "Stage_8", "Comments_8",
+                   "Stage_9", "Comments_9",
+                   "Stage_10", "Comments_10",
+                   "Stage_11", "Comments_11",
+                   "Stage_12", "Comments_12",
+                   "Accessibility")
+
+  results_anon[, columns_add] <- NA
+
+  # Export anonymised data frame as .csv (; as separator)
+  utils::write.csv2(results_anon, "reprod_astr_2026-02-01_anonymised.csv", na = "", row.names = FALSE)
+}
+```
+
 # Results
 
 <!-- Here's some example analysis code: -->
