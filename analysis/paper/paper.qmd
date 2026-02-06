@@ -70,11 +70,48 @@ Here is a citation [@Marwick2017]
 
 # Methods
 
+## Index design and justification
+
+In order to produce a data-supported description of the current state of affairs, a reproducibility index was designed to check for impediments or data reuse and reproduction in archaeometallurgical studies. Based on the literature review presented above and the common stages of data acquisition, data treatment and analysis in archaeometallurgy, 12 phases were identified as potent loci for decision making that impact the reproducibility of the methods and output in any given paper. Below, these stages are described in more detail and pass/fail criteria are described for each, with examples where illustrative. As a rule, this index focuses on absolute reproducibility, not on the difficulty or ease of the reproduction process. However, the process of testing for reproducibility did yield a number of recommendations for reducing friction in reproduction efforts; these are included below. Furthermore, we combine aspects of data reusability and analytical reproducibility (recording of methods and decisions) and computational reproducibility (recording of calculations).
+
+These stages are designed as yes/no/not applicable thresholds, and some examples are given below on how these criteria can be met to indicate acceptable standards. Best practices and recommendations on how to improve the current state of affairs are discussed further down below. Due to the inclusion of multiple sources of analytical data (including stable lead isotope, XRF, SEM-EDS, PIXE, ICP-MS) and approaches, not all criteria necessarily applied to all publications. The “not applicable” label (translated to a score of 2) was designed to meet those cases. A soft fail (score of 1) was applied for methods for which it is currently not yet common practice to include specific details, such as specifying the use of standardless settings for SEM-EDS or the normalisation of the spectrum to 100% for pXRF.
+
+### Stage 1: sampling strategy
+
+To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects. Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location(and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated.
+
+### Stage 2: data availability
+Passing the index on data availability can be achieved by having underlying data to a paper attached as supplementary files, embedded in the text as tables or attached via a link to a repository. Some of these options may cause more or less friction for the re-user, and we have reflected this in the scoring mechanism. Adding data in tables in the text does quality as reproducible, although it introduces more steps for the re-user when importing the data (resulting in a score of 1). Supplementary data files are preferable in this regard, although here choices regarding file formats were considered, with .csv or .xlxs vastly preferable (and scoring higher) over .docx or .pdf files. As long as all data necessary to reproduce the paper are accessible, a paper should pass this threshold with either a score of 1 or 2. These data could include the raw machine output, processed data or averages of measurements where this is appropriate to the analytical method (as long as the type of data and level of processing is made explicit). A selection of the most significant results does not count as complete. Papers that include a data availability statement that claim all or some of the data are available on request are also considered non-reproducible as data sharing under this provision is neither guaranteed nor enforceable [@Marwick2025]. 
+
+### Stage 3: availability of comparative data
+Many of the papers surveyed contained comparative analyses of metallurgical data, whether that was between artefacts from different sites or between isotope signatures of artefacts compared to ore deposits. In any of these cases, reproducibility of the comparison requires a clear and specific citation to the comparative data used. A score of 0 was given to papers that included no citations or only made general references to these datasets in the text. Higher scores were awarded for citations included in image captions or for papers that reproduced the comparative datasets in full in their own supplementary files. These scores were only given to the presence/absence of clear citations to these data, we did not attempt to track them down and check whether they were accessible according to the criteria set above in stage 2. 
+
+
+## Crossref search
+
 It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by Marwick (references), this also enabled us to test compliance with increasingly high standards regarding data availability.
 
 In order to find these publications, a Crossref API search was performed using the **rcrossref** package in R. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to February 31, 2026.
 
-The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only 11 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters. This was decided because including journals that yielded low numbers of hits would introduce disproportionate background noise of irrelevant papers that would need to be filtered out later down the line. The initial retrieval of publications was performed solely on the journal title and date range, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency.
+The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only 11 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
+
+```{r}
+journal_issn <- c(
+  "Archaeometry"= "1475-4754",
+  "Journal of Archaeological Science"= "1095-9238",
+  "Journal of Archaeological Science: Reports"= "2352-409X",
+  "Heritage Science"= "2050-7445",
+  "Archaeological and Anthropological Sciences"= "1866-9565",
+  "Advances in Archaeomaterials"= "2667-1360",
+  "Metalla"= "2749-6430",
+  "Historical Metallurgy"= "2755-0249",
+  "Journal of World Prehistory"= "0892-7537",
+  "Journal of Archaeological Method and Theory"= "1573-7764",
+  "Science and Technology of Archaeological Research"= "2054-8923"
+)
+```
+
+This was decided because including journals that yielded low numbers of hits would introduce disproportionate background noise of irrelevant papers that would need to be filtered out later down the line. The initial retrieval of publications was performed solely on the journal title and date range, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency.
 
 ```{r}
 create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
