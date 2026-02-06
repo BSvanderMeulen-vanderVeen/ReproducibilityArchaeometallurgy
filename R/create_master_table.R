@@ -159,7 +159,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   # This should result in 112 observations
 
-  ## Manual identification and exclusion of 00 additional papers (total 00) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
+  ## Manual identification and exclusion of 19 additional papers (total 93) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
   results_final  <- subset(
     results_filtered, !grepl(
       "10.1007/s10816-025-09694-9|10.1016/j.jasrep.2024.104811|10.1016/j.jasrep.2025.105390|10.1007/s12520-025-02327-y|10.1016/j.jasrep.2025.105455|
