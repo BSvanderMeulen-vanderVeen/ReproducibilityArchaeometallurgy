@@ -143,6 +143,8 @@ The GitHub repo will be archived on Zenodo and we can decide to either do this a
 
 
 ```{r}
+#| eval: false
+#| include: false
 create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
                           journal_issn = source("./analysis/supplementary-materials/journals.R")
                           ){
@@ -159,6 +161,8 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 From the resulting output *of 1240 individual papers*, a data frame was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. _A total of 1240 individual papers resulted from this initial search._
 
 ```{r}
+#| eval: false
+#| include: false
 results_data <- results$data[!is.na(results$data$title),
                                c("deposited", "container.title", "title", "issn",
                                  "doi", "abstract")]
@@ -168,6 +172,8 @@ These were narrowed down using a combination of positive and negative filters to
 <!-- above: the repeated nature of the process is mentioned twiced. And it might twitch the wrong people if we admit to query the crossref API repeatedly instead of saving a copy of the raw data and carry the filter out on them... further, the same applies to the next paragraph. Hence, I would refer to the code only at the very end (I would also turn them into one paragraph. -->
 
 ```{r}
+#| eval: false
+#| include: false
 pattern_pos <- paste(
 
     # general search terms
@@ -271,6 +277,8 @@ pattern_pos <- paste(
 The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works. *The resulting R script for querying and processing the publication records was subsequently turned into the function provided in @ASTR_compendium.*
 
 ```{r}
+#| eval: false
+#| include: false
 pattern_pos <- paste(
 
     # general search terms
@@ -395,6 +403,9 @@ Finally, to create the master table that would form the basis of our dataframe, 
 <!-- we briefly need to define accessibility here. Because it is publications, readers likely think about open access -->
 
 ```{r}
+#| eval: false
+#| include: false
+
  # Set seed for reproducibility and add column 'ID' with random numbers to dataset
   set.seed(42)
 
