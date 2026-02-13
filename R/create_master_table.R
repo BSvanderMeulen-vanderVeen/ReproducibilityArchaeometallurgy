@@ -28,8 +28,8 @@
 #'
 
 create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
-                          journal_issn = source("./analysis/supplementary-materials/journals.R")
-                          ){
+                                journal_issn = source("./analysis/supplementary-materials/journals.R")
+){
 
   results <- rcrossref::cr_journals(issn = journal_issn,
                                     works = TRUE,
@@ -62,10 +62,10 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
     sep = "|")
 
-    # Create a vector that selects rows passing the filter and trim dataset accordingly
+  # Create a vector that selects rows passing the filter and trim dataset accordingly
   filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
     any(grepl(pattern_pos, row, ignore.case = TRUE))
-    })
+  })
 
   results_filtered <- results_data[filtering_pos, ]
 
@@ -103,7 +103,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   # Create a vector that selects rows not passing the filter and trim dataset accordingly
   filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
     !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
-    })
+  })
 
   results_filtered <- results_filtered[filtering_neg_mat1, ]
 
@@ -122,7 +122,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
     has_metal <- any(grepl(metals, row, ignore.case = TRUE))
     return(!has_neg | has_metal)
-    })
+  })
 
   results_filtered <- results_filtered[filtering_neg_mat2, ]
 
@@ -145,7 +145,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   # Create a vector that selects rows not passing the filter and trim dataset accordingly
   filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
     !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
-    })
+  })
 
   results_filtered <- results_filtered[filtering_neg_meth, ]
 
@@ -173,12 +173,12 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   # Anonymise publications, assigning randomly generated ID number and adding columns for data entry
 
-    # Set seed for reproducibility and add column 'ID' with random numbers to dataset
+  # Set seed for reproducibility and add column 'ID' with random numbers to dataset
   set.seed(42)
 
   results_final$ID <- sample(nrow(results_final), replace = FALSE)
 
-    # Define columns with identifying information and remove them from dataset
+  # Define columns with identifying information and remove them from dataset
   columns_remove <- c("doi", "deposited", "container.title", "title", "issn", "abstract")
   results_anon <- results_final[, !names(results_final) %in% columns_remove]
 
