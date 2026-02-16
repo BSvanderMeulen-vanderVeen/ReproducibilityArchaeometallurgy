@@ -66,55 +66,159 @@ Highlights: `r rmarkdown::metadata$highlights`
 
 Here is a citation [@Marwick2017]
 
+Best practices and recommendations on how to improve the current state of affairs are discussed further down below.
+
 # Background
 
 # Methods
 
-## Index design and _justification_ *scoring criteria* 
-<!-- I find "justification" not really fitting here and your current version does not indicate that this chapter presents the index in detail. Maybe just "Reproducibility index" would be sufficient as heading here? -->
+## Index design
+In order to produce a data-supported description of the current state of affairs, a reproducibility index was designed to check for impediments *or -\> for* data reuse and reproduction in archaeometallurgical studies. Based on the literature review presented above and the common stages of data acquisition, data treatment, and analysis in archaeometallurgy, 12 stages were identified that impact the reproducibility of the methods and output in any given paper. Below, these stages are described in more detail and pass/fail criteria are described for each. As a rule, this index focuses on absolute reproducibility, not on the difficulty or ease of the reproduction process. However, the process of testing for reproducibility did yield a number of recommendations for reducing friction in reproduction efforts; these are included below. Furthermore, we combine aspects of data reusability, analytical reproducibility (description of methods and decisions related to the analysis), and computational reproducibility (description of calculations). The 12 stages are designed to mark whether certain formal aspects of the publication are fully reproducible/partially or with significant effort reproducible/not reproducible/not applicable thresholds.
 
-In order to produce a data-supported description of the current state of affairs, a reproducibility index was designed to check for impediments _or -> for _ data reuse and reproduction in archaeometallurgical studies. Based on the literature review presented above and the common stages of data acquisition, _data_ treatment*,* and analysis in archaeometallurgy, 12 *stages* _phases_ were identified _as potent loci for decision making_ that impact the reproducibility of the methods and output in any given paper *and criteria developed for each stage (see below* _. Below, these stages are described in more detail and pass/fail criteria are described for each_, with examples where illustrative*)*. As a rule, this index focuses on absolute reproducibility, not on the difficulty or ease of the reproduction process. However, the process of testing for reproducibility did yield a number of recommendations for reducing friction in reproduction efforts; these are included below. Furthermore, we combine aspects of data reusability*,* _and_ analytical reproducibility (recording of methods and decisions *related to the analysis*)*,* and computational reproducibility (recording of calculations).
-<!-- above: I am not sure if "recording" is the proper term here... -->
-
-These stages are designed as yes/no/not applicable thresholds <!-- not really, aren't they? More accurate would be  yes/partially/no/not applicable, or, to link it closer to the scope: fully reproducbile/partially or with significant effort reproducible/not reproducible/not applicable --> _, and some examples are given below on how these criteria can be met to indicate acceptable standards_ <!-- I would remove this part. You refer to them already further above, which I think is sufficient - or only here -->. <!-- I would move the following sentence to the end of the introduction. This is more "outline of paper" than related to this chapter--> _Best practices and recommendations on how to improve the current state of affairs are discussed further down below._ Due to the inclusion of multiple _sources of analytical data_ *analytical methods* (*e.g.,* _including stable lead_ isotope *analysis* <!-- there are also tin isotopes --> , XRF, SEM-EDS, PIXE, ICP-MS) _and approaches_, <!-- I think this part has to be rewritten to current practice: not all criteria necessarily applied to all publications. The “not applicable” label (translated to a score of 2) was designed to meet those cases -->. A soft fail *, equalling to a score of 1,* _(score of 1)_ was applied for methods for which it is _currently_ not yet common practice to include specific details, such as specifying the use of standardless settings for SEM-EDS or the normalisation *to 100% of EDS and XRF data*. _of the spectrum to 100% for pXRF._ <!-- (it is not the spectrum that is normalised but the quantified results extracted from it) -->
+Due to the inclusion of multiple analytical methods, (*e.g.,* *including stable lead* isotope *analysis* <!-- there are also tin isotopes --> , XRF, SEM-EDS, PIXE, ICP-MS) *and approaches*, <!-- I think this part has to be rewritten to current practice: not all criteria necessarily applied to all publications. The “not applicable” label (translated to a score of 2) was designed to meet those cases -->. A soft fail *, equalling to a score of 1,* *(score of 1)* was applied for methods for which it is *currently* not yet common practice to include specific details, such as specifying the use of standardless settings for SEM-EDS or the normalisation to 100% of EDS and XRF data. 
 
 ### Stage 1: sampling strategy
 
-To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects*)*. Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated.
-<!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
+To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects*)*. Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated. <!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
 
 ### Stage 2: data availability
-Passing the index on data availability can be achieved by having underlying data to a paper attached as supplementary files, embedded in the text as tables or *cited as data publication with the link to its record in a repository* _in a repository_attached via a link to a repository_ <!-- I would actually just write Cited as data publication"... -->. Some of these options may cause more or less friction for the re-user, and we have reflected this in the scoring mechanism. Adding data in tables in the text does quality as reproducible, although it introduces more steps for the re-user when importing the data (resulting in a score of 1). Supplementary data files are preferable in this regard, although here choices regarding file formats were considered, with .csv or .xlsx vastly preferable (and scoring higher) over .docx or .pdf files. As long as all data necessary to reproduce the paper are accessible, a paper should pass this threshold with either a score of 1 or 2. These data could include the raw machine output, processed data or averages of measurements where this is appropriate to the analytical method (as long as the type of data and level of processing is made explicit). A selection of the most significant results does not count as complete. Papers that include a data availability statement that claim all or some of the data are available on request are also considered non-reproducible as data sharing under this provision is neither guaranteed nor enforceable [@Marwick2025]. 
-<!-- After reading this summary. Maybe it would be good to reorganise all stages into the following form? 
+We defined this criterion to check whether a publication contained the data necessary to reproduce any calculations, tables or visualisations contained within it. This may be the raw, untreated output or processed data, as long as the level and type of processing is made explicit (e.g., normalised or transformed data, averages of multiple measurements). This stage applies to analytical data only. 
 
-* Defining the scope of the stage/evaluated aspects of the publication
+For this stage, the amount of friction in using underlying data was taken into account because this step underlies any attempts at re-use, reproduction or adaptation of research results. If accessing the data or importing them into an editable format involves too many steps, this may run the risk of introducing copying errors, loss of information or simply a lot of time and effort.    
+
+- score 0: data are not included in any format, a selection of the data are included, or differently processed data than what are used for the calculations or visualisations in the publications are included  
+- score 1: all necessary data are included and the level of processing is made explicit; data are made available in a format that is prone to introduce errors (e.g. table in text, Microsoft Word or .pdf file in digital supplement, data publication or online repository)
+- score 2: all necessary data are included and the level of processing is made explicit; data are made available in a format that facilitates frictionless re-use (e.g. Microsoft Excel or .csv file in digital supplement, data publication or online repository)
+<!-- I must say I did not pay attention to "level of processing must be made explicit" during reading; I wonder if it is a bit too much to ask? --> 
+
+For this stage, we looked at the content of the publications as well as any appendices or supplements, rather than just the data availability statement as it was found that these did not always adequately cover the truth. Publications with no underlying data with a data availability statement claining data were available on request still received a 0 score as data sharing under this provision is neither guaranteed nor enforceable [@Marwick2025].     
+
+### Stage 3: availability of comparative data
+The majority of publications surveyed for this article contained some level of comparison between their original data and other datasets. Unambiguous and complete citations for comparative datasets are necessary to ensure reproducibility of the interpretation of these comparative analyses.We focus on the formal aspect of citation only because tracking down all comparative datasets to assess their reproducibility was out of scope for this paper. 
+
+- score 0: comparative data are used but not cited explicitly
+- score 1: comparative data are used and cited, but citations are listed in the text without a clear connection to their application 
+- score 2: comparative data are used and cited explicitly, or are reproduced in a data supplement. 
+
+Papers that did not use any comparative data passed this criterion automatically with a score of 2 (does not apply). The distinction between a score of 1 and 2 lies in the transparancy with which comparative data is used. For example, a general comment in the body of text that data from several sites was used along with a list of citations clears the reproducibility index with a score of 1, as it is not immediately clear to the re-user which citation belongs to which site or how these data were used. Publications where the citations for comparative data are included in image captions, for instance, were awarded a score of 2 here because the link between the citation and the purpose of the comparative data is explicit and self-explanatory. 
+
+### Stage 4: calibration and standard reference materials (CRMs/SRMs)
+The key consideration for this stage is whether or not SRMs are measured and how the resulting analyses are implemented [@Yuanetal2016; @Heginbothametal2015]. We do not intend to weigh in on which specific SRMs should be used for any particular method or material, how many SRMs a study should use, how frequently they should be analysed or how they should be used, but a description of at least these elements should be present.
+
+- score 0: no information provided for at least one of the methods used in the publication
+- score 1: soft fail to accomodate methods for which this information is not typically included, for example the use of standardless mode for pXRF or SEM-EDS.   
+- score 2: one or more internationally certified reference materials were used and these are cited; alternatively one or more internal or commercial standards were used and the certified and analysed values are included in the publication. In both cases, a publication needs to discuss how the measured values were used (e.g. calibration to a specific element, monitoring instrumental drift, simple standard bracketing) and give an indication of the external reproducibility, for example by including the standard deviation or error of each measured value.   
+
+### Stage 5: analytical uncertainty
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
 * A numbered list with which score was given for which criteria, e.g. 
 
 0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
 1: data were available but in a format that require prior compilation by the data re-user
 2: data are available and can be directly imported into work with them
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
 
-I think this would make it (optically) easier for readers to find the respective information and makes the criteria more transparent. 
--->
+### Stage 6: definition and treatment of outliers
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
 
-### Stage 3: availability of comparative data
-Many of the papers surveyed contained comparative _analyses of metallurgical_ data <!-- I would write it just like this. Depending on who you ask, chemical compositions ore e.g. lead isotope signatures of ores would not be considered metallurgical -->, whether that was between artefacts from different sites or between isotope signatures of artefacts compared to ore deposits <!-- is "between" here really proper English? -->. In any of these cases, reproducibility of the comparison requires a clear and specific citation to the comparative data used. A score of 0 was given to papers that included no citations or only made general references to these datasets in the text. Higher scores were awarded for citations included in image captions or for papers that reproduced the comparative datasets in full in their own supplementary files. These scores were only given to the presence/absence of clear citations to these data, we did not attempt to track them down and check whether they were accessible according to the criteria set above in stage 2. 
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+
+### Stage 7: normalisation
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+
+### Stage 8: standardised terminology
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+
+
+### Stage 9: archaeological metadata
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+
+The inclusion or description of archaeological metadata is largely self-explanatory and concerns the archaeological information included in the publication and its supplements that is relevant to the analytical samples described and subsequent analysis or interpretation of those samples. We consider this criterion met if any grouping, comparison or statistical analysis based on archaeological information such as dating, typology or function can be reconstructed based on the metadata provided. This also applies to any colour-coding or iconography used for the data visualisations (stage 12). 
+
+- score 0: no information is provided or necessary information is missing
+- score 1: metadata is not explicitly included in publication but can be reconstructed from context 
+- score 2: all necessary metadata are included in the publication and/or its supplements
+
+<!-- I'm not entirely sure we need a 1 score for this (the data are either complete or not), but what I mean by "can be reconstructed from context" is for example a paper where object functions are not listed in a finds table or data table, but a scatterplot is colour-coded for function (so you can retro-engineer it). I suppose this comes down to the amount of friction we allow before we strike it down as "not reproducible".-->
+
+### Stage 10: statistical assumptions and data transformation
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+This stage targets two aspects of data statistics: the nature of the data and how this informs statistical testing, and data transformation in preparation for statistical testing. Assumptions about how analytical data are constructed or are expected to behave should be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed (Baxter and Gale 1998; Hsu et al. 2018). Data transformation may include log transformation or scaling and centering, for example in the case of multi-variate statistics such as PCA.
+
+- score 0: no data transformation is applied where necessary or inappropriate data transformation is applied
+- score 1: data transformation is applied where appropriate but this is not described; choice of statistical method is not made explicit 
+- score 2: appropriate data transformation is explicitly applied where necessary; nature of data is discussed and choice of statistical method is made explicit
+
+In cases where no statistical analyses were applied, this stage was passed automatically as non applicable with a score of 2.
+
+### Stage 11: statistical methods
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+
+### Stage 12: data visualisations
+<!-- * Defining the scope of the stage/evaluated aspects of the publication
+* A numbered list with which score was given for which criteria, e.g. 
+
+0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
+1: data were available but in a format that require prior compilation by the data re-user
+2: data are available and can be directly imported into work with them
+
+* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
 
 
 ## Crossref search
 
-It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by *@Marwick.2025* _(references)_, this also enabled us to test compliance with increasingly high standards regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
+It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by @Marwick.2025 *(references)*, this also enabled us to test compliance with increasingly high standards regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
 
-In order to find these publications, _a_ *the* Crossref API _search_ was performed_ *was queried* using the *R-package* **rcrossref** _package in R_ *[@rcrossref]*. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to _February_ *January* 31, 2026.
+In order to find these publications, *a* *the* Crossref API *search* was performed\_ *was queried* using the *R-package* **rcrossref** *package in R* [@rcrossref]. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to *February* *January* 31, 2026.
 
 The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only *the* 11 *journals listed in tab. 1* yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
 
+```{=html}
 <!-- We should include a breakdown here on how many articles were taken from which journal. This can be easily extracted from the DOIs in our table but probably won't be easily reproducible. If we want to go for full reproducibility here, we would need to write a separate the search function into the one downloading the initial dataset and applying the filters, and separate ones for the anonymisation and the compilation of this figure. 
 
 Based on this figure, we could also say that "significant" means e.g. at least 5. -->
-
+```
 ```{r}
 journal_issn <- c(
   "Archaeometry"= "1475-4754",
@@ -131,17 +235,15 @@ journal_issn <- c(
 )
 ```
 
-*Otehrwise,* _This was decided because including_ journals _that_ yield*ing* _ed_ low numbers of hits would *have* introduce*d* disproportionate background noise of irrelevant papers that would need to be filtered out *further* _later_ down the line. The initial retrieval of publication *record*s was performed solely on the journal title and date range*.* <--! I don't think the remainder of the sentence is not important with regards to the scope of the manuscript --> _, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency_.
-<!-- I rewrite is here, because otherwise it will be very confusing -->
-Due to the restricted search functionality of the Crossref API, the initial retrieval of publication records was performed based on the journal title and date range. Therefore, including journals yielding low numbers of hits would have introduced disproportionate background noise of irrelevant papers. 
+*Otehrwise,* *This was decided because including* journals *that* yield*ing* *ed* low numbers of hits would *have* introduce*d* disproportionate background noise of irrelevant papers that would need to be filtered out *further* *later* down the line. The initial retrieval of publication *record*s was performed solely on the journal title and date range*.* \<--! I don't think the remainder of the sentence is not important with regards to the scope of the manuscript --\> *, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency*. <!-- I rewrite is here, because otherwise it will be very confusing --> Due to the restricted search functionality of the Crossref API, the initial retrieval of publication records was performed based on the journal title and date range. Therefore, including journals yielding low numbers of hits would have introduced disproportionate background noise of irrelevant papers.
 
 <!-- I would assume, we can expect the reader to know that background noise would need to be filtered out!? -->
 
+```{=html}
 <!-- In the following, I would only refer to function for code and filter terms. I don't see an added value in reproducing the code here or including details about parameters of the function call in the text. Compared to other publications, this would be something for the SI, which in our case is the compendium. 
 The GitHub repo will be archived on Zenodo and we can decide to either do this as multiple versions (submission, revised, published), or reserving a DOI and including preview links in the manuscript for the reviewers. Either way works fine. The first is less effort for us (thanks to the GitHub-Zenodo webhook) but people can also see how the compendium evolved during peer-review. 
 -->
-
-
+```
 ```{r}
 #| eval: false
 #| include: false
@@ -158,7 +260,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   )
 ```
 
-From the resulting output *of 1240 individual papers*, a data frame was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. _A total of 1240 individual papers resulted from this initial search._
+From the resulting output *of 1240 individual papers*, a data frame was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. *A total of 1240 individual papers resulted from this initial search.*
 
 ```{r}
 #| eval: false
@@ -168,8 +270,7 @@ results_data <- results$data[!is.na(results$data$title),
                                  "doi", "abstract")]
 ```
 
-These were narrowed down using a combination of positive and negative filters to only select papers related to archaeometallurgy, using a selection of search terms appearing in either the article title or abstract. Positive filters for methodology included such terms as “provenance” and “metal”, while negative terms included “genome” and “geospatial”. Positive filters for specific materials were further targeted towards metals, including both alloy types and individual metals. Negative filters aimed at excluding papers on non-metal materials. A handful of search terms for materials were filtered through a masking filter to ensure papers on composite objects or papers that discussed multiple types of material culture were kept in. These filters were all compiled iteratively, meaning *that filters were added and filters term updated as we went through the dataset.* _we repeated the initial broad search multiple times, scanning the article titles and abstracts to identify non-archaeometallurgical papers and adding filter terms as we went to weed those papers out. This process was repeated multiple times before the code was finalised as the current published version._ 
-<!-- above: the repeated nature of the process is mentioned twiced. And it might twitch the wrong people if we admit to query the crossref API repeatedly instead of saving a copy of the raw data and carry the filter out on them... further, the same applies to the next paragraph. Hence, I would refer to the code only at the very end (I would also turn them into one paragraph. -->
+These were narrowed down using a combination of positive and negative filters to only select papers related to archaeometallurgy, using a selection of search terms appearing in either the article title or abstract. Positive filters for methodology included such terms as “provenance” and “metal”, while negative terms included “genome” and “geospatial”. Positive filters for specific materials were further targeted towards metals, including both alloy types and individual metals. Negative filters aimed at excluding papers on non-metal materials. A handful of search terms for materials were filtered through a masking filter to ensure papers on composite objects or papers that discussed multiple types of material culture were kept in. These filters were all compiled iteratively, meaning *that filters were added and filters term updated as we went through the dataset.* *we repeated the initial broad search multiple times, scanning the article titles and abstracts to identify non-archaeometallurgical papers and adding filter terms as we went to weed those papers out. This process was repeated multiple times before the code was finalised as the current published version.* <!-- above: the repeated nature of the process is mentioned twiced. And it might twitch the wrong people if we admit to query the crossref API repeatedly instead of saving a copy of the raw data and carry the filter out on them... further, the same applies to the next paragraph. Hence, I would refer to the code only at the very end (I would also turn them into one paragraph. -->
 
 ```{r}
 #| eval: false
@@ -274,7 +375,7 @@ pattern_pos <- paste(
   # This should result in 115 observations
 ```
 
-The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works. *The resulting R script for querying and processing the publication records was subsequently turned into the function provided in @ASTR_compendium.*
+The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works. The resulting R script for querying and processing the publication records was subsequently turned into the function provided in @ASTR_compendium.
 
 ```{r}
 #| eval: false
@@ -399,8 +500,7 @@ pattern_pos <- paste(
   # This should result in 93 observations
 ```
 
-Finally, to create the master table that would form the basis of our dataframe, the results were anonymised by _setting a seed,_ giving each paper a unique *randomly assigned* ID number between 1 and 93 *after setting a seed to make the anonymisation reproducible*, removing all other identifying information*,* and adding _a number of_ columns to store the scores *and additional comments* for each _phase_ *stage* of the *reproducibility* index _as well as additional comments for each explaining the chosen score_. A final column was added as a free field to include comments on the accessibility of the paper. This dataframe was then saved as _a_ *master_raw.csv [@ASTR_compendium, Supplemetary materials]* _included in to the set working directory_.
-<!-- we briefly need to define accessibility here. Because it is publications, readers likely think about open access -->
+Finally, to create the master table that would form the basis of our dataframe, the results were anonymised by setting a seed, giving each paper a unique randomly assigned ID number between 1 and 93, removing all other identifying information, and adding a number of columns to store the scores and additional comments for each *phase* *stage* of the reproducibility index. A final column was added as a free field to include comments on the accessibility of the paper. This dataframe was then saved as *a* *master_raw.csv [@ASTR_compendium, Supplemetary materials]* *included in to the set working directory*. <!-- we briefly need to define accessibility here. Because it is publications, readers likely think about open access -->
 
 ```{r}
 #| eval: false
