@@ -79,7 +79,7 @@ Due to the inclusion of multiple analytical methods, (*e.g.,* *including stable 
 
 ### Stage 1: sampling strategy
 
-To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects*)*. Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated. <!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
+To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects). Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated. <!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
 
 ### Stage 2: data availability
 We defined this criterion to check whether a publication contained the data necessary to reproduce any calculations, tables or visualisations contained within it. This may be the raw, untreated output or processed data, as long as the level and type of processing is made explicit (e.g., normalised or transformed data, averages of multiple measurements). This stage applies to analytical data only. 
@@ -120,14 +120,12 @@ The key consideration for this stage is whether or not SRMs are measured and how
 * Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
 
 ### Stage 6: definition and treatment of outliers
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
+Outliers in analytical data may be caused by a variety of factors, ranging from machine errors to genuinely deviant material compositions, and it is important that authors address these factors when outliers are present within their data so re-users can adequately judge if and how they may re-use or adapt the data in question. How outliers were handled should also be discussed as this may inform other stages of this index, such as statistical analysis (stages 10-11) and visualisation (stage 12).
 
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
+- score 1: data contains outliers; these are not clearly defined, or it is not made clear how they were handled 
+- score 2: data does not contain outliers, or outliers are clearly defined and labelled in the underlying data, visualisation and/or discussion. Treatment of outliers is made explicit (e.g. exclusion).
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+No scores of 0 were awarded for this stage, as the majority of publications included in the analysis did not discuss deviant results. We can therefore only assume that they did not encounter any in their analytical process. If no outliers were discussed in a publication, it was passed automatically with a score of 2 (does not apply). A score of 1 was given where the discussion of outliers was lacking in supporting detail, for example the manual identification and removal of differing measurements without explicit thresholds. 
 
 ### Stage 7: normalisation
 <!-- * Defining the scope of the stage/evaluated aspects of the publication
@@ -140,28 +138,16 @@ The key consideration for this stage is whether or not SRMs are measured and how
 * Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
 
 ### Stage 8: standardised terminology
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
+Adequate understanding of data and its interpretation rests on a shared vocabulary of terms and definitions. This stage concerns analytical data only (archaeological metadata are discussed in stage ##) and covers a variety of information. First of all, there are the measurement units of the analytical data, such as wt%, at%, mg/kg, µg/g, ppm etc. Following Roberts et al. (2018), for isotope data, δ values should be reported relative to current international measurement standards. Furthermore, any information contained in data tables or column headers should be unambiguous and self-explanatory or if not, be defined in the text. 
 
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
+- score 0: some or all units and/or terminology are not specified
+- score 1: units and/or terminology are not specified but definitions can be reconstructed from context or are considered self-explanatory for a particular analytical method
+- score 2: all units and/or terminology are specified, either in-text, in tables or in visualisations
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
+A soft pass (score 1) was given in cases where unit definitions were not included but are relatively self-explanatory or at least not widely included, such as pXRF data annotated as %. Abbreviations such as sd for standard deviation or (R)SE for (relative) standard error were considered to be self-explanatory as they are widely used statistical terms and have a clearly defined calculation.   
 
 ### Stage 9: archaeological metadata
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
 The inclusion or description of archaeological metadata is largely self-explanatory and concerns the archaeological information included in the publication and its supplements that is relevant to the analytical samples described and subsequent analysis or interpretation of those samples. We consider this criterion met if any grouping, comparison or statistical analysis based on archaeological information such as dating, typology or function can be reconstructed based on the metadata provided. This also applies to any colour-coding or iconography used for the data visualisations (stage 12). 
-
 - score 0: no information is provided or necessary information is missing
 - score 1: metadata is not explicitly included in publication but can be reconstructed from context 
 - score 2: all necessary metadata are included in the publication and/or its supplements
@@ -208,11 +194,11 @@ In cases where no statistical analyses were applied, this stage was passed autom
 
 ## Crossref search
 
-It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by @Marwick.2025 *(references)*, this also enabled us to test compliance with increasingly high standards regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
+It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by @Marwick.2025 *(references)*, this also enabled us to test compliance with developing standards in the publishing industry  regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
 
-In order to find these publications, *a* *the* Crossref API *search* was performed\_ *was queried* using the *R-package* **rcrossref** *package in R* [@rcrossref]. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to *February* *January* 31, 2026.
+In order to find these publications, a* Crossref API search was performed using the *rcrossref package in R [@rcrossref]. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to January 31, 2026.
 
-The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only *the* 11 *journals listed in tab. 1* yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
+The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only the 11 journals listed in tab. 1 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
 
 ```{=html}
 <!-- We should include a breakdown here on how many articles were taken from which journal. This can be easily extracted from the DOIs in our table but probably won't be easily reproducible. If we want to go for full reproducibility here, we would need to write a separate the search function into the one downloading the initial dataset and applying the filters, and separate ones for the anonymisation and the compilation of this figure. 
