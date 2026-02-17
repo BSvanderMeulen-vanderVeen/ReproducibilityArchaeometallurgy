@@ -48,7 +48,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
                                c("deposited", "container.title", "title", "issn",
                                  "doi", "abstract")]
 
-  # This should result in 1240 observations
+  # This should result in 1482 observations
 
   # Filter papers related to metallurgy based on search terms in article title and abstract.
   # Filter includes paper if any column yields any of the search terms to get around lack of abstracts.
@@ -69,7 +69,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_data[filtering_pos, ]
 
-  # This should result in 523 observations
+  # This should result in 574 observations
 
   # Explicitly filter out non-metal materials.
   # The list of terms was compiled iteratively against the dataset
@@ -107,7 +107,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat1, ]
 
-  # This should results in 160 results
+  # This should results in 185  results
 
   # Apply filtering mask to ensure multi-material approaches are kept in
   # The list of terms was compiled iteratively against the dataset
@@ -136,7 +136,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "typological", "experiment", "geometric",
 
     # methodologies related to environmental and landscape studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial", "lidar"
+    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial", "lidar",
 
     # methodologies related to human and animal mobility, health, diet and death
     "demograph", "organic", "botan", "patholog", "genome", "funerary",
