@@ -76,7 +76,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   pattern_neg_mat1 <- paste(
 
     # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
+    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "fiber", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
 
     # search terms related to mineralogy
     "cinnabar", "malachite",
@@ -91,10 +91,10 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "faience", "glaze", "vitr", "beads",
 
     # search terms related to stone artefacts
-    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
+    "volcanic", "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
 
     # search terms related to plant and animal remains and diet
-    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
+    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "\\bcani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
 
     # search terms related to architecture and building materials
     "architect", "plaster", "paint", "mortar", "inscription", "structure",
