@@ -15,7 +15,7 @@ journal_issn <- c(
 # The following journals were also condsidered but not included in the final search.
 # Remarks only refer to the period under study (25 November 2024 to 31 January 2026).
 
-# Journal of Analytical Atomic Spectroscopy (0267-9477): only 2 archaeological papers
+# Journal of Analytical Atomic Spectroscopy (0267-9477): little of relevance found in relation to background noise
 # European Journal of Mineralogy (1617-4011): no archaeological studies included
 # PloS One (1932-6203): little of relevance found in relation to background noise
 # Journal of Quaternary Science (1099-1417): nothing relevant included
@@ -24,5 +24,5 @@ journal_issn <- c(
 # Advances in Archaeological Practice (2326-3768): nothing relevant included
 # ArcheoSciences (2104-3728): nothing relevant included
 # Journal of Cultural Heritage (1778-3674): not in Crossref
-# Antiquity (1745-1744): only 2 metallurgical papers were identified
+# Antiquity (1745-1744): little of relevance found in relation to background noise
 # Mediterranean Archaeology and Archaeometry (2241-8121): not in Crossref
