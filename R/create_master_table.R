@@ -85,10 +85,10 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
 
     # search terms related to ceramic artefacts
-    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
+    "petrological", "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
 
     # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads",
+    "faience", "glaze", "vitr", "beads", "glass",
 
     # search terms related to stone artefacts
     "volcanic", "graphite", "obsidian", "amazonite", "radiolarite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
@@ -107,7 +107,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat1, ]
 
-  # This should results in 185  results
+  # This should results in 184  results
 
   # Apply filtering mask to ensure multi-material approaches are kept in
   # The list of terms was compiled iteratively against the dataset
@@ -126,7 +126,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat2, ]
 
-  # This should result in 127 observations
+  # This should result in 126 observations
 
   # Explicitly filter out non-metallurgical methodologies
   # The list of terms was compiled iteratively against the dataset
@@ -149,7 +149,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_meth, ]
 
-  # This should result in 115 observations
+  # This should result in 163 observations
 
   # Filter out publications other than research papers (reviews, responses, comments, editorials) in article title
   results_filtered <- subset(results_filtered, !grepl(
@@ -157,7 +157,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     results_filtered$title, ignore.case = TRUE)
   )
 
-  # This should result in 112 observations
+  # This should result in 160 observations
 
   ## Manual identification and exclusion of 19 additional papers (total 93) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
   results_final  <- subset(
