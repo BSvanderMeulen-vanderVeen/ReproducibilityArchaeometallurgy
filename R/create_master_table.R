@@ -111,7 +111,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   # Apply filtering mask to ensure multi-material approaches are kept in
   # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
+  pattern_neg_mat2 <- paste("water", "glass", sept = "|")
 
   metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
                   "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
