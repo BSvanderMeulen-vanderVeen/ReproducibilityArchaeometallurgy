@@ -91,7 +91,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "faience", "glaze", "vitr", "beads",
 
     # search terms related to stone artefacts
-    "volcanic", "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
+    "volcanic", "graphite", "obsidian", "amazonite", "radiolarite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
 
     # search terms related to plant and animal remains and diet
     "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "\\bcani", "bio", "human", "neanderthal", "plant", "food", "diet", "tooth", "dentin", "enamel",
