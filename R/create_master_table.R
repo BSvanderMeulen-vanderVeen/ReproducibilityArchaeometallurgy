@@ -76,7 +76,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   pattern_neg_mat1 <- paste(
 
     # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "fiber", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
+    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "fiber", "cloth", "silk", "textile", "fabric\\b", "amber", "crop", "agropastoral",
 
     # search terms related to mineralogy
     "cinnabar", "malachite",
@@ -94,7 +94,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "volcanic", "graphite", "obsidian", "amazonite", "radiolarite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
 
     # search terms related to plant and animal remains and diet
-    "subsistence", "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "\\bcani", "bio", "human", "neanderthal", "plant", "food", "diet", "tooth", "dentin", "enamel",
+    "cranial", "subsistence", "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "\\bcani", "bio", "human", "neanderthal", "plant", "food", "diet", "tooth", "dentin", "enamel",
 
     # search terms related to architecture and building materials
     "architect", "plaster", "paint", "mortar", "inscription", "structure",
@@ -133,13 +133,13 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
   pattern_neg_meth <- paste(
 
     # general terms
-    "typological", "experiment",
+    "typological", "experiment", "geometric",
 
-    # methodologies related to environmental studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
+    # methodologies related to environmental and landscape studies
+    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial", "lidar"
 
     # methodologies related to human and animal mobility, health, diet and death
-    "demograph", "organic", "botan", "patholog", "genome",
+    "demograph", "organic", "botan", "patholog", "genome", "funerary",
     sep = "|")
 
   # Create a vector that selects rows not passing the filter and trim dataset accordingly
