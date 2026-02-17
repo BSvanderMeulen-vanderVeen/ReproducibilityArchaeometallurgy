@@ -2,7 +2,6 @@ journal_issn <- c(
   "Archaeometry"= "1475-4754",
   "Journal of Archaeological Science"= "0305-4403",
   "Journal of Archaeological Science: Reports"= "2352-409X",
-  "Heritage Science"= "2050-7445",
   "Archaeological and Anthropological Sciences"= "1866-9565",
   "Advances in Archaeomaterials"= "2667-1360",
   "Metalla"= "2749-6430",
@@ -15,6 +14,7 @@ journal_issn <- c(
 # The following journals were also condsidered but not included in the final search.
 # Remarks only refer to the period under study (25 November 2024 to 31 January 2026).
 
+# "Heritage Science"= "2050-7445": little of relevance found in relation to background noise
 # Journal of Analytical Atomic Spectroscopy (0267-9477): little of relevance found in relation to background noise
 # European Journal of Mineralogy (1617-4011): no archaeological studies included
 # PloS One (1932-6203): little of relevance found in relation to background noise
