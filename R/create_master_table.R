@@ -88,7 +88,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     "petrological", "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
 
     # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads", "glass",
+    "faience", "glaze", "vitr", "beads",
 
     # search terms related to stone artefacts
     "volcanic", "graphite", "obsidian", "amazonite", "radiolarite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
@@ -126,7 +126,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat2, ]
 
-  # This should result in 126 observations
+  # This should result in 136 observations
 
   # Explicitly filter out non-metallurgical methodologies
   # The list of terms was compiled iteratively against the dataset
