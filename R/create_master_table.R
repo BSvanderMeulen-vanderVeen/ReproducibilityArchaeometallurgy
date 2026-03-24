@@ -48,7 +48,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
                                c("deposited", "container.title", "title", "issn",
                                  "doi", "abstract")]
 
-  # This should result in 1482 observations
+  # This should result in 1483 observations
 
   # Filter papers related to metallurgy based on search terms in article title and abstract.
   # Filter includes paper if any column yields any of the search terms to get around lack of abstracts.
@@ -69,7 +69,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_data[filtering_pos, ]
 
-  # This should result in 574 observations
+  # This should result in 575 observations
 
   # Explicitly filter out non-metal materials.
   # The list of terms was compiled iteratively against the dataset
@@ -107,7 +107,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat1, ]
 
-  # This should results in 181  results
+  # This should results in 182  results
 
   # Apply filtering mask to ensure multi-material approaches are kept in
   # The list of terms was compiled iteratively against the dataset
@@ -126,7 +126,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_mat2, ]
 
-  # This should result in 153 observations
+  # This should result in 154 observations
 
   # Explicitly filter out non-metallurgical methodologies
   # The list of terms was compiled iteratively against the dataset
@@ -149,7 +149,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_filtered <- results_filtered[filtering_neg_meth, ]
 
-  # This should result in 138 observations
+  # This should result in 139 observations
 
   # Filter out publications other than research papers (reviews, responses, comments, editorials) in article title
   results_filtered <- subset(results_filtered, !grepl(
@@ -157,7 +157,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     results_filtered$title, ignore.case = TRUE)
   )
 
-  # This should result in 132 observations
+  # This should result in 133 observations
 
   ## Manual identification and exclusion of additional papers as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
   results_final  <- subset(
@@ -168,7 +168,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
       results_filtered$doi)
   )
 
-  # This should result in 105 observations
+  # This should result in 101 observations
 
   # Anonymise publications, assigning randomly generated ID number and adding columns for data entry
 
