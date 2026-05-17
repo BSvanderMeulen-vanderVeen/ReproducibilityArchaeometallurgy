@@ -19,8 +19,6 @@ colnames(scores_raw) <- ifelse(colnames(scores_raw) %in% 0:9, paste0("0", colnam
 scores <- scores_raw |>
   mutate(across(-ID, ~ paste0("stage", cur_column(), "/score", .x))) |>
   pivot_longer(cols = -ID, names_to = "stage", values_to = "source") |>
-#  mutate(stage_source = match(stage, names(scores_raw)) - 2,
-#         stage_target = match(stage, names(scores_raw)) - 1) |>
   group_by(ID) |>
   mutate(target = lead(source, order_by = stage)) |>
   ungroup()
@@ -33,6 +31,7 @@ links <- scores |>
   group_by(source) |>
   arrange(target, .by_group = TRUE) |>
   ungroup() |>
+  arrange(source) |>
   select(-stage)
 
 nodes <- data.frame(name = unique(c(as.character(links$source), as.character(links$target))))
