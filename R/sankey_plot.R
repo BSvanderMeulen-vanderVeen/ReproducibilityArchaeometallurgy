@@ -11,6 +11,7 @@ scores_raw <- read.delim(
   )
 
 # Filter and transform data
+# using code from https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
 scores_raw <- subset(scores_raw, select = grepl("ID|Stage.*", names(scores_raw)))
 
 colnames(scores_raw) <- sub("Stage_", "", colnames(scores_raw))
@@ -28,13 +29,10 @@ links <- scores |>
   summarise(value = n(), .groups = "drop_last") |>
   ungroup() |>
   drop_na() |>
-  group_by(source) |>
-  arrange(target, .by_group = TRUE) |>
-  ungroup() |>
-  arrange(source) |>
   select(-stage)
 
-nodes <- data.frame(name = unique(c(as.character(links$source), as.character(links$target))))
+nodes <- data.frame(name = unique(c(as.character(links$source), as.character(links$target)))) |>
+  arrange(name)
 
 links$IDsource <- match(links$source, nodes$name)-1
 links$IDtarget <- match(links$target, nodes$name)-1
@@ -44,4 +42,4 @@ sankeyNetwork(
   Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name",
   width = 2000,
   fontSize = 12,
-  sinksRight = TRUE)
+  sinksRight = TRUE, iteration = 0)
