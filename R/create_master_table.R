@@ -177,6 +177,9 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
 
   results_final$ID <- sample(nrow(results_final), replace = FALSE)
 
+  # Extract list of journals for use in table 1
+  table_1 <- results_final$container.title
+
   # Define columns with identifying information and remove them from dataset
   columns_remove <- c("doi", "deposited", "container.title", "title", "issn", "abstract")
   results_anon <- results_final[, !names(results_final) %in% columns_remove]
