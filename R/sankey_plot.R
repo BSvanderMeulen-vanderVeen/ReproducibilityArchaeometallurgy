@@ -14,6 +14,7 @@ scores_raw <- read.delim(
 # using code from https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
 scores_raw <- subset(scores_raw, select = grepl("ID|Stage.*", names(scores_raw)))
 
+# rename stages and include  leading 0 to ensure correct order
 colnames(scores_raw) <- sub("Stage_", "", colnames(scores_raw))
 colnames(scores_raw) <- ifelse(colnames(scores_raw) %in% 0:9, paste0("0", colnames(scores_raw)), colnames(scores_raw))
 
