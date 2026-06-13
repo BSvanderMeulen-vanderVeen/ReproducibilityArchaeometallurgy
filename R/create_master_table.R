@@ -22,8 +22,9 @@
 #' @param journal_issn Vector with the ISSNs of the journals included in the
 #'   search.
 #'
-#' @returns A csv with `;`as separator, with the anonymised article ID and the columns
-#'   for the reproducibility index to be populated.
+#' @returns A csv with `;`as separator, with the anonymised article ID and the
+#'   columns for the reproducibility index to be populated.
+#'
 #' @export
 #'
 
@@ -63,13 +64,13 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     sep = "|")
 
   # Create a vector that selects rows passing the filter and trim dataset accordingly
- results_filtered1 <- subset(results_data, 
-                              grepl(pattern_metal, 
-                                    title, 
-                                    ignore.case = TRUE) | 
-    grepl(pattern_metal, 
-          abstract, 
-          ignore.case = TRUE)
+  results_filtered1 <- subset(results_data,
+                              grepl(pattern_metal,
+                                    results_data$title,
+                                    ignore.case = TRUE) |
+                                grepl(pattern_metal,
+                                      results_data$abstract,
+                                      ignore.case = TRUE)
   )
 
   # This should result in 576 observations
@@ -104,13 +105,13 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     sep = "|")
 
   # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  results_filtered2 <- subset(results_filtered1, 
-                                !grepl(pattern_non_metal, 
-                           title, 
-                           ignore.case = TRUE) & 
-    !grepl(pattern_non_metal, 
-          abstract, 
-          ignore.case = TRUE)
+  results_filtered2 <- subset(results_filtered1,
+                              !grepl(pattern_non_metal,
+                                     results_filtered1$title,
+                                     ignore.case = TRUE) &
+                                !grepl(pattern_non_metal,
+                                       results_filtered1$abstract,
+                                       ignore.case = TRUE)
   )
 
   # This should results in 183  results
@@ -149,13 +150,13 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
     sep = "|")
 
   # Create a vector that selects rows not passing the filter and trim dataset accordingly
-   results_filtered4 <- subset(results_filtered3, 
-                             !grepl(pattern_method, 
-                                title, 
-                                ignore.case = TRUE) & 
-    !grepl(pattern_method, 
-           abstract, 
-           ignore.case = TRUE)
+  results_filtered4 <- subset(results_filtered3,
+                              !grepl(pattern_method,
+                                     results_filtered3$title,
+                                     ignore.case = TRUE) &
+                                !grepl(pattern_method,
+                                       results_filtered3$abstract,
+                                       ignore.case = TRUE)
   )
 
   # This should result in 140 observations
@@ -204,7 +205,7 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
                    "Stage_10", "Comments_10",
                    "Stage_11", "Comments_11",
                    "Stage_12", "Comments_12"
-                  )
+  )
 
   results_anon[, columns_add] <- NA
 

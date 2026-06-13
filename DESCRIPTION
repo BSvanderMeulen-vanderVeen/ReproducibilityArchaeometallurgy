@@ -5,15 +5,25 @@ Authors@R: c(
     person("Rose", "Thomas", comment = c(ORCID = "0000-0002-8186-3566"), role = c("cre", "aut"), email = "roseth@posteo.com"),
     person("van der Meulen-van der Veen", "Berber", comment = c(ORCID = "0000-0001-5297-0269"), role = "aut")
     )
-Description: What the package does (one paragraph).
+Description: Data, R code and manuscript of the paper ###. 
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
-Imports:  
-    rcrossref
+Imports: 
+    rcrossref, 
+    tidyr,
+    tidyselect,
+    dplyr, 
+    ggplot2, 
+    compositions, 
+    factoextra, 
+    networkD3,
+    stats, 
+    utils, 
+    rlang
 Suggests: 
     devtools,
     git2r
+Config/roxygen2/version: 8.0.0

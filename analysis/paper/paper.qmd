@@ -61,498 +61,273 @@ Keywords: `r rmarkdown::metadata$keywords`
 Highlights: `r rmarkdown::metadata$highlights`
 
 <!-- The actual document text starts here: -->
+...
 
-# Introduction
-
-Here is a citation [@Marwick2017]
-
-Best practices and recommendations on how to improve the current state of affairs are discussed further down below.
-
-# Background
-
-# Methods
-
-## Index design
-In order to produce a data-supported description of the current state of affairs, a reproducibility index was designed to check for impediments *or -\> for* data reuse and reproduction in archaeometallurgical studies. Based on the literature review presented above and the common stages of data acquisition, data treatment, and analysis in archaeometallurgy, 12 stages were identified that impact the reproducibility of the methods and output in any given paper. Below, these stages are described in more detail and pass/fail criteria are described for each. As a rule, this index focuses on absolute reproducibility, not on the difficulty or ease of the reproduction process. However, the process of testing for reproducibility did yield a number of recommendations for reducing friction in reproduction efforts; these are included below. Furthermore, we combine aspects of data reusability, analytical reproducibility (description of methods and decisions related to the analysis), and computational reproducibility (description of calculations). The 12 stages are designed to mark whether certain formal aspects of the publication are fully reproducible/partially or with significant effort reproducible/not reproducible/not applicable thresholds.
-
-Due to the inclusion of multiple analytical methods, (*e.g.,* *including stable lead* isotope *analysis* <!-- there are also tin isotopes --> , XRF, SEM-EDS, PIXE, ICP-MS) *and approaches*, <!-- I think this part has to be rewritten to current practice: not all criteria necessarily applied to all publications. The “not applicable” label (translated to a score of 2) was designed to meet those cases -->. A soft fail *, equalling to a score of 1,* *(score of 1)* was applied for methods for which it is *currently* not yet common practice to include specific details, such as specifying the use of standardless settings for SEM-EDS or the normalisation to 100% of EDS and XRF data. 
-
-### Stage 1: sampling strategy
-
-To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects). Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated. <!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
-
-### Stage 2: data availability
-We defined this criterion to check whether a publication contained the data necessary to reproduce any calculations, tables or visualisations contained within it. This may be the raw, untreated output or processed data, as long as the level and type of processing is made explicit (e.g., normalised or transformed data, averages of multiple measurements). This stage applies to analytical data only. 
-
-For this stage, the amount of friction in using underlying data was taken into account because this step underlies any attempts at re-use, reproduction or adaptation of research results. If accessing the data or importing them into an editable format involves too many steps, this may run the risk of introducing copying errors, loss of information or simply a lot of time and effort.    
-
-- score 0: data are not included in any format, a selection of the data are included, or differently processed data than what are used for the calculations or visualisations in the publications are included  
-- score 1: all necessary data are included and the level of processing is made explicit; data are made available in a format that is prone to introduce errors (e.g. table in text, Microsoft Word or .pdf file in digital supplement, data publication or online repository)
-- score 2: all necessary data are included and the level of processing is made explicit; data are made available in a format that facilitates frictionless re-use (e.g. Microsoft Excel or .csv file in digital supplement, data publication or online repository)
-<!-- I must say I did not pay attention to "level of processing must be made explicit" during reading; I wonder if it is a bit too much to ask? --> 
-
-For this stage, we looked at the content of the publications as well as any appendices or supplements, rather than just the data availability statement as it was found that these did not always adequately cover the truth. Publications with no underlying data with a data availability statement claining data were available on request still received a 0 score as data sharing under this provision is neither guaranteed nor enforceable [@Marwick2025].     
-
-### Stage 3: availability of comparative data
-The majority of publications surveyed for this article contained some level of comparison between their original data and other datasets. Unambiguous and complete citations for comparative datasets are necessary to ensure reproducibility of the interpretation of these comparative analyses.We focus on the formal aspect of citation only because tracking down all comparative datasets to assess their reproducibility was out of scope for this paper. 
-
-- score 0: comparative data are used but not cited explicitly
-- score 1: comparative data are used and cited, but citations are listed in the text without a clear connection to their application 
-- score 2: comparative data are used and cited explicitly, or are reproduced in a data supplement. 
-
-Papers that did not use any comparative data passed this criterion automatically with a score of 2 (does not apply). The distinction between a score of 1 and 2 lies in the transparancy with which comparative data is used. For example, a general comment in the body of text that data from several sites was used along with a list of citations clears the reproducibility index with a score of 1, as it is not immediately clear to the re-user which citation belongs to which site or how these data were used. Publications where the citations for comparative data are included in image captions, for instance, were awarded a score of 2 here because the link between the citation and the purpose of the comparative data is explicit and self-explanatory. 
-
-### Stage 4: calibration and standard reference materials (CRMs/SRMs)
-The key consideration for this stage is whether or not SRMs are measured and how the resulting analyses are implemented [@Yuanetal2016; @Heginbothametal2015]. We do not intend to weigh in on which specific SRMs should be used for any particular method or material, how many SRMs a study should use, how frequently they should be analysed or how they should be used, but a description of at least these elements should be present.
-
-- score 0: no information provided for at least one of the methods used in the publication
-- score 1: soft fail to accomodate methods for which this information is not typically included, for example the use of standardless mode for pXRF or SEM-EDS.   
-- score 2: one or more internationally certified reference materials were used and these are cited; alternatively one or more internal or commercial standards were used and the certified and analysed values are included in the publication. In both cases, a publication needs to discuss how the measured values were used (e.g. calibration to a specific element, monitoring instrumental drift, simple standard bracketing) and give an indication of the external reproducibility, for example by including the standard deviation or error of each measured value.   
-
-### Stage 5: analytical uncertainty
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-### Stage 6: definition and treatment of outliers
-Outliers in analytical data may be caused by a variety of factors, ranging from machine errors to genuinely deviant material compositions, and it is important that authors address these factors when outliers are present within their data so re-users can adequately judge if and how they may re-use or adapt the data in question. How outliers were handled should also be discussed as this may inform other stages of this index, such as statistical analysis (stages 10-11) and visualisation (stage 12).
-
-- score 1: data contains outliers; these are not clearly defined, or it is not made clear how they were handled 
-- score 2: data does not contain outliers, or outliers are clearly defined and labelled in the underlying data, visualisation and/or discussion. Treatment of outliers is made explicit (e.g. exclusion).
-
-No scores of 0 were awarded for this stage, as the majority of publications included in the analysis did not discuss deviant results. We can therefore only assume that they did not encounter any in their analytical process. If no outliers were discussed in a publication, it was passed automatically with a score of 2 (does not apply). A score of 1 was given where the discussion of outliers was lacking in supporting detail, for example the manual identification and removal of differing measurements without explicit thresholds. 
-
-### Stage 7: normalisation
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-### Stage 8: standardised terminology
-Adequate understanding of data and its interpretation rests on a shared vocabulary of terms and definitions. This stage concerns analytical data only (archaeological metadata are discussed in stage ##) and covers a variety of information. First of all, there are the measurement units of the analytical data, such as wt%, at%, mg/kg, µg/g, ppm etc. Following Roberts et al. (2018), for isotope data, δ values should be reported relative to current international measurement standards. Furthermore, any information contained in data tables or column headers should be unambiguous and self-explanatory or if not, be defined in the text. 
-
-- score 0: some or all units and/or terminology are not specified
-- score 1: units and/or terminology are not specified but definitions can be reconstructed from context or are considered self-explanatory for a particular analytical method
-- score 2: all units and/or terminology are specified, either in-text, in tables or in visualisations
-
-A soft pass (score 1) was given in cases where unit definitions were not included but are relatively self-explanatory or at least not widely included, such as pXRF data annotated as %. Abbreviations such as sd for standard deviation or (R)SE for (relative) standard error were considered to be self-explanatory as they are widely used statistical terms and have a clearly defined calculation.   
-
-### Stage 9: archaeological metadata
-The inclusion or description of archaeological metadata is largely self-explanatory and concerns the archaeological information included in the publication and its supplements that is relevant to the analytical samples described and subsequent analysis or interpretation of those samples. We consider this criterion met if any grouping, comparison or statistical analysis based on archaeological information such as dating, typology or function can be reconstructed based on the metadata provided. This also applies to any colour-coding or iconography used for the data visualisations (stage 12). 
-- score 0: no information is provided or necessary information is missing
-- score 1: metadata is not explicitly included in publication but can be reconstructed from context 
-- score 2: all necessary metadata are included in the publication and/or its supplements
-
-<!-- I'm not entirely sure we need a 1 score for this (the data are either complete or not), but what I mean by "can be reconstructed from context" is for example a paper where object functions are not listed in a finds table or data table, but a scatterplot is colour-coded for function (so you can retro-engineer it). I suppose this comes down to the amount of friction we allow before we strike it down as "not reproducible".-->
-
-### Stage 10: statistical assumptions and data transformation
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-This stage targets two aspects of data statistics: the nature of the data and how this informs statistical testing, and data transformation in preparation for statistical testing. Assumptions about how analytical data are constructed or are expected to behave should be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed (Baxter and Gale 1998; Hsu et al. 2018). Data transformation may include log transformation or scaling and centering, for example in the case of multi-variate statistics such as PCA.
-
-- score 0: no data transformation is applied where necessary or inappropriate data transformation is applied
-- score 1: data transformation is applied where appropriate but this is not described; choice of statistical method is not made explicit 
-- score 2: appropriate data transformation is explicitly applied where necessary; nature of data is discussed and choice of statistical method is made explicit
-
-In cases where no statistical analyses were applied, this stage was passed automatically as non applicable with a score of 2.
-
-### Stage 11: statistical methods
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-### Stage 12: data visualisations
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-
-## Crossref search
-
-It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by @Marwick.2025 *(references)*, this also enabled us to test compliance with developing standards in the publishing industry  regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
-
-In order to find these publications, a* Crossref API search was performed using the *rcrossref package in R [@rcrossref]. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to January 31, 2026.
-
-The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only the 11 journals listed in tab. 1 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
-
-```{=html}
-<!-- We should include a breakdown here on how many articles were taken from which journal. This can be easily extracted from the DOIs in our table but probably won't be easily reproducible. If we want to go for full reproducibility here, we would need to write a separate the search function into the one downloading the initial dataset and applying the filters, and separate ones for the anonymisation and the compilation of this figure. 
-
-Based on this figure, we could also say that "significant" means e.g. at least 5. -->
-```
 ```{r}
-journal_issn <- c(
-  "Archaeometry"= "1475-4754",
-  "Journal of Archaeological Science"= "1095-9238",
-  "Journal of Archaeological Science: Reports"= "2352-409X",
-  "Heritage Science"= "2050-7445",
-  "Archaeological and Anthropological Sciences"= "1866-9565",
-  "Advances in Archaeomaterials"= "2667-1360",
-  "Metalla"= "2749-6430",
-  "Historical Metallurgy"= "2755-0249",
-  "Journal of World Prehistory"= "0892-7537",
-  "Journal of Archaeological Method and Theory"= "1573-7764",
-  "Science and Technology of Archaeological Research"= "2054-8923"
+# placeholder for all code not going into functions
+library(cowplot)
+library(magick)
+
+# bar plot
+df <- read.csv("analysis/data/reprod_astr_anonymised.csv", header = TRUE) %>%
+  dplyr::select(starts_with("Stage"))
+
+# Sankey plot
+df <- read.csv("analysis/data/reprod_astr_anonymised.csv", header = TRUE)
+
+
+
+# summary statistics
+scores <- utils::read.csv("analysis/supplementary-materials/reprod_astr_anonymised.csv", header = TRUE)
+utils::write.csv2(overview, "analysis/paper/table_2.csv", na = "", row.names = FALSE)
+
+# reprod scatter
+
+df_text <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb
+Group_4	18.384	15.649	38.908
+Group_4	18.332	15.660	38.770
+Group_4	23.553	16.443	42.955
+Group_4	17.577	15.489	38.172
+Group_1	17.567	15.499	38.148
+Group_1	17.723	15.539	38.193
+Group_1	17.734	15.544	38.382
+Group_1	17.549	15.483	38.134
+Group_1	17.756	15.529	38.272
+Group_1	17.750	15.532	38.297
+Group_1	17.670	15.529	38.356
+Group_1	17.682	15.522	38.342
+Group_1	17.618	15.501	38.141
+Group_1	17.629	15.513	38.227
+Group_1	17.619	15.506	38.219
+Group_1	18.007	15.577	38.502
+Group_1	17.753	15.532	38.317
+Group_1	17.697	15.523	38.326
+Group_1	17.503	15.476	38.094
+Group_1	17.564	15.475	38.031
+Group_1	17.565	15.488	38.156
+Group_1	18.291	15.620	38.910
+Group_1	17.568	15.490	38.134
+Group_2	17.682	15.526	38.323
+Group_2	17.854	15.556	38.495
+Group_2	17.730	15.538	38.371
+Group_2	17.513	15.475	38.049
+Group_2	17.717	15.539	38.363
+Group_2	17.768	15.551	38.417
+Group_2	17.632	15.508	38.230
+Group_3	17.524	15.502	37.953
+Group_3	17.682	15.526	38.324
+Group_3	17.612	15.538	38.299
+Group_3	17.628	15.509	38.213
+Group_3	17.666	15.532	38.198',
+                      header = TRUE)
+
+# import data from appendix, filtered for site (as stated in caption), anonymised
+df_app <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb	207Pb/206Pb	208Pb/206Pb
+Group_1	18.547	15.695	39.119	0.846	2.109
+Group_1	17.567	15.499	38.148	0.882	2.172
+Group_1	17.723	15.539	38.193	0.877	2.155
+Group_1	17.734	15.544	38.382	0.876	2.164
+Group_1	17.549	15.483	38.134	0.882	2.173
+Group_1	17.756	15.529	38.272	0.875	2.155
+Group_1	17.750	15.532	38.297	0.875	2.158
+Group_1	17.670	15.529	38.356	0.879	2.171
+Group_1	17.682	15.522	38.342	0.878	2.168
+Group_1	17.618	15.501	38.141	0.880	2.165
+Group_1	17.629	15.513	38.227	0.880	2.168
+Group_1	17.619	15.506	38.219	0.880	2.169
+Group_1	18.007	15.577	38.502	0.865	2.138
+Group_1	17.753	15.532	38.317	0.875	2.158
+Group_1	17.697	15.523	38.326	0.877	2.166
+Group_1	17.503	15.476	38.094	0.884	2.176
+Group_1	17.564	15.475	38.031	0.881	2.165
+Group_1	17.565	15.488	38.156	0.882	2.172
+Group_1	18.291	15.620	38.910	0.854	2.127
+Group_1	17.568	15.490	38.134	0.882	2.171
+Group_1	17.626	15.518	38.250	0.880	2.170
+Group_1	19.334	15.796	40.171	0.817	2.078
+Group_1	17.888	15.587	38.377	0.871	2.145
+Group_1	17.984	15.569	38.451	0.866	2.138
+Group_1	17.637	15.511	38.086	0.879	2.159
+Group_1	17.652	15.523	38.280	0.879	2.169
+Group_1	18.118	15.641	38.676	0.863	2.135
+Group_1	17.685	15.533	38.345	0.878	2.168
+Group_1	17.642	15.504	38.220	0.879	2.166
+Group_1	17.707	15.539	38.331	0.878	2.165
+Group_1	17.481	15.463	38.013	0.885	2.175
+Group_1	17.682	15.543	38.278	0.879	2.165
+Group_2	18.271	15.632	38.778	0.856	2.122
+Group_2	18.222	15.663	38.718	0.860	2.125
+Group_2	17.736	15.545	38.374	0.876	2.164
+Group_2	17.810	15.553	38.500	0.873	2.162
+Group_2	17.730	15.554	38.405	0.877	2.166
+Group_2	17.916	15.576	38.633	0.869	2.156
+Group_2	17.734	15.550	38.397	0.877	2.165
+Group_2	17.973	15.582	38.618	0.867	2.149
+Group_2	17.715	15.546	38.367	0.878	2.166
+Group_2	17.723	15.552	38.409	0.878	2.167
+Group_2	17.707	15.539	38.355	0.878	2.166
+Group_2	17.800	15.549	38.466	0.874	2.161
+Group_2	17.682	15.526	38.323	0.878	2.167
+Group_2	17.854	15.556	38.495	0.871	2.156
+Group_2	17.730	15.538	38.371	0.876	2.164
+Group_2	17.513	15.475	38.049	0.884	2.173
+Group_2	17.717	15.539	38.363	0.877	2.165
+Group_2	17.768	15.551	38.417	0.875	2.162
+Group_2	17.632	15.508	38.230	0.880	2.168
+Group_3	17.729	15.522	38.310	0.876	2.161
+Group_3	17.774	15.559	38.454	0.875	2.163
+Group_3	17.930	15.582	38.564	0.869	2.151
+Group_3	17.795	15.552	38.472	0.874	2.162
+Group_3	17.788	15.560	38.470	0.875	2.163
+Group_3	17.790	15.551	38.450	0.874	2.161
+Group_3	17.771	15.546	38.364	0.875	2.159
+Group_3	17.712	15.538	38.386	0.877	2.167
+Group_3	17.877	15.578	38.508	0.871	2.154
+Group_3	17.763	15.552	38.445	0.876	2.164
+Group_3	17.716	15.539	38.390	0.877	2.167
+Group_3	17.736	15.551	38.403	0.877	2.165
+Group_3	17.760	15.545	38.408	0.875	2.163
+Group_3	17.757	15.545	38.446	0.875	2.165
+Group_3	17.663	15.524	38.259	0.879	2.166
+Group_3	17.524	15.502	37.953	0.885	2.166
+Group_3	17.682	15.526	38.324	0.878	2.167
+Group_3	17.612	15.538	38.299	0.882	2.175
+Group_3	17.628	15.509	38.213	0.880	2.168
+Group_3	17.666	15.532	38.198	0.879	2.162',
+                     header = TRUE)
+
+df_text$Period <- gsub("\\_", " ", df_text$Period)
+df_app$Period <- gsub("\\_", " ", df_app$Period)
+
+# import anonymised original plot (requires package magick)
+a <- cowplot::ggdraw(clip = TRUE) +
+  cowplot::draw_image("analysis/figures/ID96_original_anonymised.tif")
+
+# combine plots for output
+plot <- cowplot::plot_grid(a, b, c, labels = c("a", "b", "c"), ncol = 3)
+
+# export
+ggplot2::ggsave("analysis/figures/fig_repro_scatter.tif", plot = plot,
+       height = 8.5, width = 10*3, dpi = 1200, units = "cm", compression = "lzw"
+       )
+
+
+# reprod_PCA
+
+df <- read.table(
+  text = 'Site	Fe	Co	Ni	Zn	As	Se	Ag	Sn	Sb	Te	Au	Pb	Bi
+Site_1	3403	0.1	10.9	0.6	22.8	12.1	243	73.8	0.3	2.1	2.6	0.4	0.3
+Site_1	2439	3.2	24.7	2.8	688	3.2	622	1.4	1.6	0.9	0.1	33.6	0.1
+Site_1	1876	2.2	69.7	4.7	4983	5.1	220	252100	18.8	1.6	1.0	470	22.7
+Site_1	5755	17.8	203	3.3	1014	16.6	27.2	28167	17.0	0.8	0.6	1071	89.3
+Site_1	2059	4.6	24.5	3.1	110	5.1	749	1.1	1.9	1.1	0.1	39.3	0.2
+Site_1	136	2.3	26.7	5.4	710	4.0	21.1	70000	1262	0.4	0.1	1228	17.0
+Site_1	182	2.1	65.5	1.0	1688	6.4	460	2077	73.9	1.3	1.7	1223	43.1
+Site_1	2263	5.4	63.4	6.2	126	21.3	25.9	1730	17.7	1.0	0.2	54.0	2.2
+Site_1	287	1.3	28.5	9.0	611	4.8	77.3	275	16.9	1.6	0.4	716	4.9
+Site_1	2681	4.5	26.7	3.2	64.0	5.4	641	1.5	1.5	1.0	0.1	28.6	0.1
+Site_1	2229	2.4	28.6	6.2	48.9	2.7	611	1.2	1.5	4.1	0.2	33.3	0.2
+Site_1	2583	4.1	26.9	3.0	80.8	4.4	553	1.5	1.3	1.3	0.1	27.1	0.1
+Site_1	351	1.7	17.8	55.1	535	4.8	10.8	5.0	24.6	5.2	0.2	1614	2.8
+Site_1	536	1.6	27.2	7.1	372	18.9	42.5	1492	28.1	1.5	0.3	774	2.6
+Site_1	123	8.3	21.2	5.4	39.7	3.2	48.5	3.8	10.2	5.0	0.1	45.9	1.0
+Site_1	2469	11.2	28.7	4.7	31.4	5.6	463	0.8	1.1	4.0	0.2	14.8	0.1
+Site_1	1242	5.1	63.3	7.7	72.3	3.2	19.7	16.4	1.5	1.3	0.1	30.1	0.1
+Site_1	76	1.3	67.8	31.9	522	1.2	63.8	1276	31.1	1.5	0.1	1553	1.3
+Site_1	1382	3.1	77.2	6.5	60.9	38.6	137	126	0.8	10.6	0.6	4.8	8.5
+Site_1	866	0.7	12.0	3.5	32.3	130	371	44.3	1.6	1.8	0.6	12.5	4.0
+Site_1	2585	7.3	217	4.1	435	46.1	200	139	2.0	1.3	1.1	45.7	0.8
+Site_1	1938	3.1	21.8	7.6	361	3.8	40.7	30.9	27.7	0.6	0.4	479	4.7
+Site_1	1671	1.2	33.0	3.4	261	13.4	85.0	48833	11.7	3.4	1.4	2066	43.3
+Site_1	267	0.1	16.1	1.8	162	4.9	4.4	49.8	4.7	1.9	0.3	35.0	0.0
+Site_1	986	1.4	27.0	8.4	379	15.5	41.2	1720	10.8	2.1	0.2	193	10.2
+Site_1	1099	2.8	31.5	12.1	184	1.8	39.9	288	11.0	0.5	0.3	111	4.6
+Site_1	2875	3.8	14.4	6.7	305	72.7	4.8	14.3	1.9	2.3	1.3	2.2	0.3
+Site_1	15	0.1	32.3	1.6	16.3	30.4	136	225	8.0	1.1	0.2	265	2.3
+Site_1	425	1.2	22.8	3.8	42.3	3.5	4.8	118	0.9	1.4	0.1	1487	0.2
+Site_1	1105	2.1	25.4	20.5	172	7.5	67.9	320	17.5	1.6	0.7	2907	5.9
+Site_1	49	0.1	15.0	2.4	28.2	4.1	78.9	795	7.4	1.2	0.3	226	3.4
+Site_1	30	1.1	26.3	5.4	70.5	7.4	60.6	505	7.3	1.5	0.5	285	70.6
+Site_1	1166	7.5	146	3.2	634	6.6	46.6	34.8	4.2	1.2	0.9	29.1	0.4
+Site_1	45	3.0	44.0	12.1	318	2.7	244	55400	15.4	0.8	2.4	736	5.3
+Site_1	18	0.7	33.8	3.4	71.9	5.1	19.8	8.7	1.4	1.7	0.1	239	3.2
+Site_1	6054	1.4	23.8	167	55.0	2.6	33.8	12.7	1.7	2.5	0.1	8.8	9.5
+Site_1	40	0.7	38.3	2.7	175	3.9	25.2	374	19.6	1.2	0.2	2797	1.6
+Site_1	5769	20.5	357	7.7	9120	22.7	138	9487	98.2	2.1	4.2	569	26.3
+Site_1	930	2.1	63.0	4.3	224	4.6	46.1	208	4.3	1.7	0.5	66.9	1.1
+Site_1	39	0.4	23.7	2.6	59.3	4.9	78.8	945	10.9	1.6	0.5	267	4.7
+Site_1	886	2.1	45.6	3.5	49.7	7.9	2.9	578	0.3	2.2	0.2	10.3	0.1
+Site_1	141	0.4	27.8	16.7	63.7	17.6	333	9190	11.8	1.3	8.7	7107	103
+Site_1	58	0.2	17.9	4.7	153	58.3	176	307	35.0	1.3	0.3	192	4.8
+Site_1	542	9.1	53.1	11.1	438	45.0	275	113800	56.1	47.7	4.0	1035	73.8
+Site_1	53	0.6	13.6	13.5	387	4.2	14.5	10.7	22.6	1.7	0.1	2109	0.3
+Site_1	785	0.5	39.6	23.2	314	3.6	64.2	102	12.1	1.7	0.7	8053	2.1
+Site_2	140	0.7	20.1	16.5	205	6.1	131	45.6	13.8	1.1	0.8	173	0.5
+Site_2	47	1.1	35.6	13.6	50.3	3.3	77.9	1188	10.4	0.6	0.3	36.0	1.0
+Site_2	1363	8.3	153	10.8	11283	151	785	3.1	134	23.1	43.5	12.6	20.5
+Site_2	14	0.2	21.6	4.0	182	2.7	17.5	393	15.7	0.3	0.2	81.2	0.3
+Site_2	313	1.1	26.8	177.0	320	1.1	6.5	5.2	10.8	0.4	0.1	502	0.0
+Site_2	47	3.8	92.1	6.4	577	66.9	474	6332	34.1	6.3	1.8	524	11.2
+Site_2	309	8.4	66.8	32.3	965	32.0	338	486	79.2	15.8	2.5	337	27.5
+Site_2	68	0.9	33.5	34.4	223	91.0	13.3	21.4	0.5	0.5	0.2	42.3	0.2
+Site_3	109	0.1	17.8	28.7	482	5.1	26.2	13.4	3.3	0.5	0.8	23.1	0.1
+Site_3	24	0.2	19.0	4.0	34.9	2.5	69.5	30.7	3.1	1.3	0.4	105	0.6
+Site_3	38	0.1	15.8	2.9	31.9	1.8	8.7	89.1	2.8	0.2	0.3	28.1	0.0
+Site_3	23	0.4	18.9	7.3	241	3.4	7.3	1.4	2.3	0.7	0.3	34.4	0.0
+Site_3	518	3.0	40.8	5.6	694	5.2	2598	26575	12.3	3.2	2.5	1800	30.0
+Site_3	42	0.3	37.4	13.2	867	23.5	34.3	470	19.6	1.5	0.4	3093	0.7
+Site_3	14	0.2	43.0	2.3	254	6.2	56.5	29.9	91.5	2.5	2.8	1800	14.6
+Site_3	116	30.9	119	12.2	319	8.8	111	121113	113.0	5.6	0.7	1536	30.3
+Site_3	129	6.7	55.6	5.2	187	4.2	51.5	115977	21.8	0.7	1.2	1337	31.9
+Site_3	2023	1.0	24.6	15.3	269	2.5	12.3	0.8	7.3	0.5	0.3	9.3	0.0
+Site_3	14	4.3	91.7	4.8	367	2.8	31.0	12910	18.6	1.4	0.6	515	8.2
+Site_3	142	4.9	47.3	3.6	131	5.9	168	328	5.7	0.5	0.5	95.8	0.2
+Site_3	632	0.5	24.7	4.1	72.9	4.4	48.9	32.1	4.5	0.2	0.3	42.1	1.2
+Site_3	380	4.9	36.2	12.1	1073	6.3	453	1.8	23.3	1.2	0.6	97.3	0.4
+Site_3	273	1.1	20.2	2.0	133	107	899	1087	2.6	3.3	0.7	13.9	0.3
+Site_4	490	135	750	60.7	4313	15.9	529	133667	2400	6.6	1.1	95.4	14.7
+Site_4	20748	0.9	14.6	17.4	440	17.5	883	42.7	48.9	8.7	1.2	53.9	27.3
+Site_4	1717	0.8	145	130	661	14.9	145	273	90.5	12.4	1.8	387	31.3
+Site_4	56	2.1	22.9	53.7	204	3.1	16.6	23.3	15.2	1.3	0.3	6997	0.3
+Site_4	29	0.1	11.3	24.3	21.3	4.3	12.3	7.3	11.2	3.0	0.3	4495	0.2
+Site_4	80	4.3	29.7	17.4	26.9	6.5	93.5	217	24.3	3.9	0.7	524.3	4.9
+Site_4	73	0.3	23.8	8.8	191	9.4	219	106	21.8	1.3	8.2	381.3	4.6
+Site_4	5973	23.8	102	679	653	13.7	60.1	404	24.4	6.2	0.2	84800	10.3
+Site_4	5803	10.2	126	231	103	9.2	117	7697	6.3	0.8	96.7	498	1.1
+Site_4	1683	3.0	28.1	28.2	150	25.3	421	39.2	2.9	1.7	122	54.4	0.2
+Site_4	2230	0.3	9.3	1.3	411	1.0	9.3	10.3	3.6	1.6	0.2	211	0.1
+Site_5	582	1.2	45.4	45.0	4.7	135	1011	37.8	1.1	3.3	2.8	45.3	1.7
+Site_5	219	3.8	111	7.8	2580	19.8	416	74100	1013	2.8	37.1	415	35.4
+Site_5	47	7.6	38.9	53.9	383	5.9	452	100340	151	3.3	5.2	144500	258
+Site_5	28	0.2	34.8	6.5	58.7	4.8	51.3	535	14.1	0.3	11.9	11655	10.8
+Site_5	91	8.5	40.4	55.6	337	38.5	300	61167	141	3.9	9.2	1036	41.0
+Site_5	3007	1.0	32.9	5.8	247	5.5	18.9	29.5	10.6	0.7	0.2	200	0.4
+Site_5	1631	2.6	131	4.0	89.5	5.1	12.6	879	2.7	1.6	0.1	11.9	2.5
+Site_5	568	2.3	32.8	8.5	341	36.1	107	479	23.6	7.6	0.9	395	101
+Site_5	154	4.0	112	7.9	403	4.3	107	74300	76.1	0.9	14.3	183	2.6
+Site_5	9463	292	174	62.7	1142	130	295	946	28.2	179	13.6	96.5	214
+Site_5	4080	9.7	147	10.5	1144	5.6	136	66367	40.9	1.5	1.3	183	13.7
+Site_5	351	0.4	29.5	5.2	43.1	3.5	732	921	7.4	2.8	0.9	216	3.4',
+  header = TRUE
 )
+
+df$Site <- sub("\\_", " ", df$Site)
+
+# combine plots
+plots_prcomp <- cowplot::plot_grid(csI, csV, cuI, cuV, usI, usV, uuI, uuV, nrow = 2,
+          labels = c("a: Centred, scaled", NA, "b: Centred, unscaled", NA, "c: Uncentred, scaled", NA, "d: Uncentred, unscaled"),
+          vjust = 1, hjust = -0.05, align = "h")
+
+ggplot2::ggsave("analysis/figures/fig_reprod_PCA_prcomp.tif", plot = plots_prcomp, height = 20, width = 30, units = "cm", dpi = 1200, compression = "lzw")
+
+plots_princomp <- cowplot::plot_grid(csI2, csV2, cuI2, cuV2, nrow = 2,
+                            labels = c("e: Centred, scaled", NA, "f: Uncentred, unscaled"),
+                            vjust = 1, hjust = -0.25, align = "h")
+
+ggplot2::ggsave("analysis/figures/fig_reprod_PCA_princomp.tif", plot = plots_princomp, height = 20, width = 15, units = "cm", dpi = 1200, compression = "lzw")
+
+
 ```
-
-*Otehrwise,* *This was decided because including* journals *that* yield*ing* *ed* low numbers of hits would *have* introduce*d* disproportionate background noise of irrelevant papers that would need to be filtered out *further* *later* down the line. The initial retrieval of publication *record*s was performed solely on the journal title and date range*.* \<--! I don't think the remainder of the sentence is not important with regards to the scope of the manuscript --\> *, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency*. <!-- I rewrite is here, because otherwise it will be very confusing --> Due to the restricted search functionality of the Crossref API, the initial retrieval of publication records was performed based on the journal title and date range. Therefore, including journals yielding low numbers of hits would have introduced disproportionate background noise of irrelevant papers.
-
-<!-- I would assume, we can expect the reader to know that background noise would need to be filtered out!? -->
-
-```{=html}
-<!-- In the following, I would only refer to function for code and filter terms. I don't see an added value in reproducing the code here or including details about parameters of the function call in the text. Compared to other publications, this would be something for the SI, which in our case is the compendium. 
-The GitHub repo will be archived on Zenodo and we can decide to either do this as multiple versions (submission, revised, published), or reserving a DOI and including preview links in the manuscript for the reviewers. Either way works fine. The first is less effort for us (thanks to the GitHub-Zenodo webhook) but people can also see how the compendium evolved during peer-review. 
--->
-```
-```{r}
-#| eval: false
-#| include: false
-create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
-                          journal_issn = source("./analysis/supplementary-materials/journals.R")
-                          ){
-
-  results <- rcrossref::cr_journals(issn = journal_issn,
-                                    works = TRUE,
-                                    filter = c(from_pub_date = start_date,
-                                               until_pub_date = end_date),
-                                    limit = 1000,
-                                    async = TRUE
-  )
-```
-
-From the resulting output *of 1240 individual papers*, a data frame was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. *A total of 1240 individual papers resulted from this initial search.*
-
-```{r}
-#| eval: false
-#| include: false
-results_data <- results$data[!is.na(results$data$title),
-                               c("deposited", "container.title", "title", "issn",
-                                 "doi", "abstract")]
-```
-
-These were narrowed down using a combination of positive and negative filters to only select papers related to archaeometallurgy, using a selection of search terms appearing in either the article title or abstract. Positive filters for methodology included such terms as “provenance” and “metal”, while negative terms included “genome” and “geospatial”. Positive filters for specific materials were further targeted towards metals, including both alloy types and individual metals. Negative filters aimed at excluding papers on non-metal materials. A handful of search terms for materials were filtered through a masking filter to ensure papers on composite objects or papers that discussed multiple types of material culture were kept in. These filters were all compiled iteratively, meaning *that filters were added and filters term updated as we went through the dataset.* *we repeated the initial broad search multiple times, scanning the article titles and abstracts to identify non-archaeometallurgical papers and adding filter terms as we went to weed those papers out. This process was repeated multiple times before the code was finalised as the current published version.* <!-- above: the repeated nature of the process is mentioned twiced. And it might twitch the wrong people if we admit to query the crossref API repeatedly instead of saving a copy of the raw data and carry the filter out on them... further, the same applies to the next paragraph. Hence, I would refer to the code only at the very end (I would also turn them into one paragraph. -->
-
-```{r}
-#| eval: false
-#| include: false
-pattern_pos <- paste(
-
-    # general search terms
-    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
-
-    # specific materials or alloys
-    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-    sep = "|")
-
-    # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
-    any(grepl(pattern_pos, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_data[filtering_pos, ]
-
-  # This should result in 523 observations
-
-  # Explicitly filter out non-metal materials.
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat1 <- paste(
-
-    # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
-
-    # search terms related to mineralogy
-    "cinnabar", "malachite",
-
-    # search terms related to stable isotopes
-    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
-
-    # search terms related to ceramic artefacts
-    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
-
-    # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads",
-
-    # search terms related to stone artefacts
-    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
-
-    # search terms related to plant and animal remains and diet
-    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
-
-    # search terms related to architecture and building materials
-    "architect", "plaster", "paint", "mortar", "inscription", "structure",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat1, ]
-
-  # This should results in 160 results
-
-  # Apply filtering mask to ensure multi-material approaches are kept in
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
-
-  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-                  sep = "|") # set filter mask terms
-
-  # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
-    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
-    return(!has_neg | has_metal)
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat2, ]
-
-  # This should result in 127 observations
-
-  # Explicitly filter out non-metallurgical methodologies
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_meth <- paste(
-
-    # general terms
-    "typological", "experiment",
-
-    # methodologies related to environmental studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
-
-    # methodologies related to human and animal mobility, health, diet and death
-    "demograph", "organic", "botan", "patholog", "genome",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_meth, ]
-
-  # This should result in 115 observations
-```
-
-The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works. The resulting R script for querying and processing the publication records was subsequently turned into the function provided in @ASTR_compendium.
-
-```{r}
-#| eval: false
-#| include: false
-pattern_pos <- paste(
-
-    # general search terms
-    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
-
-    # specific materials or alloys
-    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-    sep = "|")
-
-    # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
-    any(grepl(pattern_pos, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_data[filtering_pos, ]
-
-  # This should result in 523 observations
-
-  # Explicitly filter out non-metal materials.
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat1 <- paste(
-
-    # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
-
-    # search terms related to mineralogy
-    "cinnabar", "malachite",
-
-    # search terms related to stable isotopes
-    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
-
-    # search terms related to ceramic artefacts
-    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
-
-    # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads",
-
-    # search terms related to stone artefacts
-    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
-
-    # search terms related to plant and animal remains and diet
-    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
-
-    # search terms related to architecture and building materials
-    "architect", "plaster", "paint", "mortar", "inscription", "structure",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat1, ]
-
-  # This should results in 160 results
-
-  # Apply filtering mask to ensure multi-material approaches are kept in
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
-
-  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-                  sep = "|") # set filter mask terms
-
-  # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
-    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
-    return(!has_neg | has_metal)
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat2, ]
-
-  # This should result in 127 observations
-
-  # Explicitly filter out non-metallurgical methodologies
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_meth <- paste(
-
-    # general terms
-    "typological", "experiment",
-
-    # methodologies related to environmental studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
-
-    # methodologies related to human and animal mobility, health, diet and death
-    "demograph", "organic", "botan", "patholog", "genome",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_meth, ]
-
-  # This should result in 115 observations
-
-  # Filter out publications other than research papers (reviews, responses, comments, editorials) in article title
-  results_filtered <- subset(results_filtered, !grepl(
-    "\\(ed\\.\\)\\.|hardback|reply|£|€|\\$|corrigendum|comment|editorial|response",
-    results_filtered$title, ignore.case = TRUE)
-  )
-
-  # This should result in 112 observations
-
-  ## Manual identification and exclusion of 19 additional papers (total 93) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
-  results_final  <- subset(
-    results_filtered, !grepl(
-      "10.1007/s10816-025-09694-9|10.1016/j.jasrep.2024.104811|10.1016/j.jasrep.2025.105390|10.1007/s12520-025-02327-y|10.1016/j.jasrep.2025.105455|
-      10.54841/hm.670|10.54841/hm.674|10.1007/s12520-025-02318-z|10.1016/j.jasrep.2025.105379|10.1016/j.jasrep.2024.104801|10.54841/hm.670|10.1016/j.jasrep.2025.105333|
-      10.1016/j.jasrep.2025.105333|10.1016/j.jasrep.2024.104850|10.1111/arcm.13056|10.1111/arcm.70006|10.1016/j.jasrep.2025.105068|10.1016/j.jasrep.2025.105414|
-      10.1016/j.jasrep.2024.104801|10.1007/s10963-025-09204-5|10.1111/arcm.13088|10.1007/s10963-025-09199-z|10.1016/j.jasrep.2025.105268|10.1016/j.jasrep.2025.105114",
-      results_filtered$doi)
-  )
-
-  # This should result in 93 observations
-```
-
-Finally, to create the master table that would form the basis of our dataframe, the results were anonymised by setting a seed, giving each paper a unique randomly assigned ID number between 1 and 93, removing all other identifying information, and adding a number of columns to store the scores and additional comments for each *phase* *stage* of the reproducibility index. A final column was added as a free field to include comments on the accessibility of the paper. This dataframe was then saved as *a* *master_raw.csv [@ASTR_compendium, Supplemetary materials]* *included in to the set working directory*. <!-- we briefly need to define accessibility here. Because it is publications, readers likely think about open access -->
-
-```{r}
-#| eval: false
-#| include: false
-
- # Set seed for reproducibility and add column 'ID' with random numbers to dataset
-  set.seed(42)
-
-  results_final$ID <- sample(nrow(results_final), replace = FALSE)
-
-    # Define columns with identifying information and remove them from dataset
-  columns_remove <- c("doi", "deposited", "container.title", "title", "issn", "abstract")
-  results_anon <- results_final[, !names(results_final) %in% columns_remove]
-
-  # Add columns for data entry (12 stages of reproducibility index and additional comments)
-  columns_add <- c("Stage_1", "Comments_1",
-                   "Stage_2", "Comments_2",
-                   "Stage_3", "Comments_3",
-                   "Stage_4", "Comments_4",
-                   "Stage_5", "Comments_5",
-                   "Stage_6", "Comments_6",
-                   "Stage_7", "Comments_7",
-                   "Stage_8", "Comments_8",
-                   "Stage_9", "Comments_9",
-                   "Stage_10", "Comments_10",
-                   "Stage_11", "Comments_11",
-                   "Stage_12", "Comments_12",
-                   "Accessibility")
-
-  results_anon[, columns_add] <- NA
-
-  # Export anonymised data frame as .csv (; as separator)
-  utils::write.csv2(results_anon, "reprod_astr_2026-02-01_anonymised.csv", na = "", row.names = FALSE)
-}
-```
-
-# Results
-
-<!-- Here's some example analysis code: -->
-
-```{r}
-#| label: get-data
-#| eval: false
-# Note the path that we need to use to access our data files when rendering this document
-my_data <- read.csv(here::here('analysis/data/raw_data/my_csv_file.csv'))
-```
-
-```{r}
-#| label: fig-demo-plot
-#| fig-cap: "A plot of random numbers"
-plot(rnorm(10))
-```
-
-@fig-demo-plot shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with `fig-`
-
-```{r}
-#| label: demo-inline-code
-#| echo: false
-x <- round(pi, 2)
-```
-
-Here is an example of inline code `r x` in the middle of a sentence.
-
-# Discussion
-
-# Conclusion
 
 # Acknowledgements
 
