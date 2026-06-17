@@ -11,11 +11,12 @@
 #' 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 #'
 #' @param df A data frame.
+#' @param width The width of the plot output in pixel.
 #'
 #' @returns The sankey plot list representing a html widget.
 #' @export
 #'
-sankey_plot <- function(df) {
+sankey_plot <- function(df, width) {
 
   scores_raw <- subset(df, select = grepl("ID|Stage.*", names(df)))
 
@@ -24,7 +25,7 @@ sankey_plot <- function(df) {
   colnames(scores_raw) <- ifelse(colnames(scores_raw) %in% 0:9, paste0("0", colnames(scores_raw)), colnames(scores_raw))
 
   scores <- scores_raw |>
-    dplyr::mutate(dplyr::across(-.data$ID, ~ paste0("stage", cur_column(), "/score ", .x))) |>
+    dplyr::mutate(dplyr::across(-.data$ID, ~ paste0("stage", dplyr::cur_column(), "/score ", .x))) |>
     tidyr::pivot_longer(cols = -.data$ID, names_to = "stage", values_to = "source") |>
     dplyr::group_by(.data$ID) |>
     dplyr::mutate(target = dplyr::lead(source, order_by = .data$stage)) |>
@@ -35,7 +36,7 @@ sankey_plot <- function(df) {
     dplyr::summarise(value = dplyr::n(), .groups = "drop_last") |>
     dplyr::ungroup() |>
     tidyr::drop_na() |>
-    dplyr::select(-.data$stage)
+    dplyr::select(-"stage")
 
   nodes <- data.frame(name = unique(c(as.character(links$source), as.character(links$target)))) |>
     dplyr::arrange(.data$name)
@@ -54,7 +55,7 @@ sankey_plot <- function(df) {
   plot <- networkD3::sankeyNetwork(
     Links = links, Nodes = nodes,
     Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name",
-    width = 1000, fontSize = 14, NodeGroup = "name",
+    width = width, fontSize = 14, NodeGroup = "name",
     sinksRight = FALSE, iteration = 0,
     colourScale = colour)
 

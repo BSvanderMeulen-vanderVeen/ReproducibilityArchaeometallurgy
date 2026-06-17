@@ -4,10 +4,12 @@
 \alias{sankey_plot}
 \title{Sankey plot from scores}
 \usage{
-sankey_plot(df)
+sankey_plot(df, width)
 }
 \arguments{
 \item{df}{A data frame.}
+
+\item{width}{The width of the plot output in pixel.}
 }
 \value{
 The sankey plot list representing a html widget.

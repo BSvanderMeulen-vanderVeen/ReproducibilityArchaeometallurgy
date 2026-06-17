@@ -45,7 +45,7 @@ reprod_scatter <- function(df_text, df_app) {
   # (because there is no group 4 in appendix data), resulting in removal of outlier
   plot_app <- ggplot2::ggplot(df_app, ggplot2::aes(x = .data$X206Pb.204Pb, y = .data$X207Pb.204Pb, colour = .data$Period, shape = .data$Period)) +
     ggplot2::geom_point() +
-    ggplot2::geom_point(data = subset(df_text, .data$Period == "Group 4")) +
+    ggplot2::geom_point(data = subset(df_text, Period == "Group 4")) +
     plot_design
 
   return(list("plot_text" = plot_text, "plot_app" = plot_app))
