@@ -6,7 +6,7 @@
 \usage{
 create_master_table(
   start_date = "2024-11-25",
-  end_date = "2025-11-25",
+  end_date = "2026-01-31",
   journal_issn = source("./analysis/supplementary-materials/journals.R")
 )
 }
@@ -19,8 +19,8 @@ this compendium.}
 search.}
 }
 \value{
-A csv with \verb{;}as separator, with the anonymised article ID and the columns
-for the reproducibility index to be populated.
+A csv with \verb{;}as separator, with the anonymised article ID and the
+columns for the reproducibility index to be populated.
 }
 \description{
 Searches crossref for a specified period and downloads metadata for articles
@@ -34,7 +34,7 @@ with our observations.
 Before running the function, please add the mail address to be shared with
 Crossref by adding \code{crossref_email = your@email.com} to your \code{.Renviron}
 file. See chapter "Be nice and share your email with Crossref" in
-\link[rcrossref:rcrossref-package]{rcrossref::rcrossref} for details.
+\link[rcrossref:rcrossref]{rcrossref::rcrossref} for details.
 
 The filter terms were compiled iteratively against the downloaded metadata
 records. You can see them in the source code of the function, which can be

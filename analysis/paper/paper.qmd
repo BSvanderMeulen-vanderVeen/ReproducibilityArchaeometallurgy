@@ -1,5 +1,5 @@
 ---
-title: "Title Goes Here"
+title: "The bare necessities: Improving data quality in archaeometallurgy through reproducibility"
 author:
   - name: Berber S. van der Meulen-van der Veen
     correspondence: "yes"
@@ -18,11 +18,11 @@ author:
     orcid: 0000-0002-8186-3566
     email: roseth@posteo.com
     affiliations:
-      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
-        group: Research Area Archaeometallurgy
-        address: ...
       - name: Massachusettes Institute of Technology, Cambridge, Massachusetts, USA
         department: Department of Material Science and Engineering
+        address: ...
+      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
+        group: Research Area Archaeometallurgy
         address: ...
     role: 
       - list CRediT roles
@@ -34,537 +34,679 @@ format:
   docx:
     reference-doc: "../templates/template.docx" # Insert path for the DOCX file
 execute:
-  echo: true
+  echo: false
   warning: false
   message: false
   comment: "#>"
   fig-path: "../figures/"
-  fig-dpi: 600
+  fig-dpi: 1200
 filters:
   - ../templates/scholarly-metadata.lua
   - ../templates/author-info-blocks.lua
-  - ../templates/pagebreak.lua
 bibliography: references.bib
-csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
+csl: "../templates/archaeological-and-anthropological-sciences.csl" # Insert path for the bib-style
+
 abstract: |
-  Text of abstract
+  To test the current state of reproducibility in the archaeological sciences, a bibliographic survey was performed on articles publishing compositional and isotopic data in the field’s major journals between November 2025 and January 2026. While restricted to archaeometallurgy, it can be assumed that the findings are applicable to other subfields because of the featured analytical methods and the similar considerations in sampling and data processing. A reproducibility index was developed to provide a comparable and quantitative assessment. The index follows a practitioner’s perspective, combining elements of analytical and computational reproducibility. While about 50% of the articles are fully reproducible in each stage, pronounced differences can be observed between stages. Overall data quality would from benefit from increased reproducibility of analytical protocols and visualisations, improved handling of analytical uncertainty, transparency in data treatment, and the adoption of standardised terminologies, as well as more attention to the accuracy of data availability statements. Recommendations are provided for each topic. The adoption of data publications and data processing pipelines are identified as the most impactful measures because they address several of the identified target areas at once.
+
 keywords: |
   keyword 1; keyword 2; keyword 3
-highlights: |
-  These are the highlights. 
 ---
 
-<!-- With the following code you can access and display values from the yml header above. -->
+```{r setup}
+
+if (!"cowplot" %in% installed.packages()) {install.packages("cowplot")}
+if (!"magick" %in% installed.packages()) {install.packages("magick")}
+if (!"svglite" %in% installed.packages()) {install.packages("svglite")}
+
+library(cowplot)  
+library(magick) # used by cowplot
+library(svglite) # for saving as svg file
+
+if (!"ReproducibilityArchaeometallurgy" %in% installed.packages()) {
+  files <- list.files(path = "../../R/", pattern = "\\.R$", full.names = TRUE)
+  invisible(lapply(files, source, echo = FALSE))
+}
+
+df <- utils::read.csv("../data/reprod_astr_anonymised.csv", header = TRUE, row.names = NULL)
+
+```
 
 Keywords: `r rmarkdown::metadata$keywords`
 
-Highlights: `r rmarkdown::metadata$highlights`
-
-<!-- The actual document text starts here: -->
 
 # Introduction
+We present a bibliographic study of the current state of reproducibility and re-usability of archaeometallurgical data, focusing specifically on compositional and isotopic studies. We aim to showcase aspects of analytical and computational reproducibility in this field by analysing recently peer-reviewed journal articles published in the major international journals of the field according to a set of reproducibility criteria. Since the introduction of the FAIR data principles (Wilkinson et al. 2016), significant progress has been made in the archaeology community regarding data availability and access, with a strong focus on data re-use (Faniel et al. 2013; Huggett 2018; Kansa and Kansa 2022; Kansa 2025; Moody et al. 2021; Densmore 2022; Sheehan 2015). Reflective of a wider movement, often in response to the so-called reproducibility crises particularly prominent in psychology, medicine and management studies (Mackintosh and Chambers 2020; Ehktiari et al. 2025; Begley and Ioannidis 2015; Brito et al. 2020; Gilmore et al. 2017; Kępińska et al. 2023; Kong et al. 2019; Masson-Trottier et al. 2025; Miłkowski et al. 2018; Mulugeta et al. 2018; Roth et al. 2025; Samuel and Mietchen 2024; Aguinis et al. 2018; Camerer et al. 2016; Curty 2016; Faniel et al. 2016; Fišar et al. 2024 ), publications increasingly include underlying data in a digital format, either as supplementary files or as data publications in the increasing number of open access digital repositories (Huggett 2018). Data availability statements and the publication of supplementary data are increasingly mandated by journals in their author guidelines and policies (Marwick 2025). Although many of these developments are happening across the wider research community, archaeology has been uniquely positioned in championing these principles of data accessibility and reuse: much of our work, ranging from fieldwork to taking analytical samples on artefacts is by its nature destructive and can only be carried out once, necessitating effective data management and preservation of the resulting data (Faniel et al. 2013, 296; Heilen and Manney 2023). 
 
-Here is a citation [@Marwick2017]
+Much work has therefore already been done on the national and international level to draw up guidelines and best practices for data recording, most notably of archaeological fieldwork to improve the sharing, reuse, comparison and reinterpretation of data by standardising methods and terminologies across studies (Austin et al. 2024, 192-193; Baines and Brophy 2006; Richards 2009), prompted in no small part by Linked Open Data initiatives (May et al. 2015; Nicholson et al. 2023). Open Access data sharing through digital repositories has also lead to greater transparency of how data move from excavation, to lab, to publication (Anevlavi et al. 2025; Heilen and Manney 2023). With data repositories now widely used for archaeological research, attention must shift to maximise their use, i.e. towards the reuse of research output (Curty 2016, 92). Successful reuse, however, is dependent on many factors besides sharing research output, including transparency and reliability of the underlying data and the methods used.
 
-Best practices and recommendations on how to improve the current state of affairs are discussed further down below.
+In this article, we will first define the different aspects of reproducibility that we are concerned with as archaeometallurgists and outline a number of current solutions and initiatives to improve reproducibility in the archaeological sciences and broader academia. Based on this overview, we present a 13-stage reproducibility index designed to check academic publications on aspects of re-usability, replicability of protocols and reproducibility of data and results. While exclusively archaeometallurgical studies were checked due to the background of the authors, the results are assumed to reflect current common practices in the wider archaeological sciences, because the same concerns with regards to e.g. sampling apply and generally the same or comparable analytical methods are employed. Finally, the results of this index will be discussed and some recommendations will be presented for improvements in archaeometric research and publishing standards with regards to reproducibility.
 
-# Background
+## Definitions of reproducibility
+Reproducibility, replicability and repeatability, while often used synonymously, can be applied to a range of different yet related definitions (Matarese 2022, 650; Barba 2018). We approach these terms firmly from a practitioner’s perspective: Can I recreate the results of a study with the information provided in its publication? This approach addresses three different types of reproducibility: reproducibility of the (analytical) methods, reproducibility of the results (defined here as the publication output), and as a subfield of the latter, computational reproducibility. We broadly follow the Method‑Result‑Inferential Reproducibility taxonomy as outlined by Matarese (2022, 651), which combines two aspects of replicability: the availability of information necessary to reproduce a study and the passing of a replication test, in which a copy of the original study arrives at the same conclusion (Matarese 2022, 651). Within this taxonomy, Matarese defines the baseline for method reproducibility as full disclosure of the “details of the experiment’s or study’s procedure” (Matarese 2022, 651), while result reproducibility applies to any works where “the very same outcome is obtained by following the same procedure as closely as possible” (Matarese 2022, 651). 
+
+Our specific terminology, however, is informed foremost by the nature of the archaeometric sciences as it is defined by its aims, data pipelines and often destructive sampling methodology. Replicability, for instance, has long been a cornerstone of archaeological studies and is generally used more to refer specifically to the replication of the results of a study with different data or methods (Plesser 2018, 3), in other words hypothesis testing. Inter-laboratory reproducibility is often invoked in discussions on the use of certified reference materials (Heginbotham et al. 2019; Heginbotham and Solé 2017; Lin et al. 2023; Hancock and Carter 2009) or to showcase repeated analyses by different laboratories to illustrate the reliability and consistency of a particular methodology (Calvo-Rathert et al. 2019). Other archaeometric studies use the term reproducibility to reflect internal repeatability or accuracy of results (Ma et al. 2011; Bayliss and Marshall 2019), to test the accuracy of particular analytical methods through other methods (Kim et al. 2023) or to argue for external reproducibility through the use of Certified Reference Materials (CRMs) (Ponting et al. 2003). 
+
+Reproducibility of the results then, in the strictest sense, refers to rerunning an experiment with the same materials, methods and techniques provided in the publication to see whether the same output is generated (similar to inter-laboratory interoperability). As Steckler (2015) points out, the required detailed information to fully reproduce experiments is lacking in many publications and he further emphasises the importance of detailed methodological descriptions for areas of study where tests and protocols may be less standardised or where the current state of scholarship is characterised by a high variability of experimental design or methodological approach. Given that the re-analysis of archaeological artefacts is rare, we employ this aspect of reproducibility more to the stages of research that follow data collection: data treatment, analysis and presentation; in essence the output of a publication rather than its results in the form of analytical data. 
+
+Reproducibility of method may be more accurately called, at least in the context of this study, procedural or analytical reproducibility and concerns the total sum of analytical methods and protocols employed in a study. For a publication to be fully reproducible in this regard, the methods section would include all necessary detail regarding experiment design and sampling and the analytical protocols for these procedures to be exactly repeated by another researcher (Plesser 2018, 3). In this sense, analytical reproducibility also addresses aspects of re-usability: when presented with a detailed methods section, potential re-users are better equipped to make an informed choice about whether a particular dataset is close enough to their own in terms of methods, precision and accuracy to be useful as a comparative dataset. Some methodological aspects that make archaeometric research more reproducible also target interoperability, for instance data normalisation or the inclusion of CRMs (Heginbotham et al. 2019; Heginbotham and Solé 2017; Lin et al. 2023; Hancock and Carter 2009). 
+
+Computational and statistical reproducibility describe whether data cleaning, transformations and calculations can be followed step-by-step. In addition, information about the software, its dependencies, and their specific versions, i.e., the computational environment, is required. Although the archaeological sciences do not seem to be particularly computation-heavy on the first glance, big data approaches and multi-variate statistical approaches and modelling are becoming increasingly common (Shadmeir and Mostafaei 2016; Crema 2025; Baxter 2015), making computational reproducibility essential. Differences in how precisely a software calculates certain values or which algorithms are used can lead to different results, necessitating the recording of each decision. In an ideal scenario, the individual steps are best shared as script and start from the raw data (Marwick various2025; Marwick et al. 2018; Nüst et al. 2020). Computational reproducibility then also facilitates what some have dubbed empirical reproducibility: the transferability of code to new data and to other domains for achieving similar results (Bilotti et al. 2024, 2; cf. Marwick 2017; Marwick et al. 2018; Marwick et al. 2016). Understanding software applications as research objects, subject to FAIR principles (Barker et al. 2022), further emphasises the importance of this work to the research community, rather than viewing them as an unrelated tool (cf. Marwick 2025). 
+
+## The reproducibility crisis and responses
+The concerns around producing reproducible data and research are far from unique to the field of archaeology and many fields have produced recommendations for improving various aspects of reproducibility. A much-cited survey in Nature found that over 70% of researchers had failed to reproduce results from at least one published study, and over 50% had failed to reproduce their own results, contributing to a widely held believe in a reproducibility crisis (Baker 2016, 452). Unsurprisingly then, a great deal of work has been devoted in recent years to overcoming this reproducibility crisis, especially in the fields of biomedicine (including neuroscience) and psychology (Mackintosh and Chambers 2020; Ehktiari et al. 2025; Begley and Ioannidis 2015; Brito et al. 2020; Gilmore et al. 2017; Kępińska et al. 2023; Kong et al. 2019; Masson-Trottier et al. 2025; Miłkowski et al. 2018; Mulugeta et al. 2018; Roth et al. 2025; Samuel and Mietchen 2024), as well as and in the social sciences, economics, and management studies (Aguinis et al. 2018; Camerer et al. 2016; Curty 2016; Faniel et al. 2016; Fišar et al. 2024). In a community survey among German neuroscientists, Klingner et al. (2022; 2023) highlight several difficulties faced by researchers that bar them from open and accessible research data management (RDM) and data sharing, some of which can be applied to archaeometry as well, namely a lack of widely shared standards for data and metadata, a lack of RDM literacy and a lack of time and resources for adequate RDM. They furthermore highlighted the need to develop standards, tools and infrastructure to address these issues, as well as investment in training and education (Klingner et al. 2022; 2023). Moreover, their survey revealed that between 15 and 39% of respondents used personal solutions and methods to deal with data analysis, data preprocessing, version control, data exchange, data formats, data sharing, and metadata collection and management instead of available tools or standards (Klingner et al. 2022).  Aguinis et al. (2017, table 8), also propose several methodological standards to improve reproducibility and transparency of research, such as discussion of statistical assumptions, control variables, aggregation, precise use of terminology and discussion of the limitations of the chosen methodology. Comparable developments occurred in the geosciences, with scholarship developing standards for data publications (including isotope and chemical data: Chamberlain et al. 2021; Deines et al. 2003; Goldstein et al. 2014; Klöcking et al. 2023; Staudigel et al. 2003; Welti et al. 2024) and computational reproducibility (Konkol et al. 2019). 
+
+Previous publications focusing specifically on the archaeological sciences have already made highly valuable suggestions for research documentation going forward. Some studies have focused more on methodological aspects. Johnson et al. (2024), for example, performed a bibliographic analysis of archaeological studies employing pXRF, and made recommendations for key information that publications using that method should include (Johnson et al. 2024, table 2). Roberts et al. (2017) recommend documenting systematic errors, using CRMs, repeat measurements and standards for precision reporting of stable isotope data. 
+Other resources target the computational aspect of reproducibility, with recommendations and designs for adoptable and adaptable research infrastructures. In his role as reproducibility editor for the Journal of Archaeological Science, Marwick (2025) outlines a number of common issues and solutions to improve reproducibility of analytical results from a publisher’s perspective: how can the results presented in a given paper be replicated or reproduced by someone else? His paper focuses predominantly on formal computational aspects of reproducibility that reduce friction for the re-user: use of open-source language, logical folder structures and documentation of code. Although Marwick’s proposed project containerisation recommendations (see also Marwick 2017; Marwick et al. 2018; Marwick and Jacobs, n.d.; Marwick and Birch 2018) would incentivise code being structured and cited as an original research contribution, it remains valid to ask how feasible such an approach is for the majority of researchers currently active. The need for education and training in data management is likely equally high in archaeology compared to the neurosciences (Klingner et al. 2022; 2023), if not higher. The proposed project managerial overhead may also not be feasible or necessary for smaller studies or studies carried out by those with fewer computational or financial resources. Developing clear guidance from the publisher’s perspective as well as enforcement also remain issues (Trottier et al. 2025, 3-4). 
+
+A wide range of tools is already available for addressing especially the more formal computational and statistical aspects of reproducibility identified in these studies. Multiple openly accessible tools are available for the documentation of code and its embedding in interpretative narratives, such as Jupyter notebooks (Samuel and Mietchen 2024), the R packages knitr (Xie 2012) and rmarkdown (Allaire et al. 2014), and Quarto (Allaire et al. 2022). Other initiatives offer tools to automate checks on formal reproducibility factors such as checking the portability of file paths, optimising project structure and rearranging file organisation (fertile; Bertin and Baumer 2021) or to embed code and writing in a complete research compendium (rrtools; https://github.com/benmarwick/rrtools). Increasingly, non-profit solutions for version control are becoming popular in academic work, such as git (Blischak et al. 2018). Most of the mentioned examples are taken from the ecosystem around the freely available language for statistical computing and graphics R (R Core Team 2026), because it seems to be the most commonly used scripting language in the archaeological sciences, although similar tools for other scripting languages, especially Python, are available. 
+
+However, while it is possible to be completely transparent as far as these computational tools are concerned, they only target one aspect of reproducibility we are concerned with (computational), and not the reproducibility of analytical methods. The wide variety of analytical methods used in archaeometry also means that there is no easy one size fits all approach to recording analytical protocols or standards. With these thoughts in mind, we designed a series of reproducibility checks that more specifically target both analytical/methodological and computational reproducibility of archaeometric research to give an insight into the current state of affairs within our discipline. 
 
 # Methods
-
 ## Index design
-In order to produce a data-supported description of the current state of affairs, a reproducibility index was designed to check for impediments *or -\> for* data reuse and reproduction in archaeometallurgical studies. Based on the literature review presented above and the common stages of data acquisition, data treatment, and analysis in archaeometallurgy, 12 stages were identified that impact the reproducibility of the methods and output in any given paper. Below, these stages are described in more detail and pass/fail criteria are described for each. As a rule, this index focuses on absolute reproducibility, not on the difficulty or ease of the reproduction process. However, the process of testing for reproducibility did yield a number of recommendations for reducing friction in reproduction efforts; these are included below. Furthermore, we combine aspects of data reusability, analytical reproducibility (description of methods and decisions related to the analysis), and computational reproducibility (description of calculations). The 12 stages are designed to mark whether certain formal aspects of the publication are fully reproducible/partially or with significant effort reproducible/not reproducible/not applicable thresholds.
+In order to produce a quantifiable description of the current state of publication practices, a reproducibility index was designed to score journal articles on different aspects of how they handled recording and description of the data pipeline. Thirteen “stages”, ranging from zero to 12 were defined, covering data collection, data treatment, data analysis and visualisation. Analysis of the first stages relates to data collection-targeted aspects of decision-making processes in the field or laboratory and the replicability of analytical protocols, while the later stages relate to aspects of the data pipeline and are more focused on computational reproducibility. Together, they give a broad insight per publication whether, based on the information provided in the publication and its supplement(s), its internal methodology can be replicated and whether the results and analysis presented can be reproduced. 
 
-Due to the inclusion of multiple analytical methods, (*e.g.,* *including stable lead* isotope *analysis* <!-- there are also tin isotopes --> , XRF, SEM-EDS, PIXE, ICP-MS) *and approaches*, <!-- I think this part has to be rewritten to current practice: not all criteria necessarily applied to all publications. The “not applicable” label (translated to a score of 2) was designed to meet those cases -->. A soft fail *, equalling to a score of 1,* *(score of 1)* was applied for methods for which it is *currently* not yet common practice to include specific details, such as specifying the use of standardless settings for SEM-EDS or the normalisation to 100% of EDS and XRF data. 
+Parameters were defined for each stage (see below) to allow a score between zero and two. The score reflects whether a particular stage was fully reproducible/replicable (2), partially reproducible/replicable (1), not reproducible/replicable (0), or that the criterion was not applicable (NA). A score of 1 was also used to identify cases where reproducibility was possible for a particular stage, but only with significant effort or where information was only partially present (for instance for some methods but not for others in multi-pronged studies). Comments were included for every stage for every publication as a record to support the scoring. 
 
-### Stage 1: sampling strategy
+### Stage 0: Sampling strategy and preparation
+This stage relates to the choice of artefact sampling (e.g. out of an assemblage based on certain characteristics), location of sampling on the artefact, how samples were prepared prior to analysis (e.g. surface analysis only, cleaning, removal of material) and when destructive samples were removed from the artefact, how much was removed and with which tools. In studies applying multiple analytical techniques, this information should be provided for each method used, where appropriate. Location of the sampling was only taken into account for the scoring when it concerned artefacts; it was not considered for samples of slags. 
 
-To pass this criterion, a paper should first specify the choices made in sampling based on archaeologically informed criteria: which artefacts were sampled (e.g. out of an assemblage), and where on the artefacts were samples taken (especially relevant in the case of composite or repaired objects). Secondly, methodological considerations should also be described: such as how often measurements were repeated per artefact or per location (and if replicates were taken, whether averages are reported or individual readings), and the sample preparation protocol in the lab (or in-situ). This must include the sampling method (e.g. drilling, tweaking, clipping or cutting, etching, abrasion or portable laser ablation), the specific equipment used to take the samples in case of destructive sampling (e.g. tongs, scalpel, or jeweler’s saw), a quantification of the amount of material sampled, the contamination protocols followed and any other sample preparation before analysis (e.g. acid digestion, pulverisation, mounting, pelletizing or polishing [@Westneretal2024]. If no sample preparation was undertaken, such as in the case of non-invasive surface XRF, this should also be explicitly stated. <!-- Should we split this up into bullet points? This might make it easier to digest as a list of three top-level bullet points (sampling, analytical protocol, measurement) with a second level for the respective criteria. The "measurement" part is missing but at least I checked the entire analytical protocol, including settings such as acceleration voltage, type of inlet system for LIA (spray chamber vs. Aridus), etc. -->
+* fully reproducible (2): Sufficient information is included on all sampling choices made for each method, allowing the full analytical protocol to be adopted by other studies. 
+* partially reproducible (1): Most of the information is present for all methods, or sufficient information is present for at least one of the methods used. 
+* not reproducible (0): Insufficient information is present for any analytical methods used. 
 
-### Stage 2: data availability
-We defined this criterion to check whether a publication contained the data necessary to reproduce any calculations, tables or visualisations contained within it. This may be the raw, untreated output or processed data, as long as the level and type of processing is made explicit (e.g., normalised or transformed data, averages of multiple measurements). This stage applies to analytical data only. 
+### Stage 1: Analytical protocol 
+Stage 1 explicitly targets the replicability of analytical protocols described in articles for future studies. For every method employed, this should include some description of the equipment and its settings, and, where relevant, processing of samples and the number of measurements or replicates per artefact. As discussed in the results section, the use of multiple analytical methods within a single study was common, necessitating a nuanced approach to the scoring. When faced with a word limit, publications employing multiple distinct protocols may opt to include less detail than those employing a single methodology. To judge this fairly, it was initially attempted to focus the scoring on the “main method” of a study, which worked well in cases where pXRF was for example used as a survey tool (methodology described only briefly) in order to select samples for SEM-EDS (described more fully). However, in the majority of studies a main method could not be clearly identified because different analytical techniques were used to achieve complementary datasets (e.g., trace element composition and lead isotopes ratios). It was attempted to let the scoring reflect this multi-technique approach in identifying general levels of completion and detail across the methods and averaging those. 
 
-For this stage, the amount of friction in using underlying data was taken into account because this step underlies any attempts at re-use, reproduction or adaptation of research results. If accessing the data or importing them into an editable format involves too many steps, this may run the risk of introducing copying errors, loss of information or simply a lot of time and effort.    
+* Fully reproducible (2): Sufficient information is included on all analytical methods used, allowing the full analytical protocol to be adopted by other studies. 
+* Partially reproducible (1): Most of the information is present for all analytical methods or sufficient information is present for at least one of the analytical methods used.  
+* Not reproducible (0): Insufficient information is present for any analytical methods used. 
 
-- score 0: data are not included in any format, a selection of the data are included, or differently processed data than what are used for the calculations or visualisations in the publications are included  
-- score 1: all necessary data are included and the level of processing is made explicit; data are made available in a format that is prone to introduce errors (e.g. table in text, Microsoft Word or .pdf file in digital supplement, data publication or online repository)
-- score 2: all necessary data are included and the level of processing is made explicit; data are made available in a format that facilitates frictionless re-use (e.g. Microsoft Excel or .csv file in digital supplement, data publication or online repository)
-<!-- I must say I did not pay attention to "level of processing must be made explicit" during reading; I wonder if it is a bit too much to ask? --> 
+### Stage 2: Data availability 
+Any attempt at computational reproducibility stands or falls with the inclusion of underlying analytical data. Rather than making any statement about the level of processing of the presented data, we scored this criterion on whether the data provided were sufficient to reproduce any calculations, tables or visualisations presented. The scoring here distinguishes between presence/absence (0 or 2) and comments, through the use of the 1 score, on friction in extracting the data and importing it into the reproducer’s software of choice. If this involved too many steps, this increased the risk of introducing copying errors, loss of information or lost time. 
 
-For this stage, we looked at the content of the publications as well as any appendices or supplements, rather than just the data availability statement as it was found that these did not always adequately cover the truth. Publications with no underlying data with a data availability statement claining data were available on request still received a 0 score as data sharing under this provision is neither guaranteed nor enforceable [@Marwick2025].     
+* Fully reproducible (2): All necessary data are included. Data are made available in a format that facilitates (relatively) frictionless re-use or at least a level of data formatting that is less prone to copying errors (e.g. Microsoft Excel or .csv file in digital supplement, data publication, or online repository). 
+* Partially reproducible (1): All necessary data are included. Data are made available in a format that is prone to introduce errors (e.g. table in text; Microsoft Word or .pdf file in digital supplement, data publication, or online repository). 
+* Not reproducible (0): Data are not included in any format or only a selection of the data is included. 
 
-### Stage 3: availability of comparative data
-The majority of publications surveyed for this article contained some level of comparison between their original data and other datasets. Unambiguous and complete citations for comparative datasets are necessary to ensure reproducibility of the interpretation of these comparative analyses.We focus on the formal aspect of citation only because tracking down all comparative datasets to assess their reproducibility was out of scope for this paper. 
+### Stage 3: Availability of comparative data
+The use of comparative data from previous studies, a vital aspect of our discipline, was scored according to how transparently this was done through citation. No attempt was made to verify these citations and check the findability of the datasets. 
 
-- score 0: comparative data are used but not cited explicitly
-- score 1: comparative data are used and cited, but citations are listed in the text without a clear connection to their application 
-- score 2: comparative data are used and cited explicitly, or are reproduced in a data supplement. 
+* Fully reproducible (2): Comparative data are cited explicitly where they are used (e.g., in an image caption) or are reproduced in a data supplement. 
+* Partially reproducible (1): Comparative data are cited, but citations are listed more generally in the text without a clear connection to where the cited data was used. 
+* Not reproducible (0): Comparative data are used but not cited at all. 
 
-Papers that did not use any comparative data passed this criterion automatically with a score of 2 (does not apply). The distinction between a score of 1 and 2 lies in the transparancy with which comparative data is used. For example, a general comment in the body of text that data from several sites was used along with a list of citations clears the reproducibility index with a score of 1, as it is not immediately clear to the re-user which citation belongs to which site or how these data were used. Publications where the citations for comparative data are included in image captions, for instance, were awarded a score of 2 here because the link between the citation and the purpose of the comparative data is explicit and self-explanatory. 
+### Stage 4: Calibration and use of certified reference materials 
+Stages 4-8 cover aspects of transparency in data quality. Certified reference materials are a baseline standard for ensuring internal data consistency and should ideally be used and cited in a publication for every analytical method used. Alternatively, if a particular technique such as pXRF or SEM-EDS was employed in a “standardless mode”, this should also be qualified. Although we do not intend to suggest any specific commercially available reference material should be used over any other, we did distinguish in the scoring between cited and certified materials versus in-house reference materials (which do improve transparency, but not replicability), with some caveats. 
 
-### Stage 4: calibration and standard reference materials (CRMs/SRMs)
-The key consideration for this stage is whether or not SRMs are measured and how the resulting analyses are implemented [@Yuanetal2016; @Heginbothametal2015]. We do not intend to weigh in on which specific SRMs should be used for any particular method or material, how many SRMs a study should use, how frequently they should be analysed or how they should be used, but a description of at least these elements should be present.
+* Fully reproducible (2): One or more CRMs are used and cited. One or more internal or commercial standards are used and the certified and analysed values are provided, or standardless mode is specified. 
+* Partially reproducible (1): Relevant information as specified for score 2 is included, but only for some of the methods used or their use is mentioned but no citations and/or values of the CRMs are given. 
+* Not reproducible (0): No information is provided for any analytical methods used. 
+ 
+### Stage 5: Analytical uncertainty 
+An indicator of the analytical uncertainty of the data provided can not only strengthen a publication's output, it is also crucial for potential re-users to gauge whether a dataset is appropriate to their aims. This type of methodological metadata can take many forms, depending on the technique(s) used, but may include standard errors or standard deviations for measured values, reporting of procedural blanks, reporting of detection limits, and documentation of "not detected” values.  
 
-- score 0: no information provided for at least one of the methods used in the publication
-- score 1: soft fail to accomodate methods for which this information is not typically included, for example the use of standardless mode for pXRF or SEM-EDS.   
-- score 2: one or more internationally certified reference materials were used and these are cited; alternatively one or more internal or commercial standards were used and the certified and analysed values are included in the publication. In both cases, a publication needs to discuss how the measured values were used (e.g. calibration to a specific element, monitoring instrumental drift, simple standard bracketing) and give an indication of the external reproducibility, for example by including the standard deviation or error of each measured value.   
+* Fully reproducible (2): Adequate and appropriate information is provided for every analytical method.  
+* Partially reproducible (1): Adequate and appropriate information is provided for some analytical methods. 
+* Not reproducible (0): No information is given for any analytical method. 
 
-### Stage 5: analytical uncertainty
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
+### Stage 6: Definition and treatment of outliers 
+Outliers in analytical data may be caused by a variety of factors, ranging from machine errors to genuinely deviant material compositions and, ideally, these are addressed explicitly in a publication for full methodological transparency. When outliers or significant variability within the data are not discussed, it is difficult to judge as a potential re-user why they were classified as such and not included in the data interpretation. . How outliers were handled should also be addressed because this may impact statistical analyses (stage 11) or visualisations (stage 12). However, the absence of any discussion does not automatically mean outliers were not identified as they may have been removed without further documentation or their absence was not made explicit. To reflect this unknowability, no scores of 0 were awarded.  
 
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
+* Fully reproducible (2): Outliers or data variability are clearly defined and labelled, either in the underlying dataset, written text, or visualisations. Treatment of outliers is made explicit (e.g., removal or replacement) 
+* Partially reproducible (1): No comment is made on internal data variability or outliers, or vague definitions are given without explicit thresholds; treatment is not made explicit (e.g., outliers were excluded from visualisations without discussion). 
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+### Stage 7: Normalisation
+Reported data is often normalised, most commonly to 100%, because of how quantified results are provided by the used analytical methods (e.g., standardless energy dispersive XRF/EDS methods) and even if not explicitly mentioned, such normalisation can often be inferred by the informed reader from the used analytical method. Other analytical methods require normalisation to a certain isotope or element. Data are also often normalised to facilitate comparison with geochemical signatures and published data. In all cases, full reproducibility can only be achieved if any kind of normalisation is explicitly stated and, if applicable, reference compositions are cited. 
 
-### Stage 6: definition and treatment of outliers
-Outliers in analytical data may be caused by a variety of factors, ranging from machine errors to genuinely deviant material compositions, and it is important that authors address these factors when outliers are present within their data so re-users can adequately judge if and how they may re-use or adapt the data in question. How outliers were handled should also be discussed as this may inform other stages of this index, such as statistical analysis (stages 10-11) and visualisation (stage 12).
+* Fully reproducible (2): Normalisation is made explicit and all necessary information provided for all analytical methods. 
+* Partially reproducible (1): The data were normalised but either information about the normalisation procedure is missing, it is not provided for all analytical methods, or it has to be inferred from other information in the article (e.g. the analytical method). 
+* Not reproducible (0): Indicators for data normalisation exists but neither is information provided nor can it be inferred from other information. 
 
-- score 1: data contains outliers; these are not clearly defined, or it is not made clear how they were handled 
-- score 2: data does not contain outliers, or outliers are clearly defined and labelled in the underlying data, visualisation and/or discussion. Treatment of outliers is made explicit (e.g. exclusion).
+### Stage 8: Standardised terminology
+This stage concerns analytical data only (archaeological metadata are discussed in stage 9) and checks whether measurement units are given for any chemical data, such as wt%, at%, mg/kg, µg/g or ppm. The reporting of compositional data in % instead of wt% or, less often, at% is problematic because this distinction has important practical implications. For example, the chemical composition of a phase in at% can be easily converted into its chemical formulas, while additional calculations are necessary for data in wt%, and alloy phase diagrams are available for either unit. It is not reproducible to let the re-user decide which one to use. Following Roberts et al. (2018), for isotope data, δ values should be reported relative to current international measurement standards. 
 
-No scores of 0 were awarded for this stage, as the majority of publications included in the analysis did not discuss deviant results. We can therefore only assume that they did not encounter any in their analytical process. If no outliers were discussed in a publication, it was passed automatically with a score of 2 (does not apply). A score of 1 was given where the discussion of outliers was lacking in supporting detail, for example the manual identification and removal of differing measurements without explicit thresholds. 
+No scores of 0 were awarded as most information is usually present and missing information could generally assumed or reconstructed with relative certainty. 
 
-### Stage 7: normalisation
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
+* Fully reproducible (2): All units are specified, either in-text, in tables, or in visualisations. 
+* Partially reproducible (1): Units and/or terminology are partially specified, or not at all, but can be reconstructed from context (such as analytical technique or data type).  
 
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
+### Stage 9: Archaeological metadata
+The incredible diversity of the publications considered made any attempt at judging the standardisation of terminology or use of thesauri ill-fated (although this should be recommended). Instead, this stage was used to look at how clearly archaeological metadata were linked to the compositional data and whether the information necessary for any grouping used for statistical analyses or visualisations were provided. 
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
+* Fully reproducible (2): All necessary metadata are included in the publication and/or its supplements. 
+* Partially reproducible (1): Metadata is not explicitly included in publication but can be reconstructed from context. 
+* Not reproducible (0): No information is provided, or necessary information is missing, 
 
-### Stage 8: standardised terminology
-Adequate understanding of data and its interpretation rests on a shared vocabulary of terms and definitions. This stage concerns analytical data only (archaeological metadata are discussed in stage ##) and covers a variety of information. First of all, there are the measurement units of the analytical data, such as wt%, at%, mg/kg, µg/g, ppm etc. Following Roberts et al. (2018), for isotope data, δ values should be reported relative to current international measurement standards. Furthermore, any information contained in data tables or column headers should be unambiguous and self-explanatory or if not, be defined in the text. 
+### Stage 10: Statistical assumptions and data transformation
+This stage targets the documentation of data manipulation in preparation for statistical analyses (stage 11). This may include, wherever appropriate, centred logarithmic transformation, scaling or replacement of values such as zeroes or ”below detection limit”. In cases where no statistics were employed or no data transformation was necessary for the statistics involved, this stage was passed automatically as NA (not applicable). 
 
-- score 0: some or all units and/or terminology are not specified
-- score 1: units and/or terminology are not specified but definitions can be reconstructed from context or are considered self-explanatory for a particular analytical method
-- score 2: all units and/or terminology are specified, either in-text, in tables or in visualisations
+* Fully reproducible (2): Appropriate data transformation is explicitly applied and/or handling of missing values is discussed. 
+* Partially reproducible (1): Appropriate data transformation is explicitly applied and/or handling of missing values is discussed. 
+* Not reproducible (0): No adequate information on data transformation or missing value handling is given.
 
-A soft pass (score 1) was given in cases where unit definitions were not included but are relatively self-explanatory or at least not widely included, such as pXRF data annotated as %. Abbreviations such as sd for standard deviation or (R)SE for (relative) standard error were considered to be self-explanatory as they are widely used statistical terms and have a clearly defined calculation.   
+### Stage 11: Statistical methods 
+This stage applies to the statistical calculations or tests themselves and checks whether enough information is provided to reproduce these. Standard formulae are exempt (e.g., normliation to chondritic composition; Euclidean distances). For multi-variate statistics, enough description of the parameters and choices needs to be included so that these can be reproduced in full (e.g., specifying Ward's method for hierarchical clustering analysis, or stating the number of bins in kernel density estimates). 
 
-### Stage 9: archaeological metadata
-The inclusion or description of archaeological metadata is largely self-explanatory and concerns the archaeological information included in the publication and its supplements that is relevant to the analytical samples described and subsequent analysis or interpretation of those samples. We consider this criterion met if any grouping, comparison or statistical analysis based on archaeological information such as dating, typology or function can be reconstructed based on the metadata provided. This also applies to any colour-coding or iconography used for the data visualisations (stage 12). 
-- score 0: no information is provided or necessary information is missing
-- score 1: metadata is not explicitly included in publication but can be reconstructed from context 
-- score 2: all necessary metadata are included in the publication and/or its supplements
+* Fully reproducible (2): All necessary supporting information was provided for all statistical methods, and the published outcome can be exactly reproduced. 
+* Partially reproducible (1): Some necessary supporting information was provided for all or some of the statistical methods, and the final output can be approximated. 
+* Not reproducible (0): Some or all of the necessary supporting information for some or all of the statistical methods is missing to the extent that these cannot be approximated. 
 
-<!-- I'm not entirely sure we need a 1 score for this (the data are either complete or not), but what I mean by "can be reconstructed from context" is for example a paper where object functions are not listed in a finds table or data table, but a scatterplot is colour-coded for function (so you can retro-engineer it). I suppose this comes down to the amount of friction we allow before we strike it down as "not reproducible".-->
+### Stage 12: Data visualisation 
+This stage builds on the previous two, stage 2 (analytical data) and stage 9 (archaeological metadata), all of which need to be in place for visualisations to be reproduced. Although the inclusion of archaeological metadata to inform iconography in plots was considered, exact cosmetics were not attempted to be reproduced. Comparative data were also not included. Given that many publications produced a range of similar type graphs (e.g. scatterplots of all possible combinations of isotope ratios), the reproduction effort for visualisations was limited to one of each per visualisation type and data used (in cases of multiple analytical methods). Even though the scoring for this stage was essentially binary (graphs can or cannot be replicated), a score of 1 was awarded to instances where at least some of the visualisations in a publication could be reproduced or reproduction was only possible with significant effort. 
 
-### Stage 10: statistical assumptions and data transformation
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
+* Fully reproducible (2): All information needed to reproduce all types of visualisations is included in the article or supplements. 
+* Partially reproducible (1): Most information needed to reproduce most types of visualisations is included in the article or supplements.  
+* Not reproducible (0): Some or all information needed to reproduce all types of visualisations is missing. 
 
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
+## Selection and retrieval of literature
+This review focuses on papers published between November 24, 2024 and January 31, 2026 that made an original contribution to the field of archaeometallurgy in terms of compositional, elemental or isotopic data in a peer-reviewed journal. This last criterion enabled us to discuss compliance with data availability statements (see Marwick 2025) and to track the increasing use digital supplements for supporting materials that are still largely out of scope for printed monographs or edited volumes. 
 
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-This stage targets two aspects of data statistics: the nature of the data and how this informs statistical testing, and data transformation in preparation for statistical testing. Assumptions about how analytical data are constructed or are expected to behave should be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed (Baxter and Gale 1998; Hsu et al. 2018). Data transformation may include log transformation or scaling and centering, for example in the case of multi-variate statistics such as PCA.
+Metadata records of publications stored by Crossref were searched using the rcrossref package [@rcrossref] for the chosen timeframe, using several common, but generic search terms related to archaeometallurgical research. 22 journals that regularly feature articles from this field were initially selected for the search, although only ten were included in the final results lists (table 1; reasons for exclusion are listed in the digital compendium). The resulting dataset was further narrowed down based on a list of iteratively determined keywords to remove non-article publications such as editorials and comments as well as articles not related to archaeometallurgy. These filters, as well as the complete list of journals that were surveyed are included in the digital compendium. During the analytical stage of this study, it was found that some non-metallurgical papers still passed the filters and that the initial dataset also included several publications that were topically within scope, but did not include original data (regional studies, re-analyses of previous work, exclusive use of legacy data). These were removed manually by their DOI. 
 
-- score 0: no data transformation is applied where necessary or inappropriate data transformation is applied
-- score 1: data transformation is applied where appropriate but this is not described; choice of statistical method is not made explicit 
-- score 2: appropriate data transformation is explicitly applied where necessary; nature of data is discussed and choice of statistical method is made explicit
-
-In cases where no statistical analyses were applied, this stage was passed automatically as non applicable with a score of 2.
-
-### Stage 11: statistical methods
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-### Stage 12: data visualisations
-<!-- * Defining the scope of the stage/evaluated aspects of the publication
-* A numbered list with which score was given for which criteria, e.g. 
-
-0: all or a some data were not available or the data availability statement mentions "data available upon request"; 
-1: data were available but in a format that require prior compilation by the data re-user
-2: data are available and can be directly imported into work with them
-
-* Any additional comments/explanations of the criteria; in this stage e.g. why "data available upon request" automatically scored 0 -->
-
-
-## Crossref search
-
-It was decided to focus this review on recent papers that make an original contribution to the field and that present new compositional, elemental, or isotopic data within the scope of archaeometallurgy. The search was kept to journal articles only, as developments in journal publishing practices have meant publishing (digital) supplementary data files alongside texts has become increasingly common, while still being largely out of scope of printed monographs or edited volumes. Following criticism by @Marwick.2025 *(references)*, this also enabled us to test compliance with developing standards in the publishing industry  regarding data availability. <!-- I would rephrase "high standards" here because depending on the view they are not high but the previous state was just underwhelming. Suggestion: ..."to test compliance with increasingly stricter enforcement of data availability." -->
-
-In order to find these publications, a* Crossref API search was performed using the *rcrossref package in R [@rcrossref]. The initial aim was to analyse all papers that fit these criteria published within the last year (starting on November 24, 2024, a year from the start of the project). However, it was found that too few papers came through the filters set in the Crossref search (see below) and the search period was extended to January 31, 2026.
-
-The first decision was to narrow down the search scope to a selection of journals that regularly publish papers related to archaeometallurgy. Of the 22 journals originally considered, only the 11 journals listed in tab. 1 yielded significant numbers of relevant papers (based on the initial, shorter, search period) and the others were removed from the filters.
-
-```{=html}
-<!-- We should include a breakdown here on how many articles were taken from which journal. This can be easily extracted from the DOIs in our table but probably won't be easily reproducible. If we want to go for full reproducibility here, we would need to write a separate the search function into the one downloading the initial dataset and applying the filters, and separate ones for the anonymisation and the compilation of this figure. 
-
-Based on this figure, we could also say that "significant" means e.g. at least 5. -->
-```
-```{r}
-journal_issn <- c(
-  "Archaeometry"= "1475-4754",
-  "Journal of Archaeological Science"= "1095-9238",
-  "Journal of Archaeological Science: Reports"= "2352-409X",
-  "Heritage Science"= "2050-7445",
-  "Archaeological and Anthropological Sciences"= "1866-9565",
-  "Advances in Archaeomaterials"= "2667-1360",
-  "Metalla"= "2749-6430",
-  "Historical Metallurgy"= "2755-0249",
-  "Journal of World Prehistory"= "0892-7537",
-  "Journal of Archaeological Method and Theory"= "1573-7764",
-  "Science and Technology of Archaeological Research"= "2054-8923"
-)
-```
-
-*Otehrwise,* *This was decided because including* journals *that* yield*ing* *ed* low numbers of hits would *have* introduce*d* disproportionate background noise of irrelevant papers that would need to be filtered out *further* *later* down the line. The initial retrieval of publication *record*s was performed solely on the journal title and date range*.* \<--! I don't think the remainder of the sentence is not important with regards to the scope of the manuscript --\> *, with the limit of papers to be included per journal set at 1000 and with asynchronous HTTP requests enabled to improve efficiency*. <!-- I rewrite is here, because otherwise it will be very confusing --> Due to the restricted search functionality of the Crossref API, the initial retrieval of publication records was performed based on the journal title and date range. Therefore, including journals yielding low numbers of hits would have introduced disproportionate background noise of irrelevant papers.
-
-<!-- I would assume, we can expect the reader to know that background noise would need to be filtered out!? -->
-
-```{=html}
-<!-- In the following, I would only refer to function for code and filter terms. I don't see an added value in reproducing the code here or including details about parameters of the function call in the text. Compared to other publications, this would be something for the SI, which in our case is the compendium. 
-The GitHub repo will be archived on Zenodo and we can decide to either do this as multiple versions (submission, revised, published), or reserving a DOI and including preview links in the manuscript for the reviewers. Either way works fine. The first is less effort for us (thanks to the GitHub-Zenodo webhook) but people can also see how the compendium evolved during peer-review. 
--->
-```
-```{r}
-#| eval: false
-#| include: false
-create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-31",
-                          journal_issn = source("./analysis/supplementary-materials/journals.R")
-                          ){
-
-  results <- rcrossref::cr_journals(issn = journal_issn,
-                                    works = TRUE,
-                                    filter = c(from_pub_date = start_date,
-                                               until_pub_date = end_date),
-                                    limit = 1000,
-                                    async = TRUE
-  )
-```
-
-From the resulting output *of 1240 individual papers*, a data frame was extracted using only a handful of columns. The publication date, doi and ISSN of the journal were included in order to keep track of publications while working. Journal title was included so we could gain an insight into different publishing volumes and practices between publishes and article title and abstract (even though not all targeted journals include the abstract in their Crossref output) were included to provide the input for the iterative content filters discussed below. *A total of 1240 individual papers resulted from this initial search.*
-
-```{r}
-#| eval: false
-#| include: false
-results_data <- results$data[!is.na(results$data$title),
-                               c("deposited", "container.title", "title", "issn",
-                                 "doi", "abstract")]
-```
-
-These were narrowed down using a combination of positive and negative filters to only select papers related to archaeometallurgy, using a selection of search terms appearing in either the article title or abstract. Positive filters for methodology included such terms as “provenance” and “metal”, while negative terms included “genome” and “geospatial”. Positive filters for specific materials were further targeted towards metals, including both alloy types and individual metals. Negative filters aimed at excluding papers on non-metal materials. A handful of search terms for materials were filtered through a masking filter to ensure papers on composite objects or papers that discussed multiple types of material culture were kept in. These filters were all compiled iteratively, meaning *that filters were added and filters term updated as we went through the dataset.* *we repeated the initial broad search multiple times, scanning the article titles and abstracts to identify non-archaeometallurgical papers and adding filter terms as we went to weed those papers out. This process was repeated multiple times before the code was finalised as the current published version.* <!-- above: the repeated nature of the process is mentioned twiced. And it might twitch the wrong people if we admit to query the crossref API repeatedly instead of saving a copy of the raw data and carry the filter out on them... further, the same applies to the next paragraph. Hence, I would refer to the code only at the very end (I would also turn them into one paragraph. -->
-
-```{r}
-#| eval: false
-#| include: false
-pattern_pos <- paste(
-
-    # general search terms
-    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
-
-    # specific materials or alloys
-    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-    sep = "|")
-
-    # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
-    any(grepl(pattern_pos, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_data[filtering_pos, ]
-
-  # This should result in 523 observations
-
-  # Explicitly filter out non-metal materials.
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat1 <- paste(
-
-    # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
-
-    # search terms related to mineralogy
-    "cinnabar", "malachite",
-
-    # search terms related to stable isotopes
-    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
-
-    # search terms related to ceramic artefacts
-    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
-
-    # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads",
-
-    # search terms related to stone artefacts
-    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
-
-    # search terms related to plant and animal remains and diet
-    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
-
-    # search terms related to architecture and building materials
-    "architect", "plaster", "paint", "mortar", "inscription", "structure",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat1, ]
-
-  # This should results in 160 results
-
-  # Apply filtering mask to ensure multi-material approaches are kept in
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
-
-  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-                  sep = "|") # set filter mask terms
-
-  # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
-    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
-    return(!has_neg | has_metal)
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat2, ]
-
-  # This should result in 127 observations
-
-  # Explicitly filter out non-metallurgical methodologies
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_meth <- paste(
-
-    # general terms
-    "typological", "experiment",
-
-    # methodologies related to environmental studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
-
-    # methodologies related to human and animal mobility, health, diet and death
-    "demograph", "organic", "botan", "patholog", "genome",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_meth, ]
-
-  # This should result in 115 observations
-```
-
-The result of these filters was 115 publications, which still included several book reviews, editorial comments and responses to other articles. These were excluded using a separate filter, resulting in 112 articles. The final filter was compiled manually of 19 individual doi’s that were selected after reading the papers from the dataset. Despite the elaborate filters, some papers that were not related to archaeometallurgy had still slipped through, as well as a number of papers that only contained metallographical analyses or papers that did not present new data (such as regional overviews and reassessments of older studies). Although these latter two types of publications are important to our field, and we were pleasantly surprised to see so many publications engaging with legacy data, the focus of this review was on methodological decisions and descriptions, which were less applicable to those types of works. The resulting R script for querying and processing the publication records was subsequently turned into the function provided in @ASTR_compendium.
-
-```{r}
-#| eval: false
-#| include: false
-pattern_pos <- paste(
-
-    # general search terms
-    "charact", "provenance", "metal", "trace", "element", "isotop", "composition",
-
-    # specific materials or alloys
-    "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-    "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-    sep = "|")
-
-    # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_pos <- apply(results_data[, c("title", "abstract")], 1, function(row) {
-    any(grepl(pattern_pos, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_data[filtering_pos, ]
-
-  # This should result in 523 observations
-
-  # Explicitly filter out non-metal materials.
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat1 <- paste(
-
-    # search terms related to environmental archaeology
-    "soil", "shell", "wood", "charcoal", "bone", "leather", "\\boil\\b", "fibre", "cloth", "silk", "textile", "amber", "crop", "agropastoral",
-
-    # search terms related to mineralogy
-    "cinnabar", "malachite",
-
-    # search terms related to stable isotopes
-    "strontium", "\\bSr", "86Sr", "carbon", "oxygen",
-
-    # search terms related to ceramic artefacts
-    "seal", "amphora", "clay", "pots", "wheel-made", "ceramic", "potter", "porcelain", "cooking", "brick", "paste",
-
-    # search terms related to glass artefacts
-    "faience", "glaze", "vitr", "beads",
-
-    # search terms related to stone artefacts
-    "graphite", "obsidian", "amazonite", "flint", "chert", "dolerite", "stone", "turquoise", "lime", "steatite", "\\blithic", "-lithic", "rock", "ochre", "marble", "quern", "carnelian",
-
-    # search terms related to plant and animal remains and diet
-    "skelet", "weaning", "species", "camel", "horse", "sheep", "pig", "mice", "fish", "animal", "bovi", "cani", "bio", "human", "plant", "food", "diet", "tooth", "dentin", "enamel",
-
-    # search terms related to architecture and building materials
-    "architect", "plaster", "paint", "mortar", "inscription", "structure",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_mat1 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_mat1, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat1, ]
-
-  # This should results in 160 results
-
-  # Apply filtering mask to ensure multi-material approaches are kept in
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_mat2 <- paste("water", "fiber", "glass", sept = "|")
-
-  metals <- paste("metal", "alloy", "bronze", "brass", "gunmetal", "copper", "\\btin\\b",
-                  "zinc", "\\blead\\b", "\\biron\\b", "silver", "gold",
-                  sep = "|") # set filter mask terms
-
-  # Create a vector that selects rows passing the filter and trim dataset accordingly
-  filtering_neg_mat2 <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    has_neg <- any(grepl(pattern_neg_mat2, row, ignore.case = TRUE))
-    has_metal <- any(grepl(metals, row, ignore.case = TRUE))
-    return(!has_neg | has_metal)
-    })
-
-  results_filtered <- results_filtered[filtering_neg_mat2, ]
-
-  # This should result in 127 observations
-
-  # Explicitly filter out non-metallurgical methodologies
-  # The list of terms was compiled iteratively against the dataset
-  pattern_neg_meth <- paste(
-
-    # general terms
-    "typological", "experiment",
-
-    # methodologies related to environmental studies
-    "settlement pattern", "magnetic", "climat", "micromorpho", "geospatial",
-
-    # methodologies related to human and animal mobility, health, diet and death
-    "demograph", "organic", "botan", "patholog", "genome",
-    sep = "|")
-
-  # Create a vector that selects rows not passing the filter and trim dataset accordingly
-  filtering_neg_meth <- apply(results_filtered[, c("title", "abstract")], 1, function(row) {
-    !any(grepl(pattern_neg_meth, row, ignore.case = TRUE))
-    })
-
-  results_filtered <- results_filtered[filtering_neg_meth, ]
-
-  # This should result in 115 observations
-
-  # Filter out publications other than research papers (reviews, responses, comments, editorials) in article title
-  results_filtered <- subset(results_filtered, !grepl(
-    "\\(ed\\.\\)\\.|hardback|reply|£|€|\\$|corrigendum|comment|editorial|response",
-    results_filtered$title, ignore.case = TRUE)
-  )
-
-  # This should result in 112 observations
-
-  ## Manual identification and exclusion of 19 additional papers (total 93) as these concern metallographic analysis only, soil or botanical data or pertain only to regional overview/re-evaluations of legacy data (with no original metallurgical data produced)
-  results_final  <- subset(
-    results_filtered, !grepl(
-      "10.1007/s10816-025-09694-9|10.1016/j.jasrep.2024.104811|10.1016/j.jasrep.2025.105390|10.1007/s12520-025-02327-y|10.1016/j.jasrep.2025.105455|
-      10.54841/hm.670|10.54841/hm.674|10.1007/s12520-025-02318-z|10.1016/j.jasrep.2025.105379|10.1016/j.jasrep.2024.104801|10.54841/hm.670|10.1016/j.jasrep.2025.105333|
-      10.1016/j.jasrep.2025.105333|10.1016/j.jasrep.2024.104850|10.1111/arcm.13056|10.1111/arcm.70006|10.1016/j.jasrep.2025.105068|10.1016/j.jasrep.2025.105414|
-      10.1016/j.jasrep.2024.104801|10.1007/s10963-025-09204-5|10.1111/arcm.13088|10.1007/s10963-025-09199-z|10.1016/j.jasrep.2025.105268|10.1016/j.jasrep.2025.105114",
-      results_filtered$doi)
-  )
-
-  # This should result in 93 observations
-```
-
-Finally, to create the master table that would form the basis of our dataframe, the results were anonymised by setting a seed, giving each paper a unique randomly assigned ID number between 1 and 93, removing all other identifying information, and adding a number of columns to store the scores and additional comments for each *phase* *stage* of the reproducibility index. A final column was added as a free field to include comments on the accessibility of the paper. This dataframe was then saved as *a* *master_raw.csv [@ASTR_compendium, Supplemetary materials]* *included in to the set working directory*. <!-- we briefly need to define accessibility here. Because it is publications, readers likely think about open access -->
-
-```{r}
-#| eval: false
-#| include: false
-
- # Set seed for reproducibility and add column 'ID' with random numbers to dataset
-  set.seed(42)
-
-  results_final$ID <- sample(nrow(results_final), replace = FALSE)
-
-    # Define columns with identifying information and remove them from dataset
-  columns_remove <- c("doi", "deposited", "container.title", "title", "issn", "abstract")
-  results_anon <- results_final[, !names(results_final) %in% columns_remove]
-
-  # Add columns for data entry (12 stages of reproducibility index and additional comments)
-  columns_add <- c("Stage_1", "Comments_1",
-                   "Stage_2", "Comments_2",
-                   "Stage_3", "Comments_3",
-                   "Stage_4", "Comments_4",
-                   "Stage_5", "Comments_5",
-                   "Stage_6", "Comments_6",
-                   "Stage_7", "Comments_7",
-                   "Stage_8", "Comments_8",
-                   "Stage_9", "Comments_9",
-                   "Stage_10", "Comments_10",
-                   "Stage_11", "Comments_11",
-                   "Stage_12", "Comments_12",
-                   "Accessibility")
-
-  results_anon[, columns_add] <- NA
-
-  # Export anonymised data frame as .csv (; as separator)
-  utils::write.csv2(results_anon, "reprod_astr_2026-02-01_anonymised.csv", na = "", row.names = FALSE)
-}
-```
+An initial export of the data frame including the date of deposit, journal and article title, DOI and ISSN of each filtered publication was used to retrieve its full text, track comments and scores for the reproducibility index, and a unique identifier. Except for the latter, all identifying information was removed before publication of the final dataset. 
 
 # Results
+## Collected literature
+Over half of the included articles were published in two journals: Archaeological and Anthropological Sciences and Journal of Archaeological Science: Reports (Table 1). 
 
-<!-- Here's some example analysis code: -->
+Table 1:
+Journal Title	Number of publications found
+Archaeological and Anthropological Sciences	38
+Journal of Archaeological Science: Reports	26
+Archaeometry	15
+Journal of Archaeological Science	8
+Historical Metallurgy	4
+METALLA	3
+Journal of Archaeological Method and Theory	2
+Journal of World Prehistory	2
+STAR: Science & Technology of Archaeological Research	1
+Advances in Archaeomaterials	2
+Total	100
+
+These articles contain a variety of research aims and methodologies, including provenance studies, site reports, regional studies and experimental archaeology. The most commonly studied metals in compositional analyses were iron and copper alloys. Isotope research was mostly confined to lead isotopes, although a few articles also employed tin isotope analysis and one employed osmium isotope analysis. The analytical techniques to obtain compositional and isotope data that were encountered, in no particular order: XRD, hh/p-XRF, ED-XRF, WD-XRF, µ-XRF, PIXE(-XRF), SEM-EDS/EDX, (p)FIB, XPS, ICP-MS, ICP-QMS, SC-ICP-MS, LA-ICP-MS, MC-ICP-MS, HR-ICP-MS, TIMS, AFM, ICP-OES, INAA, PGAA, ICP-AES, MP-AES and FAAS (see compendium for full list). The majority of articles that were surveyed employed more than one technique, with many studies combining some level of invasive sampling with non-invasive survey techniques or combining compositional analysis of the bulk metal with isotope analysis. 
+
+## Results of the reproducibility index
+Articles, including their supplements, were evaluated against the index with all information taken at face-value. No statement or judgement was made on the content of the articles that were reviewed, or of the methods or techniques chosen beyond the formal aspects of reproducibility/replicability. However, the level of friction or difficulty that was encountered in the reproduction attempt was taken into consideration. The more steps that needed to be taken to find data, export it into a usable format, collate it with the relevant metadata etc., the higher the risk of incurring human-introduced errors. Ambiguous language when describing certain steps, from analytical protocols to data transformation choices, was also sometimes cause for lowering the score because the choices made by the original researcher could not be distilled from the writing with certainty, impacting our ability to reproduce the results with confidence. 
+
+A total of 26 points could be scored across the index, two for each stage. Table ## presents the summary statistics of how the 100 selected publications performed on average and overall, with no scores awarded (NA) to stages that did not apply. The highest overall score was 25, which was only awarded once, the lowest awarded score was 10, and the mean reproducibility score across all publications was 16.3. 
 
 ```{r}
-#| label: get-data
-#| eval: false
-# Note the path that we need to use to access our data files when rendering this document
-my_data <- read.csv(here::here('analysis/data/raw_data/my_csv_file.csv'))
+#| label: summary-stats
+#| tbl-cap: "Descriptive statistics for the surveyed articles per stage and as total. "
+
+stats <- scores_summary(df, "Stage_") 
+
+stats$Stage <- sub("\\_", " ", stats$Stage)
+stats$Mean <- round(stats$Mean, 2)
+
+utils::write.csv2(stats, "table_2.csv", na = "", row.names = FALSE)
+
+stats
 ```
+
+
+The scores for each of the 12 stages for each article are visualised as Sankey flow chart (Fig. ##) to highlight broader trends in these publications per stage. As both the bar chart (Fig. ##) and Sankey flow chart (Fig, ##) clearly show, the sample of publications performed better at some stages than at others. No single publication scored a two across the board. The lowest scoring stages (mean 1.5 or lower) fall into two categories: documentation and replicability of the analytical protocol (stages 0, 1, 4-5 and 7) and computational reproducibility (stages 2 and 10-12). 
+
+```{r }
+#| label: sankey
+#| fig-cap: "Sankey plot highlighting the shift if articles between stages. The score is indicated at the right of each node. "
+
+plot <- sankey_plot(df, width = 1500)
+
+networkD3::saveNetwork(plot, "../supplementary-materials/Sankey.html", selfcontained = TRUE)
+
+#plot
+
+```
+
+```{r bar-chart}
+
+#| label: bar-chart
+#| fig-cap: "Bar chart with the scoring of the surveyed literature per stage. Because 100 articles were surveyed, the percentage equals the number of articles."
+
+plot_stats <- scores_plot(subset(df, select = grepv("Stage", colnames(df))))
+
+ggplot2::ggsave("../figures/bar-chart.svg", units = "mm")
+
+plot_stats
+
+```
+
+
+Below, the overall performance of the dataset per index stage will be discussed. The 13 stages are organised into three phases, corresponding to different sections of the research chain: data collection, data quality and data analysis. 
+
+### Phase 1: data collection and presentation (stages 0-3)
+The first three stages all relate to data collection and presentation. A great positive outcome of this study is to find that the vast majority of articles is open and transparent in their data availability, making their complete underlying dataset available either in table form in their article or as a supplementary file online. Only four articles scored a 0 on data availability. In all cases only a selection of data was provided, as evidenced by the methods and materials sections. Two of these articles promise to make data available upon request. The third article claims that “no data were generated or analysed during the current study” and the final case featured no data availability statement at all. 
+
+#### Stage 0: Sample selection, sample collection and preparation
+This stage targets every choice made before the analytical equipment is switched on, from choosing which artefacts to sample, to sample location and preparation of surfaces or samples. Over half of the publications surveyed miss some information in this regard, most often sampling location (we we only took into account for analyses of artefacts, not of slags) and, in the case of non- or low-invasive techniques, the extent of surface preparation undertaken before analysis (often absent for uses of XRF). Sample preparation was found to be described in varying levels of detail, with some techniques generally including more detailed information (such as SEM-EDS, for which the cutting and polishing of metallographic sections is often discussed in-depth) than others (such as ICP-MS, where sample size and the tools with which samples were removed was often not described).
+
+#### Stage 1: Analytical protocol
+Stage 1 considers all decisions made by the analyst: equipment and settings, number of replicate analyses etc. Half of the articles did not score a 2, and the overall main point of improvement encountered in this part of the research workflow is the level of detail in the description of the analytical protocol. To avoid arbitrary weighing of the score for publications that use a large number of techniques, a score of 1 was given to any case where at least one aspect is missing from one methodology. Given the limited space for methodological discussions in many journals and the ubiquity of studies employing multiple techniques, this made a score of 2 very hard to achieve, perhaps unfairly so.
+
+#### Stage 2: Inclusion of original data
+The inclusion of originally gathered data is the main basis for the computational reproducibility of a publication. It is therefore noteworthy that four out of the total of 100 surveyed publications do not include any data that was collected as part of the published research or only fragments of it (score 0). This includes a case where only snippets of analytical data was described in the running text of the article, examples where only selected data are presented as tables or where both XRF and SEM-EDS analysis had taken place but only the XRF data were included. Scoring was more lenient if methods such as (p)XRF were exclusively used as surveying tool and where these data were therefore not completely provided.
+For the purpose of this study, it was generally not taken into account for the scoring whether raw output or processed data was included, unless this impacted later stages of the reproducibility index (for instance when averaged values were provided, but individual data points were plotted). 
+
+The distinction between the scores 1 and 2 was purely informed by level of friction. Both reflect the inclusion of all data necessary to computationally reproduce the published result. Scores of 2 were given to studies that include their analytical data in data formats that are relatively straightforward to import into data processing software, in our case R. In practice, this usually means Microsoft Excel or .csv files in digital supplements. Data provided in digital supplements that create extra barriers in the form of copy-pasting and sorting, such as Microsoft Word files or PDFs, were given a score of 1 to reflect these extra steps, as these were harder to automate, increasing the risk of human error. The same argument was applied to publications where all data was contained in tables in the text of the article.
+
+#### Stage 3: Handling of comparative data
+42% of surveyed publications did not include any data from previous publications or repositories for comparative purposes. Lack of transparency, in the form of missing citations, unclear citations, or unclear use is encountered in 18 cases. These include cases where references are included in the running text rather than in the caption of the specific visualisation where the data are used and cases that only cite very generally (e.g., to the OXALID database without specifications of which reports or sites within those databases are used), all score 1.  Cases where visualisations used comparative data without any indication scored 0. 
+
+### Phase 2: Data quality (stages 4-6)
+#### Stage 4: Calibration and standardisation
+The documentation of calibration and standardisation methodology in the surveyed papers broadly fall into three categories: those that specify the use of CRMs or the application of equipment in standardless mode (score 2), those that employ in-house standards, generally commenting on having used reference materials in some or all analytical techniques without specifics or citation for all of them (score 1) and those that include no information at all (score 0).
+A score of 0 was only awarded once, indicating broadly shared high standards across the discipline, especially considering the wide range of materials, regions, techniques and author background we encountered. In this case, other aspects of the analytical process were also described in relative brevity, leaving out key details of some protocol stages.
+
+Half of the articles were given a score of 2 because they are explicit and complete in specifying published reference materials for all methods and materials covered in the publication and in some cases also include measured values of the CRMs. 
+
+The in-between score of 1 was given to studies using “anonymous” standards such as internal reference materials because their use limits aspects of procedural reproducibility and data quality. Even though only a vague reference to e.g., “CRMs were used” fails at the former aim (the reproducer cannot replicate this part of the analytical protocol), it does at least indicate that internal data quality was monitored, which is an element of good analytical practice we wanted to highlight. Some scores of 1 were also given to studies where no information on calibration or standards is included, but only analytical techniques are used where internal calibration and standardless mode may be presumed, such as pXRF.
+
+#### Stage 5: Analytical precision and accuracy
+Just under a fifth of papers (18) report no information concerning these metrics (score 0). Around a third of cases provide complete information for every analytical technique employed. This leaves just 44 surveyed articles with a score of 1, indicating that only some information was provided. This usually means that a variety of techniques are employed, with information absent for some but present for others. This observation pinpoints to decisions made during the writing and editing process: because some journals may enforce strict word limits, authors of research that incorporates a range of techniques or approaches may decide to only go into a detailed discussion of methodology or standards for what they may consider the “main” technique. Overall, 82% of papers surveyed include procedural metadata related to data accuracy, showcasing our discipline’s commitment to high and verifiable data standards.
+
+#### Stage 6: Outliers or variation within dataset
+Whether outliers or significant variation within the reported data are explicitly identified or discussed proved to be incredibly difficult to quantify accurately in practice. The vast majority of publications did not address this at all. Does that mean that no outliers were found (either outliers due to technical malfunctions or genuine archaeologically significant outliers) or that these are removed without discussion before the data presentation? Only the second scenario would be genuinely concerning. Because it is impossible to ascertain the reason behind the lack of discussion based on the information provided, a “soft pass” of 2 was given to articles where information is absent without being generally problematic for successfully passing later stages of the reproducibility index. Elsewhere, a range of outlier-treatments were identified, including the identification of outliers in the written text, explicit discussion of removal from analysis or visualisation including thresholds, or the inclusion of outliers in visualisations but labelling them explicitly in tables, figure captions, or iconography. 
+
+### Phase 3: Data description and consistency (stages 7-9).
+#### Stage 7: Normalisation
+The majority of articles (66%) received a score of 1. Almost all of them do not explicitly mention that their dataset is normalised to 100%, which can sometimes be inferred from the analytical method used in these studies (e.g., SEM-EDS, XRF) or from the way data (or a selection of data) are presented. In all other cases, normalisation (or its absence) is mentioned explicitly and sufficient information about the procedure is provided, including un-normalised in some cases. No score of 0 was given. 
+
+#### Stage 8: Unit specification
+80% of the analysed articles fully list and define all compositional units they are working with. In the rest of the cases, only some units are specified, or the generic % is used for compositional data without specifying whether that is wt% or at% (score 1). No score of 0 was given. 
+
+#### Stage 9: Archaeological metadata
+Almost all (91) articles that were surveyed provide complete archaeological metadata that is clearly linked to the compositional dataset, either by combining both in one table or by including straightforward identifiers for measurements and artefacts. This meant all necessary metadata to filter, group or plot the compositional data was included and in most cases much more information relevant to archaeological studies were present as well. This close entwining of artefactual, chronological, functional or contextual information with compositional data is a really strong aspect of many recent publications.
+
+The other cases concern two scenarios: either the necessary metadata was present but hard to find (e.g., because it is spread over multiple tables that need to be collated) or metadata is missing that impacts later stages of the reproducibility index. In these few cases, the most common types of metadata that are absent or ambiguous are used to colour-code graphs, such as alloy definitions, historical periods, or artefact type. For small datasets, this could usually be retro-engineered by plotting a graph and then reconstructing date or type from the iconography and matching it to the chemical composition, but that is not ideal. However, such missing or incomplete archaeological metadata were very rare.
+
+### Phase 4: Data analysis and visualisation (stages 10-12)
+The majority of articles, over three-quarters of the dataset, do not use any statistical analysis, reflecting the common practice of publishing individual sites or collections and of relatively small datasets that do not require such heavy-handed approaches. In those articles that use statistical tools, a range of statistical tests, models and calculations is encountered, namely kernel density estimates or kernel smoothing, Euclidean distances, cluster analysis of various forms (most commonly hierarchical clustering (HCA) using Ward’s method), linear discriminant analysis (LDA), factor analysis and principal component analysis (PCA). Some of these use standard calculations or formulae, such as Euclidean distances or isochrones, which aides in reproduction, especially in the cases where the authors cite these or provide them directly in their article or supplements. Subtypes of particular analysis (such as specifying Ward’s method for HCA) were also frequently specified, which helps with choosing the right tools. 
+
+#### Stage 10: Data transformation
+In the 13 articles performing data transformations, they include normalisation to particular minerals or totals of a selection of minerals, Centered Log-Ratio Transformation (CRL), logarithmic transformations and scaling, and these were applied appropriately for the statistical tests that was chosen. However, multi-variate statistics such as PCA or HCA present somewhat of a black box with parameters that can be set by the analyst, requiring clear documentation of those parameters in order to make them fully reproducible. Some R functions for these methods also sometimes come with default settings, which can differ between different functions that perform the same type of test (e.g., princomp() and prcomp() for PCA); all of which needs to be clarified in writing. In more than half of the articles, this was documented fully, with the most common hurdle being data curation and transformation: handling of outliers, missing values, zeroes or values below the limit of detection. This type of information may not have been included because it is deemed self-explanatory or irrelevant, and in some cases it may be reconstructed through trial and error. However, the friction this causes for the reproducer was significant and in some cases it makes reproducing the results entirely impossible.
+
+#### Stage 11: Description of statistical tests and calculations
+The majority of publications surveyed did not employ any advanced forms of multi-variate statistics. Within those that did, the most common types were: factor analysis, cluster analysis, linear discriminant analysis (LDA) and PCA (Shadmeir and Mostafaei 2016; Baxter 2015). Although in most cases the specific type of analysis is indicated (such as Ward’s method for HCA), this was not always included, such as in the case of a correlation matrix which did not specify what type of correlation methods (Spearman, Pearson, etc.) was applied. 
+
+Ten articles provide sufficient information to fully reproduce statistical calculations presented in the paper, which predominantly concern statistical methods that come with standard calculations: Euclidean distances and isochron calculations. Statistical methods that involve multiple steps, including scaling, clustering and other researcher-led inputs, such as HCA, PCA and LDA are far more difficult to reproduce. In fact, of the  12 studies employing one or more of those multi-variate techniques, these can only be fully reconstructed and reproduced for a single study. In that case, reproducibility is facilitated by the inclusion of fully documented R code that can be easily run with the supplied dataset (see below). 
+
+All other articles employing these tools are either partially or entirely irreproducible due to absent documentation related to stage 10. Some scores of 1 were awarded here because some specifications are provided (e.g., providing eigenvalue and variance for PCA or specifying Ward’s method for clustering), but in all cases except those with a score of 2, reproducing the statistical analyses was unsuccessful. Although in most cases the specific type of analysis is indicated (such as Ward’s method for HCA), not even this was always included, such as in the case of a correlation matrix without specifying the correlation method (Spearman, Pearson, etc.). More information on this is provided in the section below on visualisations, as these are the main way in which the results of multi-variate statistics are communicated. Only rarely are the groups identified through clustering analysis added to the compositional data, for example, and in only one case, the underlying eigenvalues/coordinates behind the PCA biplot were included. 
+
+#### Stage 12: Visualisations
+About one fifth of the surveyed articles did not contain any visualisations of original data. In seven cases, the majority or all of the visualisations could not be replicated (resulting in a score of 0). Visualisation (graphs, charts) in just over a third of the articles (38) reviewed here were fully reproducible. A score of one was given for the remaining 34 cases because either some visualisations in an article were fully reproducible but others were not, or the main data could be plotted but certain aspects such as iconography or additional statistical insights such as uncertainty markers, regression lines or density areas could not be replicated.
+
+##### Multi-variate statistics visualisations
+The common reason for irreproducibility of PCA biplots, clustering dendrograms and normalised log-transformed graphs is insufficient detail on data transformation and statistical treatments. In the majority of these cases, reproducing the statistics, let alone the visualisations, fell at the first hurdle as publications did not specify how missing values, zeroes, or results that fell below the limit of detection (commonly indicated non-numerically as “<LOD” or “bdl”) were handled. In the cases where no such values are present, the parameters for the following steps in data transformation are often not reported. Very few publications using multi-variate statistics openly discuss scaling of data prior to analysis, for example. 
+
+As scaling compositional data is considered best practice for PCA, we included this as standard procedure in our reproduction attempt, although in the end it was found that this was not always the approach taken by the studies we tried to reproduce. We will illustrate one example of PCA application here, where only the data (which did not contain missing or zero values) were provided with some instructions on data treatment. 
 
 ```{r}
-#| label: fig-demo-plot
-#| fig-cap: "A plot of random numbers"
-plot(rnorm(10))
+#| label: reprod-PCA
+#| fig-cap: "Attempted reproduction of Figure 8 in article 44 based on the data provided in their digital supplement. (a) The anonymised original plot. PCA analyses on CLR transformed data with princomp() of the R stats package on (b) centred and scaled and (c) uncentred and unscaled data. (d, e, f, g): PCA analyses with prcomp() of the R stats package for all possible combinations of (un)centred and (un)scaled data."
+
+ID44_fig8_data <- read.table(
+  text = 'Site	Fe	Co	Ni	Zn	As	Se	Ag	Sn	Sb	Te	Au	Pb	Bi
+Site_1	3403	0.1	10.9	0.6	22.8	12.1	243	73.8	0.3	2.1	2.6	0.4	0.3
+Site_1	2439	3.2	24.7	2.8	688	3.2	622	1.4	1.6	0.9	0.1	33.6	0.1
+Site_1	1876	2.2	69.7	4.7	4983	5.1	220	252100	18.8	1.6	1.0	470	22.7
+Site_1	5755	17.8	203	3.3	1014	16.6	27.2	28167	17.0	0.8	0.6	1071	89.3
+Site_1	2059	4.6	24.5	3.1	110	5.1	749	1.1	1.9	1.1	0.1	39.3	0.2
+Site_1	136	2.3	26.7	5.4	710	4.0	21.1	70000	1262	0.4	0.1	1228	17.0
+Site_1	182	2.1	65.5	1.0	1688	6.4	460	2077	73.9	1.3	1.7	1223	43.1
+Site_1	2263	5.4	63.4	6.2	126	21.3	25.9	1730	17.7	1.0	0.2	54.0	2.2
+Site_1	287	1.3	28.5	9.0	611	4.8	77.3	275	16.9	1.6	0.4	716	4.9
+Site_1	2681	4.5	26.7	3.2	64.0	5.4	641	1.5	1.5	1.0	0.1	28.6	0.1
+Site_1	2229	2.4	28.6	6.2	48.9	2.7	611	1.2	1.5	4.1	0.2	33.3	0.2
+Site_1	2583	4.1	26.9	3.0	80.8	4.4	553	1.5	1.3	1.3	0.1	27.1	0.1
+Site_1	351	1.7	17.8	55.1	535	4.8	10.8	5.0	24.6	5.2	0.2	1614	2.8
+Site_1	536	1.6	27.2	7.1	372	18.9	42.5	1492	28.1	1.5	0.3	774	2.6
+Site_1	123	8.3	21.2	5.4	39.7	3.2	48.5	3.8	10.2	5.0	0.1	45.9	1.0
+Site_1	2469	11.2	28.7	4.7	31.4	5.6	463	0.8	1.1	4.0	0.2	14.8	0.1
+Site_1	1242	5.1	63.3	7.7	72.3	3.2	19.7	16.4	1.5	1.3	0.1	30.1	0.1
+Site_1	76	1.3	67.8	31.9	522	1.2	63.8	1276	31.1	1.5	0.1	1553	1.3
+Site_1	1382	3.1	77.2	6.5	60.9	38.6	137	126	0.8	10.6	0.6	4.8	8.5
+Site_1	866	0.7	12.0	3.5	32.3	130	371	44.3	1.6	1.8	0.6	12.5	4.0
+Site_1	2585	7.3	217	4.1	435	46.1	200	139	2.0	1.3	1.1	45.7	0.8
+Site_1	1938	3.1	21.8	7.6	361	3.8	40.7	30.9	27.7	0.6	0.4	479	4.7
+Site_1	1671	1.2	33.0	3.4	261	13.4	85.0	48833	11.7	3.4	1.4	2066	43.3
+Site_1	267	0.1	16.1	1.8	162	4.9	4.4	49.8	4.7	1.9	0.3	35.0	0.0
+Site_1	986	1.4	27.0	8.4	379	15.5	41.2	1720	10.8	2.1	0.2	193	10.2
+Site_1	1099	2.8	31.5	12.1	184	1.8	39.9	288	11.0	0.5	0.3	111	4.6
+Site_1	2875	3.8	14.4	6.7	305	72.7	4.8	14.3	1.9	2.3	1.3	2.2	0.3
+Site_1	15	0.1	32.3	1.6	16.3	30.4	136	225	8.0	1.1	0.2	265	2.3
+Site_1	425	1.2	22.8	3.8	42.3	3.5	4.8	118	0.9	1.4	0.1	1487	0.2
+Site_1	1105	2.1	25.4	20.5	172	7.5	67.9	320	17.5	1.6	0.7	2907	5.9
+Site_1	49	0.1	15.0	2.4	28.2	4.1	78.9	795	7.4	1.2	0.3	226	3.4
+Site_1	30	1.1	26.3	5.4	70.5	7.4	60.6	505	7.3	1.5	0.5	285	70.6
+Site_1	1166	7.5	146	3.2	634	6.6	46.6	34.8	4.2	1.2	0.9	29.1	0.4
+Site_1	45	3.0	44.0	12.1	318	2.7	244	55400	15.4	0.8	2.4	736	5.3
+Site_1	18	0.7	33.8	3.4	71.9	5.1	19.8	8.7	1.4	1.7	0.1	239	3.2
+Site_1	6054	1.4	23.8	167	55.0	2.6	33.8	12.7	1.7	2.5	0.1	8.8	9.5
+Site_1	40	0.7	38.3	2.7	175	3.9	25.2	374	19.6	1.2	0.2	2797	1.6
+Site_1	5769	20.5	357	7.7	9120	22.7	138	9487	98.2	2.1	4.2	569	26.3
+Site_1	930	2.1	63.0	4.3	224	4.6	46.1	208	4.3	1.7	0.5	66.9	1.1
+Site_1	39	0.4	23.7	2.6	59.3	4.9	78.8	945	10.9	1.6	0.5	267	4.7
+Site_1	886	2.1	45.6	3.5	49.7	7.9	2.9	578	0.3	2.2	0.2	10.3	0.1
+Site_1	141	0.4	27.8	16.7	63.7	17.6	333	9190	11.8	1.3	8.7	7107	103
+Site_1	58	0.2	17.9	4.7	153	58.3	176	307	35.0	1.3	0.3	192	4.8
+Site_1	542	9.1	53.1	11.1	438	45.0	275	113800	56.1	47.7	4.0	1035	73.8
+Site_1	53	0.6	13.6	13.5	387	4.2	14.5	10.7	22.6	1.7	0.1	2109	0.3
+Site_1	785	0.5	39.6	23.2	314	3.6	64.2	102	12.1	1.7	0.7	8053	2.1
+Site_2	140	0.7	20.1	16.5	205	6.1	131	45.6	13.8	1.1	0.8	173	0.5
+Site_2	47	1.1	35.6	13.6	50.3	3.3	77.9	1188	10.4	0.6	0.3	36.0	1.0
+Site_2	1363	8.3	153	10.8	11283	151	785	3.1	134	23.1	43.5	12.6	20.5
+Site_2	14	0.2	21.6	4.0	182	2.7	17.5	393	15.7	0.3	0.2	81.2	0.3
+Site_2	313	1.1	26.8	177.0	320	1.1	6.5	5.2	10.8	0.4	0.1	502	0.0
+Site_2	47	3.8	92.1	6.4	577	66.9	474	6332	34.1	6.3	1.8	524	11.2
+Site_2	309	8.4	66.8	32.3	965	32.0	338	486	79.2	15.8	2.5	337	27.5
+Site_2	68	0.9	33.5	34.4	223	91.0	13.3	21.4	0.5	0.5	0.2	42.3	0.2
+Site_3	109	0.1	17.8	28.7	482	5.1	26.2	13.4	3.3	0.5	0.8	23.1	0.1
+Site_3	24	0.2	19.0	4.0	34.9	2.5	69.5	30.7	3.1	1.3	0.4	105	0.6
+Site_3	38	0.1	15.8	2.9	31.9	1.8	8.7	89.1	2.8	0.2	0.3	28.1	0.0
+Site_3	23	0.4	18.9	7.3	241	3.4	7.3	1.4	2.3	0.7	0.3	34.4	0.0
+Site_3	518	3.0	40.8	5.6	694	5.2	2598	26575	12.3	3.2	2.5	1800	30.0
+Site_3	42	0.3	37.4	13.2	867	23.5	34.3	470	19.6	1.5	0.4	3093	0.7
+Site_3	14	0.2	43.0	2.3	254	6.2	56.5	29.9	91.5	2.5	2.8	1800	14.6
+Site_3	116	30.9	119	12.2	319	8.8	111	121113	113.0	5.6	0.7	1536	30.3
+Site_3	129	6.7	55.6	5.2	187	4.2	51.5	115977	21.8	0.7	1.2	1337	31.9
+Site_3	2023	1.0	24.6	15.3	269	2.5	12.3	0.8	7.3	0.5	0.3	9.3	0.0
+Site_3	14	4.3	91.7	4.8	367	2.8	31.0	12910	18.6	1.4	0.6	515	8.2
+Site_3	142	4.9	47.3	3.6	131	5.9	168	328	5.7	0.5	0.5	95.8	0.2
+Site_3	632	0.5	24.7	4.1	72.9	4.4	48.9	32.1	4.5	0.2	0.3	42.1	1.2
+Site_3	380	4.9	36.2	12.1	1073	6.3	453	1.8	23.3	1.2	0.6	97.3	0.4
+Site_3	273	1.1	20.2	2.0	133	107	899	1087	2.6	3.3	0.7	13.9	0.3
+Site_4	490	135	750	60.7	4313	15.9	529	133667	2400	6.6	1.1	95.4	14.7
+Site_4	20748	0.9	14.6	17.4	440	17.5	883	42.7	48.9	8.7	1.2	53.9	27.3
+Site_4	1717	0.8	145	130	661	14.9	145	273	90.5	12.4	1.8	387	31.3
+Site_4	56	2.1	22.9	53.7	204	3.1	16.6	23.3	15.2	1.3	0.3	6997	0.3
+Site_4	29	0.1	11.3	24.3	21.3	4.3	12.3	7.3	11.2	3.0	0.3	4495	0.2
+Site_4	80	4.3	29.7	17.4	26.9	6.5	93.5	217	24.3	3.9	0.7	524.3	4.9
+Site_4	73	0.3	23.8	8.8	191	9.4	219	106	21.8	1.3	8.2	381.3	4.6
+Site_4	5973	23.8	102	679	653	13.7	60.1	404	24.4	6.2	0.2	84800	10.3
+Site_4	5803	10.2	126	231	103	9.2	117	7697	6.3	0.8	96.7	498	1.1
+Site_4	1683	3.0	28.1	28.2	150	25.3	421	39.2	2.9	1.7	122	54.4	0.2
+Site_4	2230	0.3	9.3	1.3	411	1.0	9.3	10.3	3.6	1.6	0.2	211	0.1
+Site_5	582	1.2	45.4	45.0	4.7	135	1011	37.8	1.1	3.3	2.8	45.3	1.7
+Site_5	219	3.8	111	7.8	2580	19.8	416	74100	1013	2.8	37.1	415	35.4
+Site_5	47	7.6	38.9	53.9	383	5.9	452	100340	151	3.3	5.2	144500	258
+Site_5	28	0.2	34.8	6.5	58.7	4.8	51.3	535	14.1	0.3	11.9	11655	10.8
+Site_5	91	8.5	40.4	55.6	337	38.5	300	61167	141	3.9	9.2	1036	41.0
+Site_5	3007	1.0	32.9	5.8	247	5.5	18.9	29.5	10.6	0.7	0.2	200	0.4
+Site_5	1631	2.6	131	4.0	89.5	5.1	12.6	879	2.7	1.6	0.1	11.9	2.5
+Site_5	568	2.3	32.8	8.5	341	36.1	107	479	23.6	7.6	0.9	395	101
+Site_5	154	4.0	112	7.9	403	4.3	107	74300	76.1	0.9	14.3	183	2.6
+Site_5	9463	292	174	62.7	1142	130	295	946	28.2	179	13.6	96.5	214
+Site_5	4080	9.7	147	10.5	1144	5.6	136	66367	40.9	1.5	1.3	183	13.7
+Site_5	351	0.4	29.5	5.2	43.1	3.5	732	921	7.4	2.8	0.9	216	3.4',
+  header = TRUE
+)
+
+ID44_fig8_data$Site <- sub("\\_", " ", ID44_fig8_data$Site)
+
+plot_reprod_PCA <- reprod_PCA(ID44_fig8_data)
+
+# combine plots
+
+plots_princomp <- cowplot::plot_grid(
+  plot_reprod_PCA$csI2, 
+  plot_reprod_PCA$csV2, 
+  plot_reprod_PCA$cuI2, 
+  plot_reprod_PCA$cuV2, 
+  nrow = 2, vjust = 1, hjust = -0.25, align = "h", 
+  labels = c("b: Centred, scaled", NA, "c: Centred, unscaled")
+  )
+
+plots_prcomp <- cowplot::plot_grid(
+  plot_reprod_PCA$csI, 
+  plot_reprod_PCA$csV, 
+  plot_reprod_PCA$cuI, 
+  plot_reprod_PCA$cuV, 
+  plot_reprod_PCA$usI, 
+  plot_reprod_PCA$usV, 
+  plot_reprod_PCA$uuI, 
+  plot_reprod_PCA$uuV, 
+  nrow = 2, vjust = 1, hjust = -0.05, align = "h", 
+  labels = c("d: Centred, scaled", NA, "r: Centred, unscaled", NA, "f: Uncentred, scaled", NA, "g: Uncentred, unscaled")
+  )
+
+#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_prcomp.tif", plot = plots_prcomp, height = 20, width = 30, units = "cm", dpi = 1200, compression = "lzw")
+
+#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_princomp.tif", plot = plots_princomp, height = 20, width = 15, units = "cm", dpi = 1200, compression = "lzw")
+
 ```
 
-@fig-demo-plot shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with `fig-`
+Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (fig. ##a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
+
+The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (see compendium for full code). The data were CLR transformed using the function clr() of the R package compositions (Van den Boogaart 2025) and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: prcomp() and princomp(). 
+
+For prcomp(), which takes the arguments scale. and center for scaling and centering respectively, four permutations were performed (Fig. ##d-g):
+
+1. scaled data, centered 
+2. unscaled data, centered
+3. scaled data, but uncentered 
+4. unscaled data, uncentered
+
+For princomp(), which automatically centers the data, two iterations were run: 
+
+1. scaled data, centered
+2. unscaled data, centered
+
+Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using prcomp(), higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using prcomp() was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
+
+On the other end of the reproducibility spectrum for multi-variate statistics visualisations are two cases, which are highlighted here as examples of excellent practice. Both include include the hard-coded data pipeline in fully commented R code files as supplements (Erb-Satullo and Klymchuk 2025; Stodolová et al. 2025). This meant any choices regarding data selection, normalisation (e.g. for ternary diagrams), scaling or handling missing values were all documented and easy to follow for the outsider. Stodolová et al. 2025 in particular provided a wealth of information for HCA and PCA, as well as providing individualised code for additional graphs that were not included in the paper, effectively using the code supplement as an additional analytical offering. One other publication (Lachenal et al. 2025) included full variance tables and eigenvalues for their PCA work in their supplement, enabling very straightforward reproduction of the original graphs. The calculation of these values was also possible with minor experimentation. 
+
+##### Bi-variate plots
+Graphs that require minimal data manipulation and that can usually handle zero values such as scatter plots and box plots were generally easy to reproduce by importing the datasets into R and using ggplot2 (#Citation#) to reproduce the plotting coordinates and any archaeologically informed colour-coding and iconography. However, several issues were encountered here as well, mostly regarding data selection, missing archaeological metadata or missing compositional data. Missing, incomplete, ambiguous or inconsistent labelling of metadata in text, graph and dataset sometimes meant iconography of graphs (shapes and colours) could not be replicated directly, but this was usually possible to retro-engineer. 
+
+One anonymised example is highlighted here as example of insufficiently documented data selection and outlier treatment (figure ##). The original graph was published in article ## in our survey, which included the raw underlying data collected by the authors and a supplement of comparative data sourced from other publications. As the original image caption did not indicate that comparative data were used, only the original data were used for the first reproduction attempt. An outlier is not included in the published plot and although it was explicitly discussed in the text, its removal was not documented. Other data points were also absent, resulting in the inclusion of the comparative data provided in their supplement. This attempt filled in some gaps in point distribution identifiable in the previous attempt; however, new points were added that are not present in the original graph. 
+
+We hope to make clear with this example that the scatter plot as published in the original article is clearly based on the data provided in the articles text and appendices, but that a selection of data was made that was not indicated transparently in the article itself. The use of comparative data in the original graph was also not stated in the caption or in the text. Although this was findable, the lack of clarity around what data or selection of data were used for visualisations led to friction for the reproducer and reduced confidence and trust in the information provided for the re-user.
 
 ```{r}
-#| label: demo-inline-code
-#| echo: false
-x <- round(pi, 2)
+#| label: reprod-scatter
+#| fig-cap: "Attempted reproduction of Figure 4a in article 96. (a) The anonymised original plot; (b) The reproduced plot with the data provided in the article; (c) The reproduced plot with data in the appendix. Data for group 4 taken from the text because the appendix does not include data for this group. Note that data reported in the text and the appendix overlaps, and that the axis limits exclude a data point from Group 4 at 206Pb/204Pb = 23.553, 207Pb/204Pb = 16.443). Two isotope ratio scatterplots were published in this article and both were subjected to the reproduction attempts described here; identical problems were encountered for both, so only one is included here."
+
+ID96_fig4a_data_text <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb
+Group_4	18.384	15.649	38.908
+Group_4	18.332	15.660	38.770
+Group_4	23.553	16.443	42.955
+Group_4	17.577	15.489	38.172
+Group_1	17.567	15.499	38.148
+Group_1	17.723	15.539	38.193
+Group_1	17.734	15.544	38.382
+Group_1	17.549	15.483	38.134
+Group_1	17.756	15.529	38.272
+Group_1	17.750	15.532	38.297
+Group_1	17.670	15.529	38.356
+Group_1	17.682	15.522	38.342
+Group_1	17.618	15.501	38.141
+Group_1	17.629	15.513	38.227
+Group_1	17.619	15.506	38.219
+Group_1	18.007	15.577	38.502
+Group_1	17.753	15.532	38.317
+Group_1	17.697	15.523	38.326
+Group_1	17.503	15.476	38.094
+Group_1	17.564	15.475	38.031
+Group_1	17.565	15.488	38.156
+Group_1	18.291	15.620	38.910
+Group_1	17.568	15.490	38.134
+Group_2	17.682	15.526	38.323
+Group_2	17.854	15.556	38.495
+Group_2	17.730	15.538	38.371
+Group_2	17.513	15.475	38.049
+Group_2	17.717	15.539	38.363
+Group_2	17.768	15.551	38.417
+Group_2	17.632	15.508	38.230
+Group_3	17.524	15.502	37.953
+Group_3	17.682	15.526	38.324
+Group_3	17.612	15.538	38.299
+Group_3	17.628	15.509	38.213
+Group_3	17.666	15.532	38.198',
+                      header = TRUE)
+
+# import data from appendix, filtered for site (as stated in caption), anonymised
+ID96_fig4a_data_app <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb	207Pb/206Pb	208Pb/206Pb
+Group_1	18.547	15.695	39.119	0.846	2.109
+Group_1	17.567	15.499	38.148	0.882	2.172
+Group_1	17.723	15.539	38.193	0.877	2.155
+Group_1	17.734	15.544	38.382	0.876	2.164
+Group_1	17.549	15.483	38.134	0.882	2.173
+Group_1	17.756	15.529	38.272	0.875	2.155
+Group_1	17.750	15.532	38.297	0.875	2.158
+Group_1	17.670	15.529	38.356	0.879	2.171
+Group_1	17.682	15.522	38.342	0.878	2.168
+Group_1	17.618	15.501	38.141	0.880	2.165
+Group_1	17.629	15.513	38.227	0.880	2.168
+Group_1	17.619	15.506	38.219	0.880	2.169
+Group_1	18.007	15.577	38.502	0.865	2.138
+Group_1	17.753	15.532	38.317	0.875	2.158
+Group_1	17.697	15.523	38.326	0.877	2.166
+Group_1	17.503	15.476	38.094	0.884	2.176
+Group_1	17.564	15.475	38.031	0.881	2.165
+Group_1	17.565	15.488	38.156	0.882	2.172
+Group_1	18.291	15.620	38.910	0.854	2.127
+Group_1	17.568	15.490	38.134	0.882	2.171
+Group_1	17.626	15.518	38.250	0.880	2.170
+Group_1	19.334	15.796	40.171	0.817	2.078
+Group_1	17.888	15.587	38.377	0.871	2.145
+Group_1	17.984	15.569	38.451	0.866	2.138
+Group_1	17.637	15.511	38.086	0.879	2.159
+Group_1	17.652	15.523	38.280	0.879	2.169
+Group_1	18.118	15.641	38.676	0.863	2.135
+Group_1	17.685	15.533	38.345	0.878	2.168
+Group_1	17.642	15.504	38.220	0.879	2.166
+Group_1	17.707	15.539	38.331	0.878	2.165
+Group_1	17.481	15.463	38.013	0.885	2.175
+Group_1	17.682	15.543	38.278	0.879	2.165
+Group_2	18.271	15.632	38.778	0.856	2.122
+Group_2	18.222	15.663	38.718	0.860	2.125
+Group_2	17.736	15.545	38.374	0.876	2.164
+Group_2	17.810	15.553	38.500	0.873	2.162
+Group_2	17.730	15.554	38.405	0.877	2.166
+Group_2	17.916	15.576	38.633	0.869	2.156
+Group_2	17.734	15.550	38.397	0.877	2.165
+Group_2	17.973	15.582	38.618	0.867	2.149
+Group_2	17.715	15.546	38.367	0.878	2.166
+Group_2	17.723	15.552	38.409	0.878	2.167
+Group_2	17.707	15.539	38.355	0.878	2.166
+Group_2	17.800	15.549	38.466	0.874	2.161
+Group_2	17.682	15.526	38.323	0.878	2.167
+Group_2	17.854	15.556	38.495	0.871	2.156
+Group_2	17.730	15.538	38.371	0.876	2.164
+Group_2	17.513	15.475	38.049	0.884	2.173
+Group_2	17.717	15.539	38.363	0.877	2.165
+Group_2	17.768	15.551	38.417	0.875	2.162
+Group_2	17.632	15.508	38.230	0.880	2.168
+Group_3	17.729	15.522	38.310	0.876	2.161
+Group_3	17.774	15.559	38.454	0.875	2.163
+Group_3	17.930	15.582	38.564	0.869	2.151
+Group_3	17.795	15.552	38.472	0.874	2.162
+Group_3	17.788	15.560	38.470	0.875	2.163
+Group_3	17.790	15.551	38.450	0.874	2.161
+Group_3	17.771	15.546	38.364	0.875	2.159
+Group_3	17.712	15.538	38.386	0.877	2.167
+Group_3	17.877	15.578	38.508	0.871	2.154
+Group_3	17.763	15.552	38.445	0.876	2.164
+Group_3	17.716	15.539	38.390	0.877	2.167
+Group_3	17.736	15.551	38.403	0.877	2.165
+Group_3	17.760	15.545	38.408	0.875	2.163
+Group_3	17.757	15.545	38.446	0.875	2.165
+Group_3	17.663	15.524	38.259	0.879	2.166
+Group_3	17.524	15.502	37.953	0.885	2.166
+Group_3	17.682	15.526	38.324	0.878	2.167
+Group_3	17.612	15.538	38.299	0.882	2.175
+Group_3	17.628	15.509	38.213	0.880	2.168
+Group_3	17.666	15.532	38.198	0.879	2.162',
+                     header = TRUE)
+
+ID96_fig4a_data_text$Period <- gsub("\\_", " ", ID96_fig4a_data_text$Period)
+ID96_fig4a_data_app$Period <- gsub("\\_", " ", ID96_fig4a_data_app$Period)
+
+# import anonymised original plot (requires package magick)
+a <- cowplot::ggdraw(clip = TRUE) +
+  cowplot::draw_image("../figures/ID96_original_anonymised.tif")
+
+ID96_fig4a_plot <- reprod_scatter(ID96_fig4a_data_text, ID96_fig4a_data_app)
+
+# combine plots for output
+plot <- cowplot::plot_grid(a, ID96_fig4a_plot$plot_text, ID96_fig4a_plot$plot_app, labels = c("a", "b", "c"), ncol = 3)
+
+# export
+ggplot2::ggsave("../figures/fig_repro_scatter.svg", plot = plot,
+       height = 8.5, width = 10*3, dpi = 1200, units = "cm"
+       )
+
+plot
+
 ```
 
-Here is an example of inline code `r x` in the middle of a sentence.
+# Discussion and recommendations 
+Lower scores on the metrics associated with the analytical protocol indicate that descriptions were incomplete or that necessary details were glossed over. As these are also the more technical aspects of data-led publications, this may very well be due to word count restraints, the desire by authors not to repeat themselves across multiple publications if settings or protocols are identical to previous work (as indicated in some publications were citations are given to previous work in the methodology section), an assumption by specialists that this information is self-explanatory or irrelevant to the reader, or a combination of these factors. 
 
-# Discussion
+Stages related to computational reproducibility that scored low indicated a range of experiences: from missing information that made reproduction impossible (such as how zero/bdl values were handled to missing parameters on multi-variate statistics) to reproduction with a certain level of friction (information was present but needed to be pulled from different tables/appendices or data were provided in formats that were error-prone for re-use). Notably, stage 2 (inclusion of original data) scored relatively low with an average of 1.2 (fig. ##bar chart), due to the inclusion of re-use friction as a contributing factor in our scoring system and the relatively common use of tables in text or digital supplements of PDF or Microsoft Word files. For stages 10 and 11, it should be borne in mind that of the 100 articles that were analysed, 79 did not include any statistical analyses (scoring an NA). Similarly, 21 articles did not include any visualisations of compositional data (stage 12). This means the overall scores on these stages are based on only a subsection of the dataset.
 
-# Conclusion
+About half of the surveyed articles in each stage were already fully reproducible (score 2), and, except for stage 5, only a small number of articles per stage was not reproducible (score 0). This shows that the community is already well aware of the topic while room for improvement remains. The reproducibility index presented here already provides pointers for authors, reviewers, and editors for further increasing the reproducibility of research output. For the topics with the highest potential for improvement, additional recommendations will be provided below: analytical protocols, handling of analytical uncertainty, transparency in data treatment, adoption of standardised terminologies, and visualisation. 
+
+## Recording analytical protocols and decision trajectories
+To improve the reproducibility of analytical methods and at the same time achieve higher transparency of methodological choices to better inform data re-use, many methodology sections need to be more elaborate. Based on the literature survey, this especially concerns information about how and where objects where sampled, the classification of data as outliers and their handling, normalisation of data and data transformation in e.g. preparation for statistical analysis. Given the preponderance of digital publishing formats, the use of accompanying open access data publications with permissible licenses should be encouraged by (co-)authors, reviewers and editors. This recommendation mirrors many journal guidelines. The advantages of such data publications are clear: They allow the space to provide full details without taking away from the overall flow of an article’s arguments and impacting the word limit for an article. This may be especially useful for studies employing multiple analytical techniques and to outline sampling decisions and/or deviations from standard analytical protocols. Further, they allow that methodological information and data are accessible by everyone even if the article is not published in open access. 
+Some surveyed publications kept their methodology sections brief by citing analytical protocols (usually their own), which is an effective alternate strategy. However, it puts more of the onus of chasing down references on the re-user and can restrict access to this information if the re-user does not have access to the cited publication. Especially with regards to the latter, we encourage authors to consider alternative options to make their analytical protocols citable, such as the free and open access platform [protocols.io](https://www.protocols.io/). 
+
+## Analytical uncertainty
+Stage 5, the inclusion of analytical uncertainties in the reported data, was the most non-reproducible stage among the surveyed literature with almost a fifth of the surveyed articles receiving a score of 0. Most often, analytical uncertainties were not provided for compositional data, especially data obtained by XRF and SEM methods. Consequently, also many plots of compositional data do not include the analytical uncertainties as error bars and may result in a misleading representation of the data. Like all measured quantities, compositional data are not a precise value but probability distributions, with the mean as the most likely value and a value describing the probability distribution’s spread, usually the standard variation. This means that reporting only the mean but not the analytical uncertainty can create a wrong impression of the data and could, e.g., result in the erroneous assignments of artefacts to compositional groups. Moreover, extracting the analytical uncertainties of measurement data from the instrument software is usually straightforward; for example, they are included in the standard output of pXRF instruments. Therefore, researchers must always include analytical uncertainties for all measured values in their research output, and reviewers and editors should always request this information from the authors. 
+
+## Computational reproducibility and transparency 
+While the analytical protocols encountered in the bibliographic analysis were incredibly varied, the data analytics (statistical tests and forms of visualisation) were fairly standardised across the spectrum. This uniformity of computational approaches makes this part of the research process uniquely suited to the type of computational and formal reproducibility efforts as espoused by Marwick (2025). However, a detailed recording of computational analytics in coded scripts may be beyond the skill sets of many researchers and, while transparency is to be encouraged, a reasonable trade-off is sometimes made for lack of incentives or time pressure (Abdill et al. 2024). The latter may be especially pressing for small-scale studies, studies with a single author, studies by early career researchers, or studies without large amounts of funding backing them. Furthermore, if every study going forward were to produce their own hard-coded data pipeline, this would create a great wealth of methodologies and approaches, which does not necessarily lead to further standardisation of approaches or adoption of methodologies by other scholars. 
+
+Assumptions about how analytical data are constructed or are expected to behave must be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed (Baxter and Gale 1998; Hsu et al. 2018). 
+
+## Adoption of standardised terminologies
+Reproducibility of research greatly benefits from avoiding ambiguity in the terms and abbreviations used and, especially if ambiguity cannot be avoided, referring to established definitions for them. Thesauri such as the Arts and Architecture Thesaurus of the Getty Research Institute (Harping 2010) are predestined for this task, and so are controlled vocabularies if they include definitions of the terms. Adopting their use and actively referring to terms in them lower barriers for readers unfamiliar with regional specifics by making it easy to find definitions. In addition, it facilitates comparison between publications and the combination of datasets. While use of standard terminologies may not directly contribute to reproducibility in the sense of analytical or computational reproducibility, they contribute to the replicability of research. 
+
+## Visualisation
+Visualisations in a little over one third of the articles could not or only partially reproduced. Reasons can be generally grouped into three cases: the plot itself, hampered connections between the reported and the visualised data and a detachment of reported data and visualisation. Reproducibility barriers created by the visualisation itself are rare and represent, for example, regressions lines or ellipses without any further explanation. Consequently, their meaning cannot be understood: is, for example, an ellipsis a statistical confidence ellipsis or is it an annotation to highlight specific parts of the data? 
+More abundant were hampered links between the reported data and the visualised data. These cases include differences between reported and visualised values for individual data points, probably indicating typos or transposed digits. They also include cases with insufficient contextual information, meaning that the dataset was plotted correctly but e.g. the variable used for grouping (e.g. by point colour) could not be found in the data or that data were selected and/or grouped according to imprecisely defined criteria, such as the absence of the threshold applied to differentiate between regular and high-tin bronzes. Finally, a few articles reported only averages of individual measurements while plotting the individual readings. 
+Most often, however, plots are not reproducible as a direct consequence of non-reproducible data transformation and processing, leading to a detachment of the visualisation from the reported data. A particularly abundant case is the undocumented handling of values below the detection limit or the absence of data points, presumably outliers. Similarly, most visualisations of multi-variate statistics outcomes such as dendrograms could be reproduced because the statistics itself was not reproducible. 
+All these findings highlight the importance of data pipelines for data processing, including visualisation, and the publication of raw data alongside it in the article or accompanying data publication: This combination guarantees that the link between the data and the visualisations cannot be break. Because every step is recorded, the risk for human error is significantly reduced. In fact, any direct human interaction with the dataset can be eliminated if the pipeline starts directly at the raw data. Moreover, reviewers and other persons can run the pipeline as well, providing an easy way to verify that data processing is reproducible. 
+
+## Data availability statements
+We already highlighted in the introduction the opportunity within this study to analyse compliance with data availability statement requirements (see criticism in Marwick 2025). Some patterns are observable in how these statements are used, some of which seem to indicate a misunderstanding of what they mean and some seem specific to certain journal policies. 
+13 publications did not feature a data availability statement, mostly in journals that do not usually feature them (METALLA) or only recently introduced them (Historical Metallurgy). It is also worth noting that two articles were found without such statements in the Journal of Archaeological Science, which employs a reproducibility editor. 
+
+Just over a third of all surveyed articles (37) featured data availability statements that accurately and completely summarised the availability of data in the publication: when data were included in the manuscript, the supplement or both, this was correctly noted. That makes the current state of use for data availability statements seem rather dire, but it is a little more complicated than that. 
+
+Of the remaining 50 articles, five contained data in a different format than the availability statement claimed. 13 of them claimed data would be made available upon request but still provided it in tables or supplements. Maybe this suggests that less processed data or data in a different format could be accessed. Finally, 32 publications included a statement claiming no datasets were generated or analysed, even though this was demonstrably the case and data were included in tables or supplements. This particular situation was mostly found in the journal Archaeological and Anthropological Sciences, suggesting that this may be a default option in the submission portal. 
+
+Based on these situation, the usefulness of data availability statements could be questioned. However, they undeniably provide a quick orientation where data can be found or why it is not provided. Therefore, these findings should be interpret as encouragement for editors and reviewers to become more rigorous in the application of the editorial policies, and a call to all authors to be more attentive when writing data availability statements. 
+
+## A way forward: ASTR
+A promising way forward towards increased computational reproducibility of analytical data is the adoption of the community-driven reporting format recently suggested by the developers of the R package ASTR “Archaeometric Standards and Tools in R”. In contrast to previous suggestions (e.g., Staudigel et al. 2003; Case et al. 2024), this community-driven reporting format defines a set of conventions that reduces implicit information in datasets to a minimum and makes them easy to read for machines and humans alike. It is software and language agnostic and compliant datasets can be prepared with any spreadsheet software. The accompanying R package () increases transparency and reproducibility of data pipelines by providing a citable and open source toolbox for common steps in the discipline’s data pipeline, such as data import, data transformation, visualisation, and statistics. While many of the functions in the ASTR package do not depend on a dataset in the reporting format, adhering to it provides a lot of convenience such as automatic conversion of units and dedicated functions for data subsetting. 
+
+
+# Conclusions
+The inherently destructive nature of archaeological research makes reproducibility a key criteria for data quality in the discipline, and the archaeological sciences are no different, especially if invasive and destructive sampling and analytical methods are involved. To investigate how reproducible the archaeological sciences currently are, a bibliographic survey was carried out on research articles publishing compositional or isotopic data on an archaeometallurgical topic in the field’s major journals between November 2025 and January 2026. A quantifiable description of an article’s reproducibility was gained through an index of 13 stages, each with a possible score of 0, 1 or 2, representing no, partial or full reproducibility. In contrast to previous studies, the stages were defined from a practitioner’s perspective and therefore combine for the first time aspects of analytical and computational reproducibility. 
+
+The bibliographic survey shows an overall good reproducibility with about 50% of the articles in each stage being fully reproducible, a median score of 16 per article and a maximum score of 25 out of 26. However, notable differences between stages can be observed. Potential for improving reproducibility was identified in five major areas: analytical protocols, handling of analytical uncertainty, transparency in data treatment, adoption of standardised terminologies, and visualisation. Recommendations for how reproducibility can be improved are given for each of the topics. Most importantly, data publications provide the option to record the necessary details about the sampling and analytical protocols that can often not be included in the main article due to length restrictions. The adoption of data pipelines for data processing and transformation, ideally starting from the raw data, ensures full reproducibility of data processing and transformation, including statistical tests and visualisations. 
+
+While the surveyed literature is restricted to archaeometallurgical articles, similar findings are expected when all fields in the archaeological sciences creating and publishing compositional and isotopic data would be included. The recommendations can be readily adopted by them. More formalised insights into the state of reproducibility for other fields data types are nevertheless required, and the presented index can serve as the starting points for this endeavour. These insights can be used to develop best practices and tools tailored for the archaeological sciences, such as the best practices for pXRF data (), serving as common reference points. Ideally, such best practices are developed in collaboration with neighbouring fields that use the same analytical methods: Because of the huge variety of methods and data types, the archaeological sciences are in the unique position to spearhead and harmonise such efforts. 
 
 # Acknowledgements
 
+
 # Funding
+This research was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – 571205551.
 
 # Author declarations
+
 
 # References
 
 ::: {#refs}
 :::
 
+<!--
 \newpage
 
 ### Colophon
@@ -576,12 +718,13 @@ This report was generated on `r Sys.time()` using the following computational en
 #| cache: false
 
 # which R packages and versions?
-if ("devtools" %in% installed.packages()) devtools::session_info()
+#if ("devtools" %in% installed.packages()) devtools::session_info()
 ```
 
 The current Git commit details are:
 
 ```{r}
 # what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+#if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
 ```
+-->
