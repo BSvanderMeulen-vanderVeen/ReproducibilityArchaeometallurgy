@@ -15,7 +15,14 @@ author:
         group: Research Area Archaeometallurgy
         address: Am Bergbaumuseum 28, 44791 Bochum, Germany
     role: 
-      - list CRediT roles  
+      - Conceptualization
+      - Data curation
+      - Formal analysis
+      - Investigation
+      - Methodology
+      - Software
+      - Writing – original draft
+      - Writing – review & editing
   - name: Thomas Rose
     orcid: 0000-0002-8186-3566
     email: roseth@mit.edu
@@ -26,7 +33,16 @@ author:
         address: 77 Massachusetts Ave., Cambridge, MA 02139, United States
       - ref: "2"
     role: 
-      - list CRediT roles
+      - Conceptualization
+      - Data curation
+      - Funding acquisition
+      - Methodology
+      - Software
+      - Validation
+      - Visualization
+      - Writing – original draft
+      - Writing – review & editing
+      
 
 date: now
 date-format: long
@@ -726,6 +742,10 @@ Survey results, including comments for each score as well as all code created in
 
 ## Competing interests
 The authors have no competing interests to declare that are relevant to the content of this article.
+
+## Author contributions
+Berber S. van der Meulen-van der Veen: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Software, Writing – original draft, Writing – review & editing  
+Thomas Rose: Conceptualization, Data curation, Funding acquisition, Methodology, Software, Validation, Visualization, Writing – original draft, Writing – review & editing
 
 # References
 
