@@ -2,37 +2,37 @@
 title: "The bare necessities: Improving data quality in archaeometallurgy through reproducibility"
 author:
   - name: Berber S. van der Meulen-van der Veen
-    correspondence: "yes"
+    corresponding: TRUE
     email: b.s.vandermeulen@uva.nl
     orcid: 0000-0001-5297-0269
-    affiliations:
-      - name: Universiteit van Amsterdam
+    affiliations: 
+      - id: "1"
+        name: Universiteit van Amsterdam
         department: 
         address: ...
-      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
+      - id: "2"
+        name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum
         group: Research Area Archaeometallurgy
         address: Am Bergbaumuseum 28, 44791 Bochum, Germany
     role: 
       - list CRediT roles  
   - name: Thomas Rose
     orcid: 0000-0002-8186-3566
-    email: roseth@posteo.com
-    affiliations:
-      - name: Massachusettes Institute of Technology, Cambridge, Massachusetts, USA
-        department: Department of Material Science and Engineering
+    email: roseth@mit.edu
+    affilitations: 
+      - id: "3"
+        name: Massachusettes Institute of Technology
+        department: Department of Materials Science and Engineering
         address: 77 Massachusetts Ave., Cambridge, MA 02139, United States
-      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
-        group: Research Area Archaeometallurgy
-        address: Am Bergbaumuseum 28, 44791 Bochum, Germany
+      - ref: "2"
     role: 
       - list CRediT roles
-        
-title-block-published: "Last updated"  
+
 date: now
 date-format: long
 format: 
   docx:
-    reference-doc: "../templates/template.docx" # Insert path for the DOCX file
+    reference-doc: "../templates/template.docx" 
 execute:
   echo: false
   warning: false
@@ -40,17 +40,9 @@ execute:
   comment: "#>"
   fig-path: "../figures/"
   fig-dpi: 1200
-filters:
-  - ../templates/scholarly-metadata.lua
-  - ../templates/author-info-blocks.lua
 bibliography: references.bib
-csl: "../templates/archaeological-and-anthropological-sciences.csl" # Insert path for the bib-style
+csl: "../templates/archaeological-and-anthropological-sciences.csl" 
 
-abstract: |
-  To test the current state of reproducibility in the archaeological sciences, a bibliographic survey was performed on articles publishing compositional and isotopic data in the field’s major journals between November 2025 and January 2026. While restricted to archaeometallurgy, it can be assumed that the findings are applicable to other subfields because of the featured analytical methods and the similar considerations in sampling and data processing. A reproducibility index was developed to provide a comparable and quantitative assessment. The index follows a practitioner’s perspective, combining elements of analytical and computational reproducibility. While about 50% of the articles are fully reproducible in each stage, pronounced differences can be observed between stages. Overall data quality would from benefit from increased reproducibility of analytical protocols and visualisations, improved handling of analytical uncertainty, transparency in data treatment, and the adoption of standardised terminologies, as well as more attention to the accuracy of data availability statements. Recommendations are provided for each topic. The adoption of data publications and data processing pipelines are identified as the most impactful measures because they address several of the identified target areas at once.
-
-keywords: |
-  keyword 1; keyword 2; keyword 3
 ---
 
 ```{r setup}
@@ -59,9 +51,9 @@ if (!"cowplot" %in% installed.packages()) {install.packages("cowplot")}
 if (!"magick" %in% installed.packages()) {install.packages("magick")}
 if (!"svglite" %in% installed.packages()) {install.packages("svglite")}
 
+library(knitr) # for table formatting
 library(cowplot)  
 library(magick) # used by cowplot
-library(svglite) # for saving as svg file
 
 if (!"ReproducibilityArchaeometallurgy" %in% installed.packages()) {
   files <- list.files(path = "../../R/", pattern = "\\.R$", full.names = TRUE)
@@ -72,7 +64,20 @@ df <- utils::read.csv("../data/reprod_astr_anonymised.csv", header = TRUE, row.n
 
 ```
 
-Keywords: `r rmarkdown::metadata$keywords`
+
+Berber S. van der Meulen-van der Veen^1,2^* (0000-0001-5297-0269), Thomas Rose^3,2^ (0000-0002-8186-3566)
+
+^1^ Universiteit van Amsterdam  
+^2^ Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany  
+^3^ Massachusettes Institute of Technology, Department of Materials Science and Engineering, 77 Massachusetts Ave., Cambridge, MA 02139, United States  
+* b.s.vandermeulen@uva.nl
+
+# Abstract
+To test the current state of reproducibility in the archaeological sciences, a bibliographic survey was performed on articles publishing compositional and isotopic data in the field’s major journals between November 2025 and January 2026. While restricted to archaeometallurgy, it can be assumed that the findings are applicable to other subfields because of the featured analytical methods and the similar considerations in sampling and data processing. A reproducibility index was developed to provide a comparable and quantitative assessment. The index follows a practitioner’s perspective, combining elements of analytical and computational reproducibility. While about 50% of the articles are fully reproducible in each stage, pronounced differences can be observed between stages. Overall data quality would from benefit from increased reproducibility of analytical protocols and visualisations, improved handling of analytical uncertainty, transparency in data treatment, and the adoption of standardised terminologies, as well as more attention to the accuracy of data availability statements. Recommendations are provided for each topic. The adoption of data publications and data processing pipelines are identified as the most impactful measures because they address several of the identified target areas at once.
+
+
+# Keywords
+Archaeometallurgy, Data quality, Reproducibility, Literature survey, Publishing
 
 
 # Introduction
@@ -203,37 +208,44 @@ This stage builds on the previous two, stage 2 (analytical data) and stage 9 (ar
 ## Selection and retrieval of literature
 This review focuses on papers published between November 24, 2024 and January 31, 2026 that made an original contribution to the field of archaeometallurgy in terms of compositional, elemental or isotopic data in a peer-reviewed journal. This last criterion enabled us to discuss compliance with data availability statements (see @Marwick2025) and to track the increasing use digital supplements for supporting materials that are still largely out of scope for printed monographs or edited volumes. 
 
-Metadata records of publications stored by Crossref were searched using the rcrossref package [@rcrossref] for the chosen timeframe, using several common, but generic search terms related to archaeometallurgical research. 22 journals that regularly feature articles from this field were initially selected for the search, although only ten were included in the final results lists (##; reasons for exclusion are listed in the digital compendium). The resulting dataset was further narrowed down based on a list of iteratively determined keywords to remove non-article publications such as editorials and comments as well as articles not related to archaeometallurgy. These filters, as well as the complete list of journals that were surveyed are included in the digital compendium. During the analytical stage of this study, it was found that some non-metallurgical papers still passed the filters and that the initial dataset also included several publications that were topically within scope, but did not include original data (regional studies, re-analyses of previous work, exclusive use of legacy data). These were removed manually by their DOI. 
+Metadata records of publications stored by Crossref were searched using the R package  *rcrossref* [@rcrossref] for the chosen timeframe, using several common, but generic search terms related to archaeometallurgical research. 22 journals that regularly feature articles from this field were initially selected for the search, although only ten were included in the final results lists (@tbl-journals; reasons for exclusion are listed in the digital compendium). The resulting dataset was further narrowed down based on a list of iteratively determined keywords to remove non-article publications such as editorials and comments as well as articles not related to archaeometallurgy. These filters, as well as the complete list of journals that were surveyed are included in the digital compendium. During the analytical stage of this study, it was found that some non-metallurgical papers still passed the filters and that the initial dataset also included several publications that were topically within scope, but did not include original data (regional studies, re-analyses of previous work, exclusive use of legacy data). These were removed manually by their DOI. 
 
 An initial export of the data frame including the date of deposit, journal and article title, DOI and ISSN of each filtered publication was used to retrieve its full text, track comments and scores for the reproducibility index, and a unique identifier. Except for the latter, all identifying information was removed before publication of the final dataset. 
 
 # Results
 ## Collected literature
-Over half of the included articles were published in two journals: Archaeological and Anthropological Sciences and Journal of Archaeological Science: Reports (##). 
+Over half of the included articles were published in two journals: Archaeological and Anthropological Sciences and Journal of Archaeological Science: Reports (@tbl-journals). 
 
-Table 1:
-Journal Title	Number of publications found
-Archaeological and Anthropological Sciences	38
-Journal of Archaeological Science: Reports	26
-Archaeometry	15
-Journal of Archaeological Science	8
-Historical Metallurgy	4
-METALLA	3
-Journal of Archaeological Method and Theory	2
-Journal of World Prehistory	2
-STAR: Science & Technology of Archaeological Research	1
-Advances in Archaeomaterials	2
-Total	100
+::: {#tbl-journals}
+
+| Journal Title |	Number of publications found |
+|:----|----:|
+|Archaeological and Anthropological Sciences | 38 |
+|Journal of Archaeological Science: Reports | 26 |
+|Archaeometry | 15 |
+|Journal of Archaeological Science | 8 |
+|Historical Metallurgy | 4 |
+|METALLA | 3 |
+|Journal of Archaeological Method and Theory | 2 |
+|Journal of World Prehistory | 2 |
+|Advances in Archaeomaterials	| 2 |
+|STAR: Science & Technology of Archaeological Research | 1 |
+|Total | 100 |
+
+The number of articles per journal surveyed for this study.  
+
+:::
+
 
 These articles contain a variety of research aims and methodologies, including provenance studies, site reports, regional studies and experimental archaeology. The most commonly studied metals in compositional analyses were iron and copper alloys. Isotope research was mostly confined to lead isotopes, although a few articles also employed tin isotope analysis and one employed osmium isotope analysis. The analytical techniques to obtain compositional and isotope data that were encountered, in no particular order: XRD, hh/p-XRF, ED-XRF, WD-XRF, µ-XRF, PIXE(-XRF), SEM-EDS/EDX, (p)FIB, XPS, ICP-MS, ICP-QMS, SC-ICP-MS, LA-ICP-MS, MC-ICP-MS, HR-ICP-MS, TIMS, AFM, ICP-OES, INAA, PGAA, ICP-AES, MP-AES and FAAS (see compendium for full list). The majority of articles that were surveyed employed more than one technique, with many studies combining some level of invasive sampling with non-invasive survey techniques or combining compositional analysis of the bulk metal with isotope analysis. 
 
 ## Results of the reproducibility index
 Articles, including their supplements, were evaluated against the index with all information taken at face-value. No statement or judgement was made on the content of the articles that were reviewed, or of the methods or techniques chosen beyond the formal aspects of reproducibility/replicability. However, the level of friction or difficulty that was encountered in the reproduction attempt was taken into consideration. The more steps that needed to be taken to find data, export it into a usable format, collate it with the relevant metadata etc., the higher the risk of incurring human-introduced errors. Ambiguous language when describing certain steps, from analytical protocols to data transformation choices, was also sometimes cause for lowering the score because the choices made by the original researcher could not be distilled from the writing with certainty, impacting our ability to reproduce the results with confidence. 
 
-A total of 26 points could be scored across the index, two for each stage. Table ## presents the summary statistics of how the 100 selected publications performed on average and overall, with no scores awarded (NA) to stages that did not apply. The highest overall score was 25, which was only awarded once, the lowest awarded score was 10, and the mean reproducibility score across all publications was 16.3. 
+A total of 26 points could be scored across the index, two for each stage. @tbl-summary-stats presents the summary statistics of how the 100 selected publications performed on average and overall, with no scores awarded (NA) to stages that did not apply. The highest overall score was 25, which was only awarded once, the lowest awarded score was 10, and the mean reproducibility score across all publications was 16.3. 
 
 ```{r}
-#| label: summary-stats
+#| label: tbl-summary-stats
 #| tbl-cap: "Descriptive statistics for the surveyed articles per stage and as total. "
 
 stats <- scores_summary(df, "Stage_") 
@@ -241,13 +253,11 @@ stats <- scores_summary(df, "Stage_")
 stats$Stage <- sub("\\_", " ", stats$Stage)
 stats$Mean <- round(stats$Mean, 2)
 
-utils::write.csv2(stats, "table_2.csv", na = "", row.names = FALSE)
-
-stats
+knitr::kable(stats, align = c("l", rep("r", 5)))
 ```
 
 
-The scores for each of the 12 stages for each article are visualised as bar chart (Fig. ##) and the Sankey flow chart in the compendium (###) highlights changes of scores between stages. As both the bar chart (Fig. ##) and Sankey flow chart (Fig, ##) clearly show, the sample of publications performed better at some stages than at others. No single publication scored a two across the board. The lowest scoring stages (mean 1.5 or lower) fall into two categories: documentation and replicability of the analytical protocol (stages 0, 1, 4-5 and 7) and computational reproducibility (stages 2 and 10-12). 
+The scores for each of the 12 stages for each article are visualised as bar chart (@fig-bar-plot) and the Sankey flow chart in the compendium (###) highlights changes of scores between stages. As both the bar chart (@fig-bar-plot) and Sankey flow chart (###) clearly show, the sample of publications performed better at some stages than at others. No single publication scored a two across the board. The lowest scoring stages (mean 1.5 or lower) fall into two categories: documentation and replicability of the analytical protocol (stages 0, 1, 4-5 and 7) and computational reproducibility (stages 2 and 10-12). 
 
 ```{r }
 #| label: sankey
@@ -259,14 +269,17 @@ networkD3::saveNetwork(plot, "../supplementary-materials/Sankey.html", selfconta
 
 ```
 
-```{r bar-chart}
-
-#| label: bar-chart
+```{r}
+#| label: fig-bar-plot
 #| fig-cap: "Bar chart with the scoring of the surveyed literature per stage. Because 100 articles were surveyed, the percentage equals the number of articles."
+#| fig-width: 3.5
+#| fig-height: 3
 
 plot_stats <- scores_plot(subset(df, select = grepv("Stage", colnames(df))))
 
-ggplot2::ggsave("../figures/bar-chart.svg", units = "mm")
+ggplot2::ggsave("../figures/bar-chart.eps", device="eps", 
+                units = "mm", width = 84, height = 76, colormodel = "cmyk"
+                )
 
 plot_stats
 
@@ -324,7 +337,7 @@ The other cases concern two scenarios: either the necessary metadata was present
 The majority of articles, over three-quarters of the dataset, do not use any statistical analysis, reflecting the common practice of publishing individual sites or collections and of relatively small datasets that do not require such heavy-handed approaches. In those articles that use statistical tools, a range of statistical tests, models and calculations is encountered, namely kernel density estimates or kernel smoothing, Euclidean distances, cluster analysis of various forms (most commonly hierarchical clustering (HCA) using Ward’s method), linear discriminant analysis (LDA), factor analysis and principal component analysis (PCA). Some of these use standard calculations or formulae, such as Euclidean distances or isochrones, which aides in reproduction, especially in the cases where the authors cite these or provide them directly in their article or supplements. Subtypes of particular analysis (such as specifying Ward’s method for HCA) were also frequently specified, which helps with choosing the right tools. 
 
 #### Stage 10: Data transformation
-In the 13 articles performing data transformations, they include normalisation to particular minerals or totals of a selection of minerals, Centered Log-Ratio Transformation (CRL), logarithmic transformations and scaling, and these were applied appropriately for the statistical tests that was chosen. However, multi-variate statistics such as PCA or HCA present somewhat of a black box with parameters that can be set by the analyst, requiring clear documentation of those parameters in order to make them fully reproducible. Some R functions for these methods also sometimes come with default settings, which can differ between different functions that perform the same type of test (e.g., princomp() and prcomp() for PCA); all of which needs to be clarified in writing. In more than half of the articles, this was documented fully, with the most common hurdle being data curation and transformation: handling of outliers, missing values, zeroes or values below the limit of detection. This type of information may not have been included because it is deemed self-explanatory or irrelevant, and in some cases it may be reconstructed through trial and error. However, the friction this causes for the reproducer was significant and in some cases it makes reproducing the results entirely impossible.
+In the 13 articles performing data transformations, they include normalisation to particular minerals or totals of a selection of minerals, Centered Log-Ratio Transformation (CRL), logarithmic transformations and scaling, and these were applied appropriately for the statistical tests that was chosen. However, multi-variate statistics such as PCA or HCA present somewhat of a black box with parameters that can be set by the analyst, requiring clear documentation of those parameters in order to make them fully reproducible. Some R functions for these methods also sometimes come with default settings, which can differ between different functions that perform the same type of test (e.g., *princomp()* and *prcomp()* for PCA); all of which needs to be clarified in writing. In more than half of the articles, this was documented fully, with the most common hurdle being data curation and transformation: handling of outliers, missing values, zeroes or values below the limit of detection. This type of information may not have been included because it is deemed self-explanatory or irrelevant, and in some cases it may be reconstructed through trial and error. However, the friction this causes for the reproducer was significant and in some cases it makes reproducing the results entirely impossible.
 
 #### Stage 11: Description of statistical tests and calculations
 The majority of publications surveyed did not employ any advanced forms of multi-variate statistics. Within those that did, the most common types were: factor analysis, cluster analysis, linear discriminant analysis (LDA) and PCA (Shadmeir and Mostafaei 2016; Baxter 2015). Although in most cases the specific type of analysis is indicated (such as Ward’s method for HCA), this was not always included, such as in the case of a correlation matrix which did not specify what type of correlation methods (Spearman, Pearson, etc.) was applied. 
@@ -342,8 +355,9 @@ The common reason for irreproducibility of PCA biplots, clustering dendrograms a
 As scaling compositional data is considered best practice for PCA, we included this as standard procedure in our reproduction attempt, although in the end it was found that this was not always the approach taken by the studies we tried to reproduce. We will illustrate one example of PCA application here, where only the data (which did not contain missing or zero values) were provided with some instructions on data treatment. 
 
 ```{r}
-#| label: reprod-PCA
+#| label: fig-reprod-PCA
 #| fig-cap: "Attempted reproduction of Figure 8 in article 44 based on the data provided in their digital supplement. (a) The anonymised original plot. PCA analyses on CLR transformed data with princomp() of the R stats package on (b) centred and scaled and (c) uncentred and unscaled data. (d, e, f, g): PCA analyses with prcomp() of the R stats package for all possible combinations of (un)centred and (un)scaled data."
+#| fig-width: 12
 
 ID44_fig8_data <- read.table(
   text = 'Site	Fe	Co	Ni	Zn	As	Se	Ag	Sn	Sb	Te	Au	Pb	Bi
@@ -448,64 +462,72 @@ plot_reprod_PCA <- reprod_PCA(ID44_fig8_data)
 
 # combine plots
 
-plots_princomp <- cowplot::plot_grid(
-  plot_reprod_PCA$csI2, 
+plots_PCA_orig <- cowplot::ggdraw() + 
+  cowplot::draw_image("../figures/ID44_original_anonymised.tif")
+
+legend_PCA <- cowplot::get_legend(plot_reprod_PCA$csI2)
+
+plots_PCA <- cowplot::plot_grid(
+  plots_PCA_orig, 
+  plot_reprod_PCA$csI2 + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$csV2, 
-  plot_reprod_PCA$cuI2, 
+  plot_reprod_PCA$cuI2 + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$cuV2, 
-  nrow = 2, vjust = 1, hjust = -0.25, align = "h", 
-  labels = c("b: Centred, scaled", NA, "c: Centred, unscaled")
-  )
-
-plots_prcomp <- cowplot::plot_grid(
-  plot_reprod_PCA$csI, 
+  NULL,
+  plot_reprod_PCA$csI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$csV, 
-  plot_reprod_PCA$cuI, 
+  plot_reprod_PCA$cuI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$cuV, 
-  plot_reprod_PCA$usI, 
+  legend_PCA,  
+  plot_reprod_PCA$usI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$usV, 
-  plot_reprod_PCA$uuI, 
-  plot_reprod_PCA$uuV, 
-  nrow = 2, vjust = 1, hjust = -0.05, align = "h", 
-  labels = c("d: Centred, scaled", NA, "r: Centred, unscaled", NA, "f: Uncentred, scaled", NA, "g: Uncentred, unscaled")
-  )
+  plot_reprod_PCA$uuI + ggplot2::theme(legend.position = "none"), 
+  plot_reprod_PCA$uuV,
+  labels = c("a: original", "b: centred, scaled", NA, "c: centred, unscaled", NA, NA, "d: centred, scaled", NA, "e: centred, unscaled", NA, NA, "f: uncentred, scaled", NA, "g: uncentred, unscaled"), 
+  vjust = 1, hjust = -0.05, align = "h", 
+  ncol = 5
+)
 
-#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_prcomp.tif", plot = plots_prcomp, height = 20, width = 30, units = "cm", dpi = 1200, compression = "lzw")
+ggplot2::ggsave("../figures/fig_repro_PCA.tif", plot = plots_PCA, 
+                height = 23, width = 30, units = "cm", dpi = 1200, compression = "lzw"
+                )
 
-#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_princomp.tif", plot = plots_princomp, height = 20, width = 15, units = "cm", dpi = 1200, compression = "lzw")
+plots_PCA
 
 ```
 
-Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (fig. ##a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
+Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (@fig-reprod-PCA a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
 
-The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (full code in the compendium: ###). The data were CLR transformed using the function clr() of the R package compositions [@compositions] and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: prcomp() and princomp(). 
+The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (full code in the compendium: ###). The data were CLR transformed using the function *clr()* of the R package compositions [@compositions] and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: *prcomp()* and *princomp()*. 
 
-For prcomp(), which takes the arguments scale. and center for scaling and centering respectively, four permutations were performed (Fig. ##d-g):
+For *princomp()*, which automatically centers the data, two iterations were run (@fig-reprod-PCA b,c): 
+
+1. scaled data, centered
+2. unscaled data, centered
+
+For *prcomp()*, which takes the arguments *scale.* and *center* for scaling and centering respectively, four permutations were performed (@fig-reprod-PCA d-g):
 
 1. scaled data, centered 
 2. unscaled data, centered
 3. scaled data, but uncentered 
 4. unscaled data, uncentered
 
-For princomp(), which automatically centers the data, two iterations were run: 
-
-1. scaled data, centered
-2. unscaled data, centered
-
-Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using prcomp(), higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using prcomp() was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
+Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using *prcomp()*, higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using *prcomp()* was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
 
 On the other end of the reproducibility spectrum for multi-variate statistics visualisations are two cases, which are highlighted here as examples of excellent practice. Both include include the hard-coded data pipeline in fully commented R code files as supplements [Erb-Satullo and Klymchuk 2025; @stodolova_beyond_2025]. This meant any choices regarding data selection, normalisation (e.g. for ternary diagrams), scaling or handling missing values were all documented and easy to follow for the outsider. @stodolova_beyond_2025 in particular provided a wealth of information for HCA and PCA, as well as providing individualised code for additional graphs that were not included in the paper, effectively using the code supplement as an additional analytical offering. One other publication (Lachenal et al. 2025) included full variance tables and eigenvalues for their PCA work in their supplement, enabling very straightforward reproduction of the original graphs. The calculation of these values was also possible with minor experimentation. 
 
 ##### Bi-variate plots
 Graphs that require minimal data manipulation and that can usually handle zero values such as scatter plots and box plots were generally easy to reproduce by importing the datasets into R and using ggplot2 [@ggplot2] to reproduce the plotting coordinates and any archaeologically informed colour-coding and iconography. However, several issues were encountered here as well, mostly regarding data selection, missing archaeological metadata or missing compositional data. Missing, incomplete, ambiguous or inconsistent labelling of metadata in text, graph and dataset sometimes meant iconography of graphs (shapes and colours) could not be replicated directly, but this was usually possible to retro-engineer. 
 
-One anonymised example is highlighted here as example of insufficiently documented data selection and outlier treatment (Fig.  ##). The original graph was published in article ## in our survey, which included the raw underlying data collected by the authors and a supplement of comparative data sourced from other publications. As the original image caption did not indicate that comparative data were used, only the original data were used for the first reproduction attempt. An outlier is not included in the published plot and although it was explicitly discussed in the text, its removal was not documented. Other data points were also absent, resulting in the inclusion of the comparative data provided in their supplement. This attempt filled in some gaps in point distribution identifiable in the previous attempt; however, new points were added that are not present in the original graph. 
+One anonymised example is highlighted here as example of insufficiently documented data selection and outlier treatment (@fig-reprod-scatter). The original graph was published in article 96 in our survey, which included the raw underlying data collected by the authors and a supplement of comparative data sourced from other publications. As the original image caption did not indicate that comparative data were used, only the original data were used for the first reproduction attempt. An outlier is not included in the published plot and although it was explicitly discussed in the text, its removal was not documented. Other data points were also absent, resulting in the inclusion of the comparative data provided in their supplement. This attempt filled in some gaps in point distribution identifiable in the previous attempt; however, new points were added that are not present in the original graph. 
 
 We hope to make clear with this example that the scatter plot as published in the original article is clearly based on the data provided in the articles text and appendices, but that a selection of data was made that was not indicated transparently in the article itself. The use of comparative data in the original graph was also not stated in the caption or in the text. Although this was findable, the lack of clarity around what data or selection of data were used for visualisations led to friction for the reproducer and reduced confidence and trust in the information provided for the re-user.
 
 ```{r}
-#| label: reprod-scatter
-#| fig-cap: "Attempted reproduction of Figure 4a in article 96. (a) The anonymised original plot; (b) The reproduced plot with the data provided in the article; (c) The reproduced plot with data in the appendix. Data for group 4 taken from the text because the appendix does not include data for this group. Note that data reported in the text and the appendix overlaps, and that the axis limits exclude a data point from Group 4 at 206Pb/204Pb = 23.553, 207Pb/204Pb = 16.443). Two isotope ratio scatterplots were published in this article and both were subjected to the reproduction attempts described here; identical problems were encountered for both, so only one is included here."
+#| label: fig-reprod-scatter
+#| fig-cap: "Attempted reproduction of Figure 4a in article 96. (a) The anonymised original plot; (b) The reproduced plot with the data provided in the article; (c) The reproduced plot with data in the appendix. Data for group 4 taken from the text because the appendix does not include data for this group. Note that data reported in the text and the appendix overlaps, and that the axis limits exclude a data point from Group 4 at ^206^Pb/^204^Pb = 23.553, ^207^Pb/^204^Pb = 16.443). Two isotope ratio scatterplots were published in this article and both were subjected to the reproduction attempts described here; identical problems were encountered for both, so only one is included here."
+#| fig-width: 11.8
+#| fig-height: 3.5
 
 ID96_fig4a_data_text <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb
 Group_4	18.384	15.649	38.908
@@ -624,7 +646,7 @@ ID96_fig4a_data_text$Period <- gsub("\\_", " ", ID96_fig4a_data_text$Period)
 ID96_fig4a_data_app$Period <- gsub("\\_", " ", ID96_fig4a_data_app$Period)
 
 # import anonymised original plot (requires package magick)
-a <- cowplot::ggdraw(clip = TRUE) +
+a <- cowplot::ggdraw() +
   cowplot::draw_image("../figures/ID96_original_anonymised.tif")
 
 ID96_fig4a_plot <- reprod_scatter(ID96_fig4a_data_text, ID96_fig4a_data_app)
@@ -633,8 +655,8 @@ ID96_fig4a_plot <- reprod_scatter(ID96_fig4a_data_text, ID96_fig4a_data_app)
 plot <- cowplot::plot_grid(a, ID96_fig4a_plot$plot_text, ID96_fig4a_plot$plot_app, labels = c("a", "b", "c"), ncol = 3)
 
 # export
-ggplot2::ggsave("../figures/fig_repro_scatter.svg", plot = plot,
-       height = 8.5, width = 10*3, dpi = 1200, units = "cm"
+ggplot2::ggsave("../figures/fig_repro_scatter.tif", plot = plot,
+       height = 8.5, width = 10*3, units = "cm", dpi = 1200, compression = "lzw"
        )
 
 plot
@@ -644,7 +666,7 @@ plot
 # Discussion and recommendations 
 Lower scores on the metrics associated with the analytical protocol indicate that descriptions were incomplete or that necessary details were glossed over. As these are also the more technical aspects of data-led publications, this may very well be due to word count restraints, the desire by authors not to repeat themselves across multiple publications if settings or protocols are identical to previous work (as indicated in some publications were citations are given to previous work in the methodology section), an assumption by specialists that this information is self-explanatory or irrelevant to the reader, or a combination of these factors. 
 
-Stages related to computational reproducibility that scored low indicated a range of experiences: from missing information that made reproduction impossible (such as how zero/bdl values were handled to missing parameters on multi-variate statistics) to reproduction with a certain level of friction (information was present but needed to be pulled from different tables/appendices or data were provided in formats that were error-prone for re-use). Notably, stage 2 (inclusion of original data) scored relatively low with an average of 1.2 (fig. ##bar chart), due to the inclusion of re-use friction as a contributing factor in our scoring system and the relatively common use of tables in text or digital supplements of PDF or Microsoft Word files. For stages 10 and 11, it should be borne in mind that of the 100 articles that were analysed, 79 did not include any statistical analyses (scoring an NA). Similarly, 21 articles did not include any visualisations of compositional data (stage 12). This means the overall scores on these stages are based on only a subsection of the dataset.
+Stages related to computational reproducibility that scored low indicated a range of experiences: from missing information that made reproduction impossible (such as how zero/bdl values were handled to missing parameters on multi-variate statistics) to reproduction with a certain level of friction (information was present but needed to be pulled from different tables/appendices or data were provided in formats that were error-prone for re-use). Notably, stage 2 (inclusion of original data) scored relatively low with an average of 1.2 (@fig-bar-plot), due to the inclusion of re-use friction as a contributing factor in our scoring system and the relatively common use of tables in text or digital supplements of PDF or Microsoft Word files. For stages 10 and 11, it should be borne in mind that of the 100 articles that were analysed, 79 did not include any statistical analyses (scoring an NA). Similarly, 21 articles did not include any visualisations of compositional data (stage 12). This means the overall scores on these stages are based on only a subsection of the dataset.
 
 About half of the surveyed articles in each stage were already fully reproducible (score 2), and, except for stage 5, only a small number of articles per stage was not reproducible (score 0). This shows that the community is already well aware of the topic while room for improvement remains. The reproducibility index presented here already provides pointers for authors, reviewers, and editors for further increasing the reproducibility of research output. For the topics with the highest potential for improvement, additional recommendations will be provided below: analytical protocols, handling of analytical uncertainty, transparency in data treatment, adoption of standardised terminologies, and visualisation. 
 
@@ -695,10 +717,15 @@ While the surveyed literature is restricted to archaeometallurgical articles, si
 
 
 # Funding
-This research was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – 571205551.
+This study was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – 571205551.
 
-# Author declarations
+# Statements and Declarations
 
+## Data availability statement
+Survey results, including comments for each score as well as all code created in the study are made available on as data compendium on Zenodo (<##DOI##>) and as [Github repository](https://github.com/archaeothommy/ReproducibilityArchaeometallurgy). 
+
+## Competing interests
+The authors have no competing interests to declare that are relevant to the content of this article.
 
 # References
 
