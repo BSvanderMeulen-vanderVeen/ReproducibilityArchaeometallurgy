@@ -204,7 +204,8 @@ create_master_table <- function(start_date = "2024-11-25", end_date = "2026-01-3
                    "Stage_9", "Comments_9",
                    "Stage_10", "Comments_10",
                    "Stage_11", "Comments_11",
-                   "Stage_12", "Comments_12"
+                   "Stage_12", "Comments_12",
+                   "Data availability statement"
   )
 
   results_anon[, columns_add] <- NA
