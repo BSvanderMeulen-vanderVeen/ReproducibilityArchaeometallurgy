@@ -11,7 +11,9 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 # Please put your title here to include it in the file below.
-Title <- "Title of your paper goes here"
+Title <- "The bare necessities: Improving data quality in archaeometallurgy through reproducibility"
+Authors <- "van der Meulen-van der Veen, B. S., Rose, T."
+Journal <- "Archaeological and Anthropological Sciences, submitted"
 ```
 
 <!-- badges: start -->
@@ -24,20 +26,15 @@ Title <- "Title of your paper goes here"
 
 # ReproducibilityArchaeometallurgy
 
-This repository contains the data and code for our paper:
+This repository contains the data, code, and manuscript source document for our paper:
 
-> Authors, (YYYY). _`r Title`_. Name of journal/book <https://doi.org/xxx/xxx>
-
-Our pre-print is online here:
-
-> Authors, (YYYY). _`r Title`_. Name of journal/book, Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
-
+> van der Meulen-van der Veen, B. S., Rose, T., (2026). _`r Title`_. `r Journal`. <!-- <https://doi.org/xxx/xxx> -->
 
 ### How to cite
 
 Please cite this compendium as:
 
-> Authors, (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
+> Rose, T., van der Meulen-van der Veen, B. S., (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for: `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
 
 ## Contents
 
@@ -55,7 +52,7 @@ The **analysis** directory contains:
     Supplementary materials including notes and other documents prepared and 
     collected during the analysis.
     
-The **R** directory contains ...  
+The **R** directory contains functions written in the course of the study. 
 
 ## How to run in your browser or download and run locally
 
@@ -68,7 +65,7 @@ You can download the compendium as a zip from from this URL:
 [master.zip](/archive/master.zip). After unzipping:
 - open the `.Rproj` file in RStudio
 - run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the [DESCRIPTION](/DESCRIPTION) file).
-- finally, open `analysis/paper/paper.Rmd` and knit to produce the `paper.docx`, or run `rmarkdown::render("analysis/paper/paper.qmd")` in the R console
+- finally, open `analysis/paper/paper.qmd` and knit to produce the `paper.docx`, or run `rmarkdown::render("analysis/paper/paper.qmd")` in the R console
 
 ### Licenses
 

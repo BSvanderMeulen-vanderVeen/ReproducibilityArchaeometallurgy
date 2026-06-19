@@ -12,24 +12,22 @@
 
 # ReproducibilityArchaeometallurgy
 
-This repository contains the data and code for our paper:
+This repository contains the data, code, and manuscript source document
+for our paper:
 
-> Authors, (YYYY). *Title of your paper goes here*. Name of journal/book
-> <https://doi.org/xxx/xxx>
-
-Our pre-print is online here:
-
-> Authors, (YYYY). *Title of your paper goes here*. Name of
-> journal/book, Accessed 31 Dec 2025. Online at
-> <https://doi.org/xxx/xxx>
+> van der Meulen-van der Veen, B. S., Rose, T., (2026). *The bare
+> necessities: Improving data quality in archaeometallurgy through
+> reproducibility*. Archaeological and Anthropological Sciences,
+> submitted. <!-- <https://doi.org/xxx/xxx> -->
 
 ### How to cite
 
 Please cite this compendium as:
 
-> Authors, (2025). *Compendium of R code and data for Title of your
-> paper goes here*. Accessed 31 Dec 2025. Online at
-> <https://doi.org/xxx/xxx>
+> Rose, T., van der Meulen-van der Veen, B. S., (2026). *Compendium of R
+> code and data for: The bare necessities: Improving data quality in
+> archaeometallurgy through reproducibility*. Accessed 19 Jun 2026.
+> Online at <https://doi.org/xxx/xxx>
 
 ## Contents
 
@@ -48,7 +46,8 @@ The **analysis** directory contains:
   Supplementary materials including notes and other documents prepared
   and collected during the analysis.
 
-The **R** directory contains …
+The **R** directory contains functions written in the course of the
+study.
 
 ## How to run in your browser or download and run locally
 
@@ -63,7 +62,7 @@ You can download the compendium as a zip from from this URL:
 file in RStudio - run `devtools::install()` to ensure you have the
 packages this analysis depends on (also listed in the
 [DESCRIPTION](.\DESCRIPTION) file). - finally, open
-`analysis/paper/paper.Rmd` and knit to produce the `paper.docx`, or run
+`analysis/paper/paper.qmd` and knit to produce the `paper.docx`, or run
 `rmarkdown::render("analysis/paper/paper.qmd")` in the R console
 
 ### Licenses

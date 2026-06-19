@@ -265,7 +265,7 @@ The scores for each of the 12 stages for each article are visualised as bar char
 
 plot <- sankey_plot(df, width = 1500)
 
-networkD3::saveNetwork(plot, "../supplementary-materials/Sankey.html", selfcontained = TRUE)
+networkD3::saveNetwork(plot, "../figures/Sankey.html", selfcontained = TRUE)
 
 ```
 
