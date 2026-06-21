@@ -8,8 +8,9 @@ author:
     affiliations: 
       - id: "1"
         name: Universiteit van Amsterdam
-        department: 
-        address: ...
+        department: Amsterdam Centre for Ancient Studies and Archaeology
+        address: Turfdraagsterpad 9
+1012 XT Amsterdam, Netherlands
       - id: "2"
         name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum
         group: Research Area Archaeometallurgy
