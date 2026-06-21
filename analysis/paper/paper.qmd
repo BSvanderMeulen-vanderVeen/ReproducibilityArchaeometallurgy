@@ -366,9 +366,9 @@ All other articles employing these tools are either partially or entirely irrepr
 About one fifth of the surveyed articles did not contain any visualisations of original data. In seven cases, the majority or all of the visualisations could not be replicated (resulting in a score of 0). Visualisation (graphs, charts) in just over a third of the articles (38) reviewed here were fully reproducible. A score of one was given for the remaining 34 cases because either some visualisations in an article were fully reproducible but others were not, or the main data could be plotted but certain aspects such as iconography or additional statistical insights such as uncertainty markers, regression lines or density areas could not be replicated.
 
 ##### Multi-variate statistics visualisations
-The common reason for irreproducibility of PCA biplots, clustering dendrograms and normalised log-transformed graphs is insufficient detail on data transformation and statistical treatments. In the majority of these cases, reproducing the statistics, let alone the visualisations, fell at the first hurdle as publications did not specify how missing values, zeroes, or results that fell below the limit of detection (commonly indicated non-numerically as “<LOD” or “bdl”) were handled. In the cases where no such values are present, the parameters for the following steps in data transformation are often not reported. Very few publications using multi-variate statistics openly discuss scaling of data prior to analysis, for example. 
+The common reason for irreproducibility of PCA biplots, clustering dendrograms and normalised log-transformed graphs is insufficient detail on data transformation and statistical treatments. In the majority of these cases, reproducing the statistics, let alone the visualisations, fell at the first hurdle as publications did not specify how missing values, zeroes, or results that fell below the limit of detection (commonly indicated non-numerically as “<LOD” or “bdl”) were handled. In the cases where no such values are present, the parameters for the following steps in data transformation were often not reported. Very few publications using multi-variate statistics openly discuss scaling of data prior to analysis, for example. 
 
-As scaling compositional data is considered best practice for PCA, we included this as standard procedure in our reproduction attempt, although in the end it was found that this was not always the approach taken by the studies we tried to reproduce. We will illustrate one example of PCA application here, where only the data (which did not contain missing or zero values) were provided with some instructions on data treatment. 
+Here, we wish to illustrate this for the use of PCA in compositional studies. As only the end product, the biplot is typically published, that is what our reproduction effort has focused on, working on the assumption that a matching plot equals a matching computational analysis. Our chosen case provided both the data (which did not contain missing or zero values) and some instructions on data treatment.   
 
 ```{r}
 #| label: fig-reprod-PCA
@@ -514,21 +514,23 @@ plots_PCA
 
 Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (@fig-reprod-PCA a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
 
-The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (full code in the compendium: ###). The data were CLR transformed using the function *clr()* of the R package compositions [@compositions] and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: *prcomp()* and *princomp()*. 
+The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (full code in the compendium: ###). The data were CLR transformed using the function *clr()* of the R package compositions [@compositions] and used to perform a series of six different PCAs, experimenting with different parameters across the two most commonly used  R functions for PCA: *prcomp()* and *princomp()*. 
+
+As this was not specified in the original publication, the PCA was calculated both both the covariance and the correlation matrix, and both were run with centered and uncentered data. 
 
 For *princomp()*, which automatically centers the data, two iterations were run (@fig-reprod-PCA b,c): 
 
-1. scaled data, centered
-2. unscaled data, centered
+1. scaled data, centered (correlation)
+2. unscaled data, centered (covariance)
 
 For *prcomp()*, which takes the arguments *scale.* and *center* for scaling and centering respectively, four permutations were performed (@fig-reprod-PCA d-g):
 
-1. scaled data, centered 
-2. unscaled data, centered
-3. scaled data, but uncentered 
-4. unscaled data, uncentered
+1. scaled data, centered (correlation)
+2. unscaled data, centered (covariance)
+3. scaled data, but uncentered (correlation) 
+4. unscaled data, uncentered (covariance)
 
-Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using *prcomp()*, higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using *prcomp()* was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
+Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using *prcomp()*, higher overall contribution percentages were achieved than the original graph. The correlation calculations on centered data were the closest mathematical matches to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
 
 On the other end of the reproducibility spectrum for multi-variate statistics visualisations are two cases, which are highlighted here as examples of excellent practice. Both include include the hard-coded data pipeline in fully commented R code files as supplements [Erb-Satullo and Klymchuk 2025; @stodolova_beyond_2025]. This meant any choices regarding data selection, normalisation (e.g. for ternary diagrams), scaling or handling missing values were all documented and easy to follow for the outsider. @stodolova_beyond_2025 in particular provided a wealth of information for HCA and PCA, as well as providing individualised code for additional graphs that were not included in the paper, effectively using the code supplement as an additional analytical offering. One other publication (Lachenal et al. 2025) included full variance tables and eigenvalues for their PCA work in their supplement, enabling very straightforward reproduction of the original graphs. The calculation of these values was also possible with minor experimentation. 
 
