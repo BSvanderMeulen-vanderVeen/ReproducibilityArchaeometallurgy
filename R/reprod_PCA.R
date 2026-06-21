@@ -73,7 +73,7 @@ reprod_PCA <- function(df, groups = "Site", palette_colour = c("red", "orange", 
   csV2 <- factoextra::fviz_pca_var(pca_result5, repel = TRUE, title = "Variables") + plot_design
 
   # Perform PCA with unscaled and uncentred data using princomp()
-  pca_result6 <- stats::princomp(clr_df)
+  pca_result6 <- stats::princomp(clr_df, cor = FALSE)
   cuI2 <- factoextra::fviz_pca_ind(pca_result6, col.ind = groups, geom = "point", title = "Individuals") + plot_design
   cuV2 <- factoextra::fviz_pca_var(pca_result6, repel = TRUE, title = "Variables") + plot_design
 
