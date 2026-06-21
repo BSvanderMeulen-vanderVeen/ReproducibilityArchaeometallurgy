@@ -48,12 +48,12 @@ reprod_PCA <- function(df, groups = "Site", palette_colour = c("red", "orange", 
   groups <- as.factor(df[[groups]])
 
   # Perform PCA with scaled data using prcomp()
-  pca_result <- stats::prcomp(clr_df, scale. = TRUE)
+  pca_result <- stats::prcomp(clr_df, scale. = TRUE, center = TRUE)
   csI <- factoextra::fviz_pca_ind(pca_result, col.ind = groups, geom = "point", title = "Individuals") + plot_design
   csV <- factoextra::fviz_pca_var(pca_result, repel = TRUE, title = "Variables") + plot_design
 
   # Perform PCA with unscaled data using prcomp()
-  pca_result2 <- stats::prcomp(clr_df, scale. = FALSE)
+  pca_result2 <- stats::prcomp(clr_df, scale. = FALSE, center = TRUE)
   cuI <- factoextra::fviz_pca_ind(pca_result2, col.ind = groups, geom = "point", title = "Individuals") + plot_design
   cuV <- factoextra::fviz_pca_var(pca_result2, repel = TRUE, title = "Variables") + plot_design
 
