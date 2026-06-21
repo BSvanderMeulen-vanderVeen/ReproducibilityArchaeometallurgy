@@ -2,37 +2,53 @@
 title: "The bare necessities: Improving data quality in archaeometallurgy through reproducibility"
 author:
   - name: Berber S. van der Meulen-van der Veen
-    correspondence: "yes"
+    corresponding: TRUE
     email: b.s.vandermeulen@uva.nl
     orcid: 0000-0001-5297-0269
-    affiliations:
-      - name: Universiteit van Amsterdam
+    affiliations: 
+      - id: "1"
+        name: Universiteit van Amsterdam
         department: 
         address: ...
-      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
+      - id: "2"
+        name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum
         group: Research Area Archaeometallurgy
-        address: ...
+        address: Am Bergbaumuseum 28, 44791 Bochum, Germany
     role: 
-      - list CRediT roles  
+      - Conceptualization
+      - Data curation
+      - Formal analysis
+      - Investigation
+      - Methodology
+      - Software
+      - Writing – original draft
+      - Writing – review & editing
   - name: Thomas Rose
     orcid: 0000-0002-8186-3566
-    email: roseth@posteo.com
-    affiliations:
-      - name: Massachusettes Institute of Technology, Cambridge, Massachusetts, USA
-        department: Department of Material Science and Engineering
-        address: ...
-      - name: Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Bochum, Germany
-        group: Research Area Archaeometallurgy
-        address: ...
+    email: roseth@mit.edu
+    affilitations: 
+      - id: "3"
+        name: Massachusettes Institute of Technology
+        department: Department of Materials Science and Engineering
+        address: 77 Massachusetts Ave., Cambridge, MA 02139, United States
+      - ref: "2"
     role: 
-      - list CRediT roles
-        
-title-block-published: "Last updated"  
+      - Conceptualization
+      - Data curation
+      - Funding acquisition
+      - Methodology
+      - Software
+      - Validation
+      - Visualization
+      - Writing – original draft
+      - Writing – review & editing
+      
+
 date: now
 date-format: long
 format: 
   docx:
-    reference-doc: "../templates/template.docx" # Insert path for the DOCX file
+    reference-doc: "../templates/template.docx" 
 execute:
   echo: false
   warning: false
@@ -40,17 +56,9 @@ execute:
   comment: "#>"
   fig-path: "../figures/"
   fig-dpi: 1200
-filters:
-  - ../templates/scholarly-metadata.lua
-  - ../templates/author-info-blocks.lua
 bibliography: references.bib
-csl: "../templates/archaeological-and-anthropological-sciences.csl" # Insert path for the bib-style
+csl: "../templates/archaeological-and-anthropological-sciences.csl" 
 
-abstract: |
-  To test the current state of reproducibility in the archaeological sciences, a bibliographic survey was performed on articles publishing compositional and isotopic data in the field’s major journals between November 2025 and January 2026. While restricted to archaeometallurgy, it can be assumed that the findings are applicable to other subfields because of the featured analytical methods and the similar considerations in sampling and data processing. A reproducibility index was developed to provide a comparable and quantitative assessment. The index follows a practitioner’s perspective, combining elements of analytical and computational reproducibility. While about 50% of the articles are fully reproducible in each stage, pronounced differences can be observed between stages. Overall data quality would from benefit from increased reproducibility of analytical protocols and visualisations, improved handling of analytical uncertainty, transparency in data treatment, and the adoption of standardised terminologies, as well as more attention to the accuracy of data availability statements. Recommendations are provided for each topic. The adoption of data publications and data processing pipelines are identified as the most impactful measures because they address several of the identified target areas at once.
-
-keywords: |
-  keyword 1; keyword 2; keyword 3
 ---
 
 ```{r setup}
@@ -59,9 +67,9 @@ if (!"cowplot" %in% installed.packages()) {install.packages("cowplot")}
 if (!"magick" %in% installed.packages()) {install.packages("magick")}
 if (!"svglite" %in% installed.packages()) {install.packages("svglite")}
 
+library(knitr) # for table formatting
 library(cowplot)  
 library(magick) # used by cowplot
-library(svglite) # for saving as svg file
 
 if (!"ReproducibilityArchaeometallurgy" %in% installed.packages()) {
   files <- list.files(path = "../../R/", pattern = "\\.R$", full.names = TRUE)
@@ -72,34 +80,47 @@ df <- utils::read.csv("../data/reprod_astr_anonymised.csv", header = TRUE, row.n
 
 ```
 
-Keywords: `r rmarkdown::metadata$keywords`
+
+Berber S. van der Meulen-van der Veen^1,2^* (0000-0001-5297-0269), Thomas Rose^3,2^ (0000-0002-8186-3566)
+
+^1^ Universiteit van Amsterdam  
+^2^ Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum, Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany  
+^3^ Massachusettes Institute of Technology, Department of Materials Science and Engineering, 77 Massachusetts Ave., Cambridge, MA 02139, United States  
+* b.s.vandermeulen@uva.nl
+
+# Abstract
+To test the current state of reproducibility in the archaeological sciences, a bibliographic survey was performed on articles publishing compositional and isotopic data in the field’s major journals between November 2025 and January 2026. While restricted to archaeometallurgy, it can be assumed that the findings are applicable to other subfields because of the featured analytical methods and the similar considerations in sampling and data processing. A reproducibility index was developed to provide a comparable and quantitative assessment. The index follows a practitioner’s perspective, combining elements of analytical and computational reproducibility. While about 50% of the articles are fully reproducible in each stage, pronounced differences can be observed between stages. Overall data quality would from benefit from increased reproducibility of analytical protocols and visualisations, improved handling of analytical uncertainty, transparency in data treatment, and the adoption of standardised terminologies, as well as more attention to the accuracy of data availability statements. Recommendations are provided for each topic. The adoption of data publications and data processing pipelines are identified as the most impactful measures because they address several of the identified target areas at once.
+
+
+# Keywords
+Archaeometallurgy, Data quality, Reproducibility, Literature survey, Publishing
 
 
 # Introduction
-We present a bibliographic study of the current state of reproducibility and re-usability of archaeometallurgical data, focusing specifically on compositional and isotopic studies. We aim to showcase aspects of analytical and computational reproducibility in this field by analysing recently peer-reviewed journal articles published in the major international journals of the field according to a set of reproducibility criteria. Since the introduction of the FAIR data principles (Wilkinson et al. 2016), significant progress has been made in the archaeology community regarding data availability and access, with a strong focus on data re-use (Faniel et al. 2013; Huggett 2018; Kansa and Kansa 2022; Kansa 2025; Moody et al. 2021; Densmore 2022; Sheehan 2015). Reflective of a wider movement, often in response to the so-called reproducibility crises particularly prominent in psychology, medicine and management studies (Mackintosh and Chambers 2020; Ehktiari et al. 2025; Begley and Ioannidis 2015; Brito et al. 2020; Gilmore et al. 2017; Kępińska et al. 2023; Kong et al. 2019; Masson-Trottier et al. 2025; Miłkowski et al. 2018; Mulugeta et al. 2018; Roth et al. 2025; Samuel and Mietchen 2024; Aguinis et al. 2018; Camerer et al. 2016; Curty 2016; Faniel et al. 2016; Fišar et al. 2024 ), publications increasingly include underlying data in a digital format, either as supplementary files or as data publications in the increasing number of open access digital repositories (Huggett 2018). Data availability statements and the publication of supplementary data are increasingly mandated by journals in their author guidelines and policies (Marwick 2025). Although many of these developments are happening across the wider research community, archaeology has been uniquely positioned in championing these principles of data accessibility and reuse: much of our work, ranging from fieldwork to taking analytical samples on artefacts is by its nature destructive and can only be carried out once, necessitating effective data management and preservation of the resulting data (Faniel et al. 2013, 296; Heilen and Manney 2023). 
+We present a bibliographic study of the current state of reproducibility and re-usability of archaeometallurgical data, focusing specifically on compositional and isotopic studies. We aim to showcase aspects of analytical and computational reproducibility in this field by analysing recently peer-reviewed journal articles published in the major international journals of the field according to a set of reproducibility criteria. Since the introduction of the FAIR data principles [@wilkinson_fair_2016], significant progress has been made in the archaeology community regarding data availability and access, with a strong focus on data re-use [@faniel_challenges_2013; @huggett_reuse_2018; @kansa_promoting_2022; @kansa_using_2015; @moody_digital_2021; Densmore 2022; Sheehan 2015]. Reflective of a wider movement, often in response to the so-called reproducibility crises particularly prominent in psychology, medicine and management studies [@mcintosh_three_2020; @ekhtiari_reporting_2025; @begley_reproducibility_2015; @brito_recommendations_2020; @gilmore_progress_2017; @kepinska_open_2024; @kong_illustration_2019; @masson-trottier_toward_2025; @milkowski_replicability_2018; @mulugeta_credibility_2018; @roth_ten_2025; @samuel_computational_2024; @aguinis_what_2018; @camerer_evaluating_2016; @curty_factors_2016; @faniel_social_2016; @fisar_reproducibility_2024], publications increasingly include underlying data in a digital format, either as supplementary files or as data publications in the increasing number of open access digital repositories [@@huggett_reuse_2018]. Data availability statements and the publication of supplementary data are increasingly mandated by journals in their author guidelines and policies [@Marwick2025]. Although many of these developments are happening across the wider research community, archaeology has been uniquely positioned in championing these principles of data accessibility and reuse: much of our work, ranging from fieldwork to taking analytical samples on artefacts is by its nature destructive and can only be carried out once, necessitating effective data management and preservation of the resulting data [@faniel_challenges_2013, 296; @heilen_refining_2023]. 
 
-Much work has therefore already been done on the national and international level to draw up guidelines and best practices for data recording, most notably of archaeological fieldwork to improve the sharing, reuse, comparison and reinterpretation of data by standardising methods and terminologies across studies (Austin et al. 2024, 192-193; Baines and Brophy 2006; Richards 2009), prompted in no small part by Linked Open Data initiatives (May et al. 2015; Nicholson et al. 2023). Open Access data sharing through digital repositories has also lead to greater transparency of how data move from excavation, to lab, to publication (Anevlavi et al. 2025; Heilen and Manney 2023). With data repositories now widely used for archaeological research, attention must shift to maximise their use, i.e. towards the reuse of research output (Curty 2016, 92). Successful reuse, however, is dependent on many factors besides sharing research output, including transparency and reliability of the underlying data and the methods used.
+Much work has therefore already been done on the national and international level to draw up guidelines and best practices for data recording, most notably of archaeological fieldwork to improve the sharing, reuse, comparison and reinterpretation of data by standardising methods and terminologies across studies [@austin_improving_2024, 192-193; Baines and Brophy 2006; @richards_anarchy_2009], prompted in no small part by Linked Open Data initiatives [@nicholson_will_2023; May et al. 2015]. Open Access data sharing through digital repositories has also lead to greater transparency of how data move from excavation, to lab, to publication [@anevlavi_excavation_2025; @heilen_refining_2023]. With data repositories now widely used for archaeological research, attention must shift to maximise their use, i.e. towards the reuse of research output [@curty_factors_2016, 92]. Successful reuse, however, is dependent on many factors besides sharing research output, including transparency and reliability of the underlying data and the methods used.
 
 In this article, we will first define the different aspects of reproducibility that we are concerned with as archaeometallurgists and outline a number of current solutions and initiatives to improve reproducibility in the archaeological sciences and broader academia. Based on this overview, we present a 13-stage reproducibility index designed to check academic publications on aspects of re-usability, replicability of protocols and reproducibility of data and results. While exclusively archaeometallurgical studies were checked due to the background of the authors, the results are assumed to reflect current common practices in the wider archaeological sciences, because the same concerns with regards to e.g. sampling apply and generally the same or comparable analytical methods are employed. Finally, the results of this index will be discussed and some recommendations will be presented for improvements in archaeometric research and publishing standards with regards to reproducibility.
 
 ## Definitions of reproducibility
-Reproducibility, replicability and repeatability, while often used synonymously, can be applied to a range of different yet related definitions (Matarese 2022, 650; Barba 2018). We approach these terms firmly from a practitioner’s perspective: Can I recreate the results of a study with the information provided in its publication? This approach addresses three different types of reproducibility: reproducibility of the (analytical) methods, reproducibility of the results (defined here as the publication output), and as a subfield of the latter, computational reproducibility. We broadly follow the Method‑Result‑Inferential Reproducibility taxonomy as outlined by Matarese (2022, 651), which combines two aspects of replicability: the availability of information necessary to reproduce a study and the passing of a replication test, in which a copy of the original study arrives at the same conclusion (Matarese 2022, 651). Within this taxonomy, Matarese defines the baseline for method reproducibility as full disclosure of the “details of the experiment’s or study’s procedure” (Matarese 2022, 651), while result reproducibility applies to any works where “the very same outcome is obtained by following the same procedure as closely as possible” (Matarese 2022, 651). 
+Reproducibility, replicability and repeatability, while often used synonymously, can be applied to a range of different yet related definitions [@barba_terminologies_2018; Matarese 2022, 650]. We approach these terms firmly from a practitioner’s perspective: Can I recreate the results of a study with the information provided in its publication? This approach addresses three different types of reproducibility: reproducibility of the (analytical) methods, reproducibility of the results (defined here as the publication output), and as a subfield of the latter, computational reproducibility. We broadly follow the Method‑Result‑Inferential Reproducibility taxonomy as outlined by Matarese (2022, 651), which combines two aspects of replicability: the availability of information necessary to reproduce a study and the passing of a replication test, in which a copy of the original study arrives at the same conclusion (Matarese 2022, 651). Within this taxonomy, Matarese defines the baseline for method reproducibility as full disclosure of the “details of the experiment’s or study’s procedure” (Matarese 2022, 651), while result reproducibility applies to any works where “the very same outcome is obtained by following the same procedure as closely as possible” (Matarese 2022, 651). 
 
-Our specific terminology, however, is informed foremost by the nature of the archaeometric sciences as it is defined by its aims, data pipelines and often destructive sampling methodology. Replicability, for instance, has long been a cornerstone of archaeological studies and is generally used more to refer specifically to the replication of the results of a study with different data or methods (Plesser 2018, 3), in other words hypothesis testing. Inter-laboratory reproducibility is often invoked in discussions on the use of certified reference materials (Heginbotham et al. 2019; Heginbotham and Solé 2017; Lin et al. 2023; Hancock and Carter 2009) or to showcase repeated analyses by different laboratories to illustrate the reliability and consistency of a particular methodology (Calvo-Rathert et al. 2019). Other archaeometric studies use the term reproducibility to reflect internal repeatability or accuracy of results (Ma et al. 2011; Bayliss and Marshall 2019), to test the accuracy of particular analytical methods through other methods (Kim et al. 2023) or to argue for external reproducibility through the use of Certified Reference Materials (CRMs) (Ponting et al. 2003). 
+Our specific terminology, however, is informed foremost by the nature of the archaeometric sciences as it is defined by its aims, data pipelines and often destructive sampling methodology. Replicability, for instance, has long been a cornerstone of archaeological studies and is generally used more to refer specifically to the replication of the results of a study with different data or methods [@plesser_reproducibility_2018, 3], in other words hypothesis testing. Inter-laboratory reproducibility is often invoked in discussions on the use of certified reference materials [@heginbotham_charmed_2017; @heginbotham_charmed_2019; @lin_evaluating_2023; @hancock_how_2010] or to showcase repeated analyses by different laboratories to illustrate the reliability and consistency of a particular methodology [@calvo-rathert_reproducibility_2019]. Other archaeometric studies use the term reproducibility to reflect internal repeatability or accuracy of results [@ma_reproducibility_2011; @bayliss_confessions_2019], to test the accuracy of particular analytical methods through other methods [@kim_selecting_2023] or to argue for external reproducibility through the use of Certified Reference Materials (CRMs) [@ponting_fingerprinting_2003]. 
 
-Reproducibility of the results then, in the strictest sense, refers to rerunning an experiment with the same materials, methods and techniques provided in the publication to see whether the same output is generated (similar to inter-laboratory interoperability). As Steckler (2015) points out, the required detailed information to fully reproduce experiments is lacking in many publications and he further emphasises the importance of detailed methodological descriptions for areas of study where tests and protocols may be less standardised or where the current state of scholarship is characterised by a high variability of experimental design or methodological approach. Given that the re-analysis of archaeological artefacts is rare, we employ this aspect of reproducibility more to the stages of research that follow data collection: data treatment, analysis and presentation; in essence the output of a publication rather than its results in the form of analytical data. 
+Reproducibility of the results then, in the strictest sense, refers to rerunning an experiment with the same materials, methods and techniques provided in the publication to see whether the same output is generated (similar to inter-laboratory interoperability). As @steckler_editorial_2015 points out, the required detailed information to fully reproduce experiments is lacking in many publications. He further emphasises the importance of detailed methodological descriptions for areas of study where tests and protocols may be less standardised or where the current state of scholarship is characterised by a high variability of experimental design or methodological approach. Given that the re-analysis of archaeological artefacts is rare, we employ this aspect of reproducibility more to the stages of research that follow data collection: data treatment, analysis and presentation; in essence the output of a publication rather than its results in the form of analytical data. 
 
-Reproducibility of method may be more accurately called, at least in the context of this study, procedural or analytical reproducibility and concerns the total sum of analytical methods and protocols employed in a study. For a publication to be fully reproducible in this regard, the methods section would include all necessary detail regarding experiment design and sampling and the analytical protocols for these procedures to be exactly repeated by another researcher (Plesser 2018, 3). In this sense, analytical reproducibility also addresses aspects of re-usability: when presented with a detailed methods section, potential re-users are better equipped to make an informed choice about whether a particular dataset is close enough to their own in terms of methods, precision and accuracy to be useful as a comparative dataset. Some methodological aspects that make archaeometric research more reproducible also target interoperability, for instance data normalisation or the inclusion of CRMs (Heginbotham et al. 2019; Heginbotham and Solé 2017; Lin et al. 2023; Hancock and Carter 2009). 
+Reproducibility of method may be more accurately called, at least in the context of this study, procedural or analytical reproducibility and concerns the total sum of analytical methods and protocols employed in a study. For a publication to be fully reproducible in this regard, the methods section would include all necessary detail regarding experiment design and sampling and the analytical protocols for these procedures to be exactly repeated by another researcher [@plesser_reproducibility_2018, 3]. In this sense, analytical reproducibility also addresses aspects of re-usability: when presented with a detailed methods section, potential re-users are better equipped to make an informed choice about whether a particular dataset is close enough to their own in terms of methods, precision and accuracy to be useful as a comparative dataset. Some methodological aspects that make archaeometric research more reproducible also target interoperability, for instance data normalisation or the inclusion of CRMs [@heginbotham_charmed_2017; @heginbotham_charmed_2019; @lin_evaluating_2023; @hancock_how_2010]. 
 
-Computational and statistical reproducibility describe whether data cleaning, transformations and calculations can be followed step-by-step. In addition, information about the software, its dependencies, and their specific versions, i.e., the computational environment, is required. Although the archaeological sciences do not seem to be particularly computation-heavy on the first glance, big data approaches and multi-variate statistical approaches and modelling are becoming increasingly common (Shadmeir and Mostafaei 2016; Crema 2025; Baxter 2015), making computational reproducibility essential. Differences in how precisely a software calculates certain values or which algorithms are used can lead to different results, necessitating the recording of each decision. In an ideal scenario, the individual steps are best shared as script and start from the raw data (Marwick various2025; Marwick et al. 2018; Nüst et al. 2020). Computational reproducibility then also facilitates what some have dubbed empirical reproducibility: the transferability of code to new data and to other domains for achieving similar results (Bilotti et al. 2024, 2; cf. Marwick 2017; Marwick et al. 2018; Marwick et al. 2016). Understanding software applications as research objects, subject to FAIR principles (Barker et al. 2022), further emphasises the importance of this work to the research community, rather than viewing them as an unrelated tool (cf. Marwick 2025). 
+Computational and statistical reproducibility describe whether data cleaning, transformations and calculations can be followed step-by-step. In addition, information about the software, its dependencies, and their specific versions, i.e., the computational environment, is required. Although the archaeological sciences do not seem to be particularly computation-heavy on the first glance, big data approaches and multi-variate statistical approaches and modelling are becoming increasingly common (Shadmeir and Mostafaei 2016; Crema 2025; Baxter 2015), making computational reproducibility essential. Differences in how precisely a software calculates certain values or which algorithms are used can lead to different results, necessitating the recording of each decision. In an ideal scenario, the individual steps are best shared as script and start from the raw data [Marwick various2025; @marwick_packaging_2018; @nust_ten_2020]. Computational reproducibility then also facilitates what some have dubbed empirical reproducibility: the transferability of code to new data and to other domains for achieving similar results [@bilotti_point_2024, 2; cf. @marwick_computational_2017; @marwick_packaging_2018;  Marwick et al. 2016). Understanding software applications as research objects, subject to FAIR principles [@barker_introducing_2022], further emphasises the importance of this work to the research community, rather than viewing them as an unrelated tool [cf. @Marwick2025]. 
 
 ## The reproducibility crisis and responses
-The concerns around producing reproducible data and research are far from unique to the field of archaeology and many fields have produced recommendations for improving various aspects of reproducibility. A much-cited survey in Nature found that over 70% of researchers had failed to reproduce results from at least one published study, and over 50% had failed to reproduce their own results, contributing to a widely held believe in a reproducibility crisis (Baker 2016, 452). Unsurprisingly then, a great deal of work has been devoted in recent years to overcoming this reproducibility crisis, especially in the fields of biomedicine (including neuroscience) and psychology (Mackintosh and Chambers 2020; Ehktiari et al. 2025; Begley and Ioannidis 2015; Brito et al. 2020; Gilmore et al. 2017; Kępińska et al. 2023; Kong et al. 2019; Masson-Trottier et al. 2025; Miłkowski et al. 2018; Mulugeta et al. 2018; Roth et al. 2025; Samuel and Mietchen 2024), as well as and in the social sciences, economics, and management studies (Aguinis et al. 2018; Camerer et al. 2016; Curty 2016; Faniel et al. 2016; Fišar et al. 2024). In a community survey among German neuroscientists, Klingner et al. (2022; 2023) highlight several difficulties faced by researchers that bar them from open and accessible research data management (RDM) and data sharing, some of which can be applied to archaeometry as well, namely a lack of widely shared standards for data and metadata, a lack of RDM literacy and a lack of time and resources for adequate RDM. They furthermore highlighted the need to develop standards, tools and infrastructure to address these issues, as well as investment in training and education (Klingner et al. 2022; 2023). Moreover, their survey revealed that between 15 and 39% of respondents used personal solutions and methods to deal with data analysis, data preprocessing, version control, data exchange, data formats, data sharing, and metadata collection and management instead of available tools or standards (Klingner et al. 2022).  Aguinis et al. (2017, table 8), also propose several methodological standards to improve reproducibility and transparency of research, such as discussion of statistical assumptions, control variables, aggregation, precise use of terminology and discussion of the limitations of the chosen methodology. Comparable developments occurred in the geosciences, with scholarship developing standards for data publications (including isotope and chemical data: Chamberlain et al. 2021; Deines et al. 2003; Goldstein et al. 2014; Klöcking et al. 2023; Staudigel et al. 2003; Welti et al. 2024) and computational reproducibility (Konkol et al. 2019). 
+The concerns around producing reproducible data and research are far from unique to the field of archaeology and many fields have produced recommendations for improving various aspects of reproducibility. A much-cited survey in Nature found that over 70% of researchers had failed to reproduce results from at least one published study, and over 50% had failed to reproduce their own results, contributing to a widely held believe in a reproducibility crisis [@baker_is_2016]. Unsurprisingly then, a great deal of work has been devoted in recent years to overcoming this reproducibility crisis, especially in the fields of biomedicine (including neuroscience) and psychology [@mcintosh_three_2020; @ekhtiari_reporting_2025; @begley_reproducibility_2015; @brito_recommendations_2020; @gilmore_progress_2017; @kepinska_open_2024; @kong_illustration_2019; @masson-trottier_toward_2025; @milkowski_replicability_2018; @mulugeta_credibility_2018; @roth_ten_2025; @samuel_computational_2024), as well as and in the social sciences, economics, and management studies [@aguinis_what_2018; @camerer_evaluating_2016; @curty_factors_2016; @faniel_social_2016; @fisar_reproducibility_2024). In a community survey among German neuroscientists, Klingner et al. highlight several difficulties faced by researchers that bar them from open and accessible research data management (RDM) and data sharing, some of which can be applied to archaeometry as well, namely a lack of widely shared standards for data and metadata, a lack of RDM literacy and a lack of time and resources for adequate RDM. They furthermore highlighted the need to develop standards, tools and infrastructure to address these issues, as well as investment in training and education [@klingner_research_2023; @klingner_overcoming_2022]. Moreover, their survey revealed that between 15 and 39% of respondents used personal solutions and methods to deal with data analysis, data preprocessing, version control, data exchange, data formats, data sharing, and metadata collection and management instead of available tools or standards [@@klingner_overcoming_2022]. @aguinis_what_2018 also propose several methodological standards to improve reproducibility and transparency of research, such as discussion of statistical assumptions, control variables, aggregation, precise use of terminology and discussion of the limitations of the chosen methodology. Comparable developments occurred in the geosciences, with scholarship developing standards for data publications [including isotope and chemical data: @chamberlain_time_2021; @deines_standards_2003; @goldstein_requirements_2014; @klocking_community_2023; @staudigel_electronic_2003; @welti_common_2024] and computational reproducibility [@konkol_computational_2019]. 
 
-Previous publications focusing specifically on the archaeological sciences have already made highly valuable suggestions for research documentation going forward. Some studies have focused more on methodological aspects. Johnson et al. (2024), for example, performed a bibliographic analysis of archaeological studies employing pXRF, and made recommendations for key information that publications using that method should include (Johnson et al. 2024, table 2). Roberts et al. (2017) recommend documenting systematic errors, using CRMs, repeat measurements and standards for precision reporting of stable isotope data. 
-Other resources target the computational aspect of reproducibility, with recommendations and designs for adoptable and adaptable research infrastructures. In his role as reproducibility editor for the Journal of Archaeological Science, Marwick (2025) outlines a number of common issues and solutions to improve reproducibility of analytical results from a publisher’s perspective: how can the results presented in a given paper be replicated or reproduced by someone else? His paper focuses predominantly on formal computational aspects of reproducibility that reduce friction for the re-user: use of open-source language, logical folder structures and documentation of code. Although Marwick’s proposed project containerisation recommendations (see also Marwick 2017; Marwick et al. 2018; Marwick and Jacobs, n.d.; Marwick and Birch 2018) would incentivise code being structured and cited as an original research contribution, it remains valid to ask how feasible such an approach is for the majority of researchers currently active. The need for education and training in data management is likely equally high in archaeology compared to the neurosciences (Klingner et al. 2022; 2023), if not higher. The proposed project managerial overhead may also not be feasible or necessary for smaller studies or studies carried out by those with fewer computational or financial resources. Developing clear guidance from the publisher’s perspective as well as enforcement also remain issues (Trottier et al. 2025, 3-4). 
+Previous publications focusing specifically on the archaeological sciences have already made highly valuable suggestions for research documentation going forward. Some studies have focused more on methodological aspects. @johnson_best_2024, for example, performed a bibliographic analysis of archaeological studies employing pXRF, and made recommendations for key information that publications using that method should include [@johnson_best_2024, table 2]. @roberts_calling_2018 recommend documenting systematic errors, using CRMs, repeat measurements and standards for precision reporting of stable isotope data. 
+Other resources target the computational aspect of reproducibility, with recommendations and designs for adoptable and adaptable research infrastructures. In his role as reproducibility editor for the Journal of Archaeological Science, @Marwick2025 outlines a number of common issues and solutions to improve reproducibility of analytical results from a publisher’s perspective: how can the results presented in a given paper be replicated or reproduced by someone else? His paper focuses predominantly on formal computational aspects of reproducibility that reduce friction for the re-user: use of open-source language, logical folder structures and documentation of code. Although Marwick’s proposed project containerisation recommendations [see also @Marwick2017; @marwick_packaging_2018; @marwick_heres_2017; @marwick_standard_2018) would incentivise code being structured and cited as an original research contribution, it remains valid to ask how feasible such an approach is for the majority of researchers currently active. The need for education and training in data management is likely equally high in archaeology compared to the neurosciences [@klingner_research_2023; @klingner_overcoming_2022], if not higher. The proposed project managerial overhead may also not be feasible or necessary for smaller studies or studies carried out by those with fewer computational or financial resources. Developing clear guidance from the publisher’s perspective as well as enforcement also remain issues [@masson-trottier_toward_2025, 3-4]. 
 
-A wide range of tools is already available for addressing especially the more formal computational and statistical aspects of reproducibility identified in these studies. Multiple openly accessible tools are available for the documentation of code and its embedding in interpretative narratives, such as Jupyter notebooks (Samuel and Mietchen 2024), the R packages knitr (Xie 2012) and rmarkdown (Allaire et al. 2014), and Quarto (Allaire et al. 2022). Other initiatives offer tools to automate checks on formal reproducibility factors such as checking the portability of file paths, optimising project structure and rearranging file organisation (fertile; Bertin and Baumer 2021) or to embed code and writing in a complete research compendium (rrtools; https://github.com/benmarwick/rrtools). Increasingly, non-profit solutions for version control are becoming popular in academic work, such as git (Blischak et al. 2018). Most of the mentioned examples are taken from the ecosystem around the freely available language for statistical computing and graphics R (R Core Team 2026), because it seems to be the most commonly used scripting language in the archaeological sciences, although similar tools for other scripting languages, especially Python, are available. 
+A wide range of tools is already available for addressing especially the more formal computational and statistical aspects of reproducibility identified in these studies. Multiple openly accessible tools are available for the documentation of code and its embedding in interpretative narratives, such as Jupyter notebooks [samuel_computational_2024], the R packages knitr [@knitr1; @knitr2] and rmarkdown [@rmarkdown1; @rmarkdown2], and Quarto [@Allaire_Quarto_2026]. Other initiatives offer tools to automate checks on formal reproducibility factors such as checking the portability of file paths, optimising project structure and rearranging file organisation [e.g. fertile: @bertin_creating_2021] or to embed code and writing in a complete research compendium [rrtools: @rrtools]. Increasingly, non-profit solutions for version control such as git are becoming popular in academic work, and packages facilitate access to them [e.g., workflowr: blischak_workflowr_2018]. Most of the mentioned examples are taken from the ecosystem around the freely available language for statistical computing and graphics R [@R_Core], because it seems to be the most commonly used scripting language in the archaeological sciences, although similar tools for other scripting languages, especially Python, are available. 
 
 However, while it is possible to be completely transparent as far as these computational tools are concerned, they only target one aspect of reproducibility we are concerned with (computational), and not the reproducibility of analytical methods. The wide variety of analytical methods used in archaeometry also means that there is no easy one size fits all approach to recording analytical protocols or standards. With these thoughts in mind, we designed a series of reproducibility checks that more specifically target both analytical/methodological and computational reproducibility of archaeometric research to give an insight into the current state of affairs within our discipline. 
 
@@ -165,7 +186,7 @@ Reported data is often normalised, most commonly to 100%, because of how quantif
 * Not reproducible (0): Indicators for data normalisation exists but neither is information provided nor can it be inferred from other information. 
 
 ### Stage 8: Standardised terminology
-This stage concerns analytical data only (archaeological metadata are discussed in stage 9) and checks whether measurement units are given for any chemical data, such as wt%, at%, mg/kg, µg/g or ppm. The reporting of compositional data in % instead of wt% or, less often, at% is problematic because this distinction has important practical implications. For example, the chemical composition of a phase in at% can be easily converted into its chemical formulas, while additional calculations are necessary for data in wt%, and alloy phase diagrams are available for either unit. It is not reproducible to let the re-user decide which one to use. Following Roberts et al. (2018), for isotope data, δ values should be reported relative to current international measurement standards. 
+This stage concerns analytical data only (archaeological metadata are discussed in stage 9) and checks whether measurement units are given for any chemical data, such as wt%, at%, mg/kg, µg/g or ppm. The reporting of compositional data in % instead of wt% or, less often, at% is problematic because this distinction has important practical implications. For example, the chemical composition of a phase in at% can be easily converted into its chemical formulas, while additional calculations are necessary for data in wt%, and alloy phase diagrams are available for either unit. It is not reproducible to let the re-user decide which one to use. Following @roberts_calling_2018, for isotope data, δ-values should be reported relative to current international measurement standards. 
 
 No scores of 0 were awarded as most information is usually present and missing information could generally assumed or reconstructed with relative certainty. 
 
@@ -201,39 +222,46 @@ This stage builds on the previous two, stage 2 (analytical data) and stage 9 (ar
 * Not reproducible (0): Some or all information needed to reproduce all types of visualisations is missing. 
 
 ## Selection and retrieval of literature
-This review focuses on papers published between November 24, 2024 and January 31, 2026 that made an original contribution to the field of archaeometallurgy in terms of compositional, elemental or isotopic data in a peer-reviewed journal. This last criterion enabled us to discuss compliance with data availability statements (see Marwick 2025) and to track the increasing use digital supplements for supporting materials that are still largely out of scope for printed monographs or edited volumes. 
+This review focuses on papers published between November 24, 2024 and January 31, 2026 that made an original contribution to the field of archaeometallurgy in terms of compositional, elemental or isotopic data in a peer-reviewed journal. This last criterion enabled us to discuss compliance with data availability statements (see @Marwick2025) and to track the increasing use digital supplements for supporting materials that are still largely out of scope for printed monographs or edited volumes. 
 
-Metadata records of publications stored by Crossref were searched using the rcrossref package [@rcrossref] for the chosen timeframe, using several common, but generic search terms related to archaeometallurgical research. 22 journals that regularly feature articles from this field were initially selected for the search, although only ten were included in the final results lists (table 1; reasons for exclusion are listed in the digital compendium). The resulting dataset was further narrowed down based on a list of iteratively determined keywords to remove non-article publications such as editorials and comments as well as articles not related to archaeometallurgy. These filters, as well as the complete list of journals that were surveyed are included in the digital compendium. During the analytical stage of this study, it was found that some non-metallurgical papers still passed the filters and that the initial dataset also included several publications that were topically within scope, but did not include original data (regional studies, re-analyses of previous work, exclusive use of legacy data). These were removed manually by their DOI. 
+Metadata records of publications stored by Crossref were searched using the R package  *rcrossref* [@rcrossref] for the chosen timeframe, using several common, but generic search terms related to archaeometallurgical research. 22 journals that regularly feature articles from this field were initially selected for the search, although only ten were included in the final results lists (@tbl-journals; reasons for exclusion are listed in the digital compendium). The resulting dataset was further narrowed down based on a list of iteratively determined keywords to remove non-article publications such as editorials and comments as well as articles not related to archaeometallurgy. These filters, as well as the complete list of journals that were surveyed are included in the digital compendium. During the analytical stage of this study, it was found that some non-metallurgical papers still passed the filters and that the initial dataset also included several publications that were topically within scope, but did not include original data (regional studies, re-analyses of previous work, exclusive use of legacy data). These were removed manually by their DOI. 
 
 An initial export of the data frame including the date of deposit, journal and article title, DOI and ISSN of each filtered publication was used to retrieve its full text, track comments and scores for the reproducibility index, and a unique identifier. Except for the latter, all identifying information was removed before publication of the final dataset. 
 
 # Results
 ## Collected literature
-Over half of the included articles were published in two journals: Archaeological and Anthropological Sciences and Journal of Archaeological Science: Reports (Table 1). 
+Over half of the included articles were published in two journals: Archaeological and Anthropological Sciences and Journal of Archaeological Science: Reports (@tbl-journals). 
 
-Table 1:
-Journal Title	Number of publications found
-Archaeological and Anthropological Sciences	38
-Journal of Archaeological Science: Reports	26
-Archaeometry	15
-Journal of Archaeological Science	8
-Historical Metallurgy	4
-METALLA	3
-Journal of Archaeological Method and Theory	2
-Journal of World Prehistory	2
-STAR: Science & Technology of Archaeological Research	1
-Advances in Archaeomaterials	2
-Total	100
+::: {#tbl-journals}
+
+| Journal Title |	Number of publications found |
+|:----|----:|
+|Archaeological and Anthropological Sciences | 38 |
+|Journal of Archaeological Science: Reports | 26 |
+|Archaeometry | 15 |
+|Journal of Archaeological Science | 8 |
+|Historical Metallurgy | 4 |
+|METALLA | 3 |
+|Journal of Archaeological Method and Theory | 2 |
+|Journal of World Prehistory | 2 |
+|Advances in Archaeomaterials	| 2 |
+|STAR: Science & Technology of Archaeological Research | 1 |
+|Total | 100 |
+
+The number of articles per journal surveyed for this study.  
+
+:::
+
 
 These articles contain a variety of research aims and methodologies, including provenance studies, site reports, regional studies and experimental archaeology. The most commonly studied metals in compositional analyses were iron and copper alloys. Isotope research was mostly confined to lead isotopes, although a few articles also employed tin isotope analysis and one employed osmium isotope analysis. The analytical techniques to obtain compositional and isotope data that were encountered, in no particular order: XRD, hh/p-XRF, ED-XRF, WD-XRF, µ-XRF, PIXE(-XRF), SEM-EDS/EDX, (p)FIB, XPS, ICP-MS, ICP-QMS, SC-ICP-MS, LA-ICP-MS, MC-ICP-MS, HR-ICP-MS, TIMS, AFM, ICP-OES, INAA, PGAA, ICP-AES, MP-AES and FAAS (see compendium for full list). The majority of articles that were surveyed employed more than one technique, with many studies combining some level of invasive sampling with non-invasive survey techniques or combining compositional analysis of the bulk metal with isotope analysis. 
 
 ## Results of the reproducibility index
 Articles, including their supplements, were evaluated against the index with all information taken at face-value. No statement or judgement was made on the content of the articles that were reviewed, or of the methods or techniques chosen beyond the formal aspects of reproducibility/replicability. However, the level of friction or difficulty that was encountered in the reproduction attempt was taken into consideration. The more steps that needed to be taken to find data, export it into a usable format, collate it with the relevant metadata etc., the higher the risk of incurring human-introduced errors. Ambiguous language when describing certain steps, from analytical protocols to data transformation choices, was also sometimes cause for lowering the score because the choices made by the original researcher could not be distilled from the writing with certainty, impacting our ability to reproduce the results with confidence. 
 
-A total of 26 points could be scored across the index, two for each stage. Table ## presents the summary statistics of how the 100 selected publications performed on average and overall, with no scores awarded (NA) to stages that did not apply. The highest overall score was 25, which was only awarded once, the lowest awarded score was 10, and the mean reproducibility score across all publications was 16.3. 
+A total of 26 points could be scored across the index, two for each stage. @tbl-summary-stats presents the summary statistics of how the 100 selected publications performed on average and overall, with no scores awarded (NA) to stages that did not apply. The highest overall score was 25, which was only awarded once, the lowest awarded score was 10, and the mean reproducibility score across all publications was 16.3. 
 
 ```{r}
-#| label: summary-stats
+#| label: tbl-summary-stats
 #| tbl-cap: "Descriptive statistics for the surveyed articles per stage and as total. "
 
 stats <- scores_summary(df, "Stage_") 
@@ -241,13 +269,11 @@ stats <- scores_summary(df, "Stage_")
 stats$Stage <- sub("\\_", " ", stats$Stage)
 stats$Mean <- round(stats$Mean, 2)
 
-utils::write.csv2(stats, "table_2.csv", na = "", row.names = FALSE)
-
-stats
+knitr::kable(stats, align = c("l", rep("r", 5)))
 ```
 
 
-The scores for each of the 12 stages for each article are visualised as Sankey flow chart (Fig. ##) to highlight broader trends in these publications per stage. As both the bar chart (Fig. ##) and Sankey flow chart (Fig, ##) clearly show, the sample of publications performed better at some stages than at others. No single publication scored a two across the board. The lowest scoring stages (mean 1.5 or lower) fall into two categories: documentation and replicability of the analytical protocol (stages 0, 1, 4-5 and 7) and computational reproducibility (stages 2 and 10-12). 
+The scores for each of the 12 stages for each article are visualised as bar chart (@fig-bar-plot) and the Sankey flow chart in the compendium (###) highlights changes of scores between stages. As both the bar chart (@fig-bar-plot) and Sankey flow chart (###) clearly show, the sample of publications performed better at some stages than at others. No single publication scored a two across the board. The lowest scoring stages (mean 1.5 or lower) fall into two categories: documentation and replicability of the analytical protocol (stages 0, 1, 4-5 and 7) and computational reproducibility (stages 2 and 10-12). 
 
 ```{r }
 #| label: sankey
@@ -255,20 +281,21 @@ The scores for each of the 12 stages for each article are visualised as Sankey f
 
 plot <- sankey_plot(df, width = 1500)
 
-networkD3::saveNetwork(plot, "../supplementary-materials/Sankey.html", selfcontained = TRUE)
-
-#plot
+networkD3::saveNetwork(plot, "../figures/Sankey.html", selfcontained = TRUE)
 
 ```
 
-```{r bar-chart}
-
-#| label: bar-chart
+```{r}
+#| label: fig-bar-plot
 #| fig-cap: "Bar chart with the scoring of the surveyed literature per stage. Because 100 articles were surveyed, the percentage equals the number of articles."
+#| fig-width: 3.5
+#| fig-height: 3
 
 plot_stats <- scores_plot(subset(df, select = grepv("Stage", colnames(df))))
 
-ggplot2::ggsave("../figures/bar-chart.svg", units = "mm")
+ggplot2::ggsave("../figures/bar-chart.eps", device="eps", 
+                units = "mm", width = 84, height = 76, colormodel = "cmyk"
+                )
 
 plot_stats
 
@@ -293,7 +320,7 @@ For the purpose of this study, it was generally not taken into account for the s
 The distinction between the scores 1 and 2 was purely informed by level of friction. Both reflect the inclusion of all data necessary to computationally reproduce the published result. Scores of 2 were given to studies that include their analytical data in data formats that are relatively straightforward to import into data processing software, in our case R. In practice, this usually means Microsoft Excel or .csv files in digital supplements. Data provided in digital supplements that create extra barriers in the form of copy-pasting and sorting, such as Microsoft Word files or PDFs, were given a score of 1 to reflect these extra steps, as these were harder to automate, increasing the risk of human error. The same argument was applied to publications where all data was contained in tables in the text of the article.
 
 #### Stage 3: Handling of comparative data
-42% of surveyed publications did not include any data from previous publications or repositories for comparative purposes. Lack of transparency, in the form of missing citations, unclear citations, or unclear use is encountered in 18 cases. These include cases where references are included in the running text rather than in the caption of the specific visualisation where the data are used and cases that only cite very generally (e.g., to the OXALID database without specifications of which reports or sites within those databases are used), all score 1.  Cases where visualisations used comparative data without any indication scored 0. 
+42% of surveyed publications did not include any data from previous publications or repositories for comparative purposes. Lack of transparency, in the form of missing citations, unclear citations, or unclear use is encountered in 18 cases. These include cases where references are included in the running text rather than in the caption of the specific visualisation where the data are used and cases that only cite very generally (e.g., to the OXALID database without specifications of which reports or sites within those database are used), all score 1. Cases where visualisations used comparative data without any indication scored 0. 
 
 ### Phase 2: Data quality (stages 4-6)
 #### Stage 4: Calibration and standardisation
@@ -326,7 +353,7 @@ The other cases concern two scenarios: either the necessary metadata was present
 The majority of articles, over three-quarters of the dataset, do not use any statistical analysis, reflecting the common practice of publishing individual sites or collections and of relatively small datasets that do not require such heavy-handed approaches. In those articles that use statistical tools, a range of statistical tests, models and calculations is encountered, namely kernel density estimates or kernel smoothing, Euclidean distances, cluster analysis of various forms (most commonly hierarchical clustering (HCA) using Ward’s method), linear discriminant analysis (LDA), factor analysis and principal component analysis (PCA). Some of these use standard calculations or formulae, such as Euclidean distances or isochrones, which aides in reproduction, especially in the cases where the authors cite these or provide them directly in their article or supplements. Subtypes of particular analysis (such as specifying Ward’s method for HCA) were also frequently specified, which helps with choosing the right tools. 
 
 #### Stage 10: Data transformation
-In the 13 articles performing data transformations, they include normalisation to particular minerals or totals of a selection of minerals, Centered Log-Ratio Transformation (CRL), logarithmic transformations and scaling, and these were applied appropriately for the statistical tests that was chosen. However, multi-variate statistics such as PCA or HCA present somewhat of a black box with parameters that can be set by the analyst, requiring clear documentation of those parameters in order to make them fully reproducible. Some R functions for these methods also sometimes come with default settings, which can differ between different functions that perform the same type of test (e.g., princomp() and prcomp() for PCA); all of which needs to be clarified in writing. In more than half of the articles, this was documented fully, with the most common hurdle being data curation and transformation: handling of outliers, missing values, zeroes or values below the limit of detection. This type of information may not have been included because it is deemed self-explanatory or irrelevant, and in some cases it may be reconstructed through trial and error. However, the friction this causes for the reproducer was significant and in some cases it makes reproducing the results entirely impossible.
+In the 13 articles performing data transformations, they include normalisation to particular minerals or totals of a selection of minerals, Centered Log-Ratio Transformation (CRL), logarithmic transformations and scaling, and these were applied appropriately for the statistical tests that was chosen. However, multi-variate statistics such as PCA or HCA present somewhat of a black box with parameters that can be set by the analyst, requiring clear documentation of those parameters in order to make them fully reproducible. Some R functions for these methods also sometimes come with default settings, which can differ between different functions that perform the same type of test (e.g., *princomp()* and *prcomp()* for PCA); all of which needs to be clarified in writing. In more than half of the articles, this was documented fully, with the most common hurdle being data curation and transformation: handling of outliers, missing values, zeroes or values below the limit of detection. This type of information may not have been included because it is deemed self-explanatory or irrelevant, and in some cases it may be reconstructed through trial and error. However, the friction this causes for the reproducer was significant and in some cases it makes reproducing the results entirely impossible.
 
 #### Stage 11: Description of statistical tests and calculations
 The majority of publications surveyed did not employ any advanced forms of multi-variate statistics. Within those that did, the most common types were: factor analysis, cluster analysis, linear discriminant analysis (LDA) and PCA (Shadmeir and Mostafaei 2016; Baxter 2015). Although in most cases the specific type of analysis is indicated (such as Ward’s method for HCA), this was not always included, such as in the case of a correlation matrix which did not specify what type of correlation methods (Spearman, Pearson, etc.) was applied. 
@@ -344,8 +371,9 @@ The common reason for irreproducibility of PCA biplots, clustering dendrograms a
 As scaling compositional data is considered best practice for PCA, we included this as standard procedure in our reproduction attempt, although in the end it was found that this was not always the approach taken by the studies we tried to reproduce. We will illustrate one example of PCA application here, where only the data (which did not contain missing or zero values) were provided with some instructions on data treatment. 
 
 ```{r}
-#| label: reprod-PCA
+#| label: fig-reprod-PCA
 #| fig-cap: "Attempted reproduction of Figure 8 in article 44 based on the data provided in their digital supplement. (a) The anonymised original plot. PCA analyses on CLR transformed data with princomp() of the R stats package on (b) centred and scaled and (c) uncentred and unscaled data. (d, e, f, g): PCA analyses with prcomp() of the R stats package for all possible combinations of (un)centred and (un)scaled data."
+#| fig-width: 12
 
 ID44_fig8_data <- read.table(
   text = 'Site	Fe	Co	Ni	Zn	As	Se	Ag	Sn	Sb	Te	Au	Pb	Bi
@@ -450,64 +478,72 @@ plot_reprod_PCA <- reprod_PCA(ID44_fig8_data)
 
 # combine plots
 
-plots_princomp <- cowplot::plot_grid(
-  plot_reprod_PCA$csI2, 
+plots_PCA_orig <- cowplot::ggdraw() + 
+  cowplot::draw_image("../figures/ID44_original_anonymised.tif")
+
+legend_PCA <- cowplot::get_legend(plot_reprod_PCA$csI2)
+
+plots_PCA <- cowplot::plot_grid(
+  plots_PCA_orig, 
+  plot_reprod_PCA$csI2 + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$csV2, 
-  plot_reprod_PCA$cuI2, 
+  plot_reprod_PCA$cuI2 + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$cuV2, 
-  nrow = 2, vjust = 1, hjust = -0.25, align = "h", 
-  labels = c("b: Centred, scaled", NA, "c: Centred, unscaled")
-  )
-
-plots_prcomp <- cowplot::plot_grid(
-  plot_reprod_PCA$csI, 
+  NULL,
+  plot_reprod_PCA$csI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$csV, 
-  plot_reprod_PCA$cuI, 
+  plot_reprod_PCA$cuI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$cuV, 
-  plot_reprod_PCA$usI, 
+  legend_PCA,  
+  plot_reprod_PCA$usI + ggplot2::theme(legend.position = "none"), 
   plot_reprod_PCA$usV, 
-  plot_reprod_PCA$uuI, 
-  plot_reprod_PCA$uuV, 
-  nrow = 2, vjust = 1, hjust = -0.05, align = "h", 
-  labels = c("d: Centred, scaled", NA, "r: Centred, unscaled", NA, "f: Uncentred, scaled", NA, "g: Uncentred, unscaled")
-  )
+  plot_reprod_PCA$uuI + ggplot2::theme(legend.position = "none"), 
+  plot_reprod_PCA$uuV,
+  labels = c("a: original", "b: centred, scaled", NA, "c: centred, unscaled", NA, NA, "d: centred, scaled", NA, "e: centred, unscaled", NA, NA, "f: uncentred, scaled", NA, "g: uncentred, unscaled"), 
+  vjust = 1, hjust = -0.05, align = "h", 
+  ncol = 5
+)
 
-#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_prcomp.tif", plot = plots_prcomp, height = 20, width = 30, units = "cm", dpi = 1200, compression = "lzw")
+ggplot2::ggsave("../figures/fig_repro_PCA.tif", plot = plots_PCA, 
+                height = 23, width = 30, units = "cm", dpi = 1200, compression = "lzw"
+                )
 
-#ggplot2::ggsave("analysis/figures/fig_reprod_PCA_princomp.tif", plot = plots_princomp, height = 20, width = 15, units = "cm", dpi = 1200, compression = "lzw")
+plots_PCA
 
 ```
 
-Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (fig. ##a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
+Publication 44 in our dataset performed, according to the image caption, a PCA analysis CLR-transformed data for 13 trace elements (@fig-reprod-PCA a). The relevant underlying datasheet was imported from the digital supplement and all plotted data points were manually counted, confirming that the same number of analyses in the dataset were plotted in the publication. As the data were published in a table in a PDF file, these were copy-pasted into Microsoft Excel, manually manipulated into columns using the ‘Text to Columns’-function, and cleaned. To minimise potential impact of human error in this step, as this could not be automatised, the analysis was attempted several times. 
 
-The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (see compendium for full code). The data were CLR transformed using the function clr() of the R package compositions (Van den Boogaart 2025) and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: prcomp() and princomp(). 
+The resulting compositional data, as well as the necessary archaeological metadata for the iconography was loaded into Rstudio (full code in the compendium: ###). The data were CLR transformed using the function *clr()* of the R package compositions [@compositions] and used to perform a series of six different PCAs, experimenting with different parameters across two standard R functions for PCA: *prcomp()* and *princomp()*. 
 
-For prcomp(), which takes the arguments scale. and center for scaling and centering respectively, four permutations were performed (Fig. ##d-g):
+For *princomp()*, which automatically centers the data, two iterations were run (@fig-reprod-PCA b,c): 
+
+1. scaled data, centered
+2. unscaled data, centered
+
+For *prcomp()*, which takes the arguments *scale.* and *center* for scaling and centering respectively, four permutations were performed (@fig-reprod-PCA d-g):
 
 1. scaled data, centered 
 2. unscaled data, centered
 3. scaled data, but uncentered 
 4. unscaled data, uncentered
 
-For princomp(), which automatically centers the data, two iterations were run: 
+Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using *prcomp()*, higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using *prcomp()* was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
 
-1. scaled data, centered
-2. unscaled data, centered
-
-Graphs of the individuals and the variables were plotted for each of the six permutations. None of the resulting biplots were a match to the published graphs, in both the distribution and variation and the relative contribution of components 1 and 2 on the x- and y-axis. In some cases, namely options 3 and 4 using prcomp(), higher overall contribution percentages were achieved than the original graph (up to 68.9% on the x-axis). Option 1 using prcomp() was the closest mathematical match to the original graph (28.8% and 14.9% on x- and y-axis respectively, compared to the original 29.3% and 11.3%). Because of the mathematical mismatch, full reproduction of the colour-coding according to the archaeological metadata was not attempted.  
-
-On the other end of the reproducibility spectrum for multi-variate statistics visualisations are two cases, which are highlighted here as examples of excellent practice. Both include include the hard-coded data pipeline in fully commented R code files as supplements (Erb-Satullo and Klymchuk 2025; Stodolová et al. 2025). This meant any choices regarding data selection, normalisation (e.g. for ternary diagrams), scaling or handling missing values were all documented and easy to follow for the outsider. Stodolová et al. 2025 in particular provided a wealth of information for HCA and PCA, as well as providing individualised code for additional graphs that were not included in the paper, effectively using the code supplement as an additional analytical offering. One other publication (Lachenal et al. 2025) included full variance tables and eigenvalues for their PCA work in their supplement, enabling very straightforward reproduction of the original graphs. The calculation of these values was also possible with minor experimentation. 
+On the other end of the reproducibility spectrum for multi-variate statistics visualisations are two cases, which are highlighted here as examples of excellent practice. Both include include the hard-coded data pipeline in fully commented R code files as supplements [Erb-Satullo and Klymchuk 2025; @stodolova_beyond_2025]. This meant any choices regarding data selection, normalisation (e.g. for ternary diagrams), scaling or handling missing values were all documented and easy to follow for the outsider. @stodolova_beyond_2025 in particular provided a wealth of information for HCA and PCA, as well as providing individualised code for additional graphs that were not included in the paper, effectively using the code supplement as an additional analytical offering. One other publication (Lachenal et al. 2025) included full variance tables and eigenvalues for their PCA work in their supplement, enabling very straightforward reproduction of the original graphs. The calculation of these values was also possible with minor experimentation. 
 
 ##### Bi-variate plots
-Graphs that require minimal data manipulation and that can usually handle zero values such as scatter plots and box plots were generally easy to reproduce by importing the datasets into R and using ggplot2 (#Citation#) to reproduce the plotting coordinates and any archaeologically informed colour-coding and iconography. However, several issues were encountered here as well, mostly regarding data selection, missing archaeological metadata or missing compositional data. Missing, incomplete, ambiguous or inconsistent labelling of metadata in text, graph and dataset sometimes meant iconography of graphs (shapes and colours) could not be replicated directly, but this was usually possible to retro-engineer. 
+Graphs that require minimal data manipulation and that can usually handle zero values such as scatter plots and box plots were generally easy to reproduce by importing the datasets into R and using ggplot2 [@ggplot2] to reproduce the plotting coordinates and any archaeologically informed colour-coding and iconography. However, several issues were encountered here as well, mostly regarding data selection, missing archaeological metadata or missing compositional data. Missing, incomplete, ambiguous or inconsistent labelling of metadata in text, graph and dataset sometimes meant iconography of graphs (shapes and colours) could not be replicated directly, but this was usually possible to retro-engineer. 
 
-One anonymised example is highlighted here as example of insufficiently documented data selection and outlier treatment (figure ##). The original graph was published in article ## in our survey, which included the raw underlying data collected by the authors and a supplement of comparative data sourced from other publications. As the original image caption did not indicate that comparative data were used, only the original data were used for the first reproduction attempt. An outlier is not included in the published plot and although it was explicitly discussed in the text, its removal was not documented. Other data points were also absent, resulting in the inclusion of the comparative data provided in their supplement. This attempt filled in some gaps in point distribution identifiable in the previous attempt; however, new points were added that are not present in the original graph. 
+One anonymised example is highlighted here as example of insufficiently documented data selection and outlier treatment (@fig-reprod-scatter). The original graph was published in article 96 in our survey, which included the raw underlying data collected by the authors and a supplement of comparative data sourced from other publications. As the original image caption did not indicate that comparative data were used, only the original data were used for the first reproduction attempt. An outlier is not included in the published plot and although it was explicitly discussed in the text, its removal was not documented. Other data points were also absent, resulting in the inclusion of the comparative data provided in their supplement. This attempt filled in some gaps in point distribution identifiable in the previous attempt; however, new points were added that are not present in the original graph. 
 
 We hope to make clear with this example that the scatter plot as published in the original article is clearly based on the data provided in the articles text and appendices, but that a selection of data was made that was not indicated transparently in the article itself. The use of comparative data in the original graph was also not stated in the caption or in the text. Although this was findable, the lack of clarity around what data or selection of data were used for visualisations led to friction for the reproducer and reduced confidence and trust in the information provided for the re-user.
 
 ```{r}
-#| label: reprod-scatter
-#| fig-cap: "Attempted reproduction of Figure 4a in article 96. (a) The anonymised original plot; (b) The reproduced plot with the data provided in the article; (c) The reproduced plot with data in the appendix. Data for group 4 taken from the text because the appendix does not include data for this group. Note that data reported in the text and the appendix overlaps, and that the axis limits exclude a data point from Group 4 at 206Pb/204Pb = 23.553, 207Pb/204Pb = 16.443). Two isotope ratio scatterplots were published in this article and both were subjected to the reproduction attempts described here; identical problems were encountered for both, so only one is included here."
+#| label: fig-reprod-scatter
+#| fig-cap: "Attempted reproduction of Figure 4a in article 96. (a) The anonymised original plot; (b) The reproduced plot with the data provided in the article; (c) The reproduced plot with data in the appendix. Data for group 4 taken from the text because the appendix does not include data for this group. Note that data reported in the text and the appendix overlaps, and that the axis limits exclude a data point from Group 4 at ^206^Pb/^204^Pb = 23.553, ^207^Pb/^204^Pb = 16.443). Two isotope ratio scatterplots were published in this article and both were subjected to the reproduction attempts described here; identical problems were encountered for both, so only one is included here."
+#| fig-width: 11.8
+#| fig-height: 3.5
 
 ID96_fig4a_data_text <- read.table(text = 'Period	206Pb/204Pb	207Pb/204Pb	208Pb/204Pb
 Group_4	18.384	15.649	38.908
@@ -626,7 +662,7 @@ ID96_fig4a_data_text$Period <- gsub("\\_", " ", ID96_fig4a_data_text$Period)
 ID96_fig4a_data_app$Period <- gsub("\\_", " ", ID96_fig4a_data_app$Period)
 
 # import anonymised original plot (requires package magick)
-a <- cowplot::ggdraw(clip = TRUE) +
+a <- cowplot::ggdraw() +
   cowplot::draw_image("../figures/ID96_original_anonymised.tif")
 
 ID96_fig4a_plot <- reprod_scatter(ID96_fig4a_data_text, ID96_fig4a_data_app)
@@ -635,8 +671,8 @@ ID96_fig4a_plot <- reprod_scatter(ID96_fig4a_data_text, ID96_fig4a_data_app)
 plot <- cowplot::plot_grid(a, ID96_fig4a_plot$plot_text, ID96_fig4a_plot$plot_app, labels = c("a", "b", "c"), ncol = 3)
 
 # export
-ggplot2::ggsave("../figures/fig_repro_scatter.svg", plot = plot,
-       height = 8.5, width = 10*3, dpi = 1200, units = "cm"
+ggplot2::ggsave("../figures/fig_repro_scatter.tif", plot = plot,
+       height = 8.5, width = 10*3, units = "cm", dpi = 1200, compression = "lzw"
        )
 
 plot
@@ -646,7 +682,7 @@ plot
 # Discussion and recommendations 
 Lower scores on the metrics associated with the analytical protocol indicate that descriptions were incomplete or that necessary details were glossed over. As these are also the more technical aspects of data-led publications, this may very well be due to word count restraints, the desire by authors not to repeat themselves across multiple publications if settings or protocols are identical to previous work (as indicated in some publications were citations are given to previous work in the methodology section), an assumption by specialists that this information is self-explanatory or irrelevant to the reader, or a combination of these factors. 
 
-Stages related to computational reproducibility that scored low indicated a range of experiences: from missing information that made reproduction impossible (such as how zero/bdl values were handled to missing parameters on multi-variate statistics) to reproduction with a certain level of friction (information was present but needed to be pulled from different tables/appendices or data were provided in formats that were error-prone for re-use). Notably, stage 2 (inclusion of original data) scored relatively low with an average of 1.2 (fig. ##bar chart), due to the inclusion of re-use friction as a contributing factor in our scoring system and the relatively common use of tables in text or digital supplements of PDF or Microsoft Word files. For stages 10 and 11, it should be borne in mind that of the 100 articles that were analysed, 79 did not include any statistical analyses (scoring an NA). Similarly, 21 articles did not include any visualisations of compositional data (stage 12). This means the overall scores on these stages are based on only a subsection of the dataset.
+Stages related to computational reproducibility that scored low indicated a range of experiences: from missing information that made reproduction impossible (such as how zero/bdl values were handled to missing parameters on multi-variate statistics) to reproduction with a certain level of friction (information was present but needed to be pulled from different tables/appendices or data were provided in formats that were error-prone for re-use). Notably, stage 2 (inclusion of original data) scored relatively low with an average of 1.2 (@fig-bar-plot), due to the inclusion of re-use friction as a contributing factor in our scoring system and the relatively common use of tables in text or digital supplements of PDF or Microsoft Word files. For stages 10 and 11, it should be borne in mind that of the 100 articles that were analysed, 79 did not include any statistical analyses (scoring an NA). Similarly, 21 articles did not include any visualisations of compositional data (stage 12). This means the overall scores on these stages are based on only a subsection of the dataset.
 
 About half of the surveyed articles in each stage were already fully reproducible (score 2), and, except for stage 5, only a small number of articles per stage was not reproducible (score 0). This shows that the community is already well aware of the topic while room for improvement remains. The reproducibility index presented here already provides pointers for authors, reviewers, and editors for further increasing the reproducibility of research output. For the topics with the highest potential for improvement, additional recommendations will be provided below: analytical protocols, handling of analytical uncertainty, transparency in data treatment, adoption of standardised terminologies, and visualisation. 
 
@@ -658,12 +694,12 @@ Some surveyed publications kept their methodology sections brief by citing analy
 Stage 5, the inclusion of analytical uncertainties in the reported data, was the most non-reproducible stage among the surveyed literature with almost a fifth of the surveyed articles receiving a score of 0. Most often, analytical uncertainties were not provided for compositional data, especially data obtained by XRF and SEM methods. Consequently, also many plots of compositional data do not include the analytical uncertainties as error bars and may result in a misleading representation of the data. Like all measured quantities, compositional data are not a precise value but probability distributions, with the mean as the most likely value and a value describing the probability distribution’s spread, usually the standard variation. This means that reporting only the mean but not the analytical uncertainty can create a wrong impression of the data and could, e.g., result in the erroneous assignments of artefacts to compositional groups. Moreover, extracting the analytical uncertainties of measurement data from the instrument software is usually straightforward; for example, they are included in the standard output of pXRF instruments. Therefore, researchers must always include analytical uncertainties for all measured values in their research output, and reviewers and editors should always request this information from the authors. 
 
 ## Computational reproducibility and transparency 
-While the analytical protocols encountered in the bibliographic analysis were incredibly varied, the data analytics (statistical tests and forms of visualisation) were fairly standardised across the spectrum. This uniformity of computational approaches makes this part of the research process uniquely suited to the type of computational and formal reproducibility efforts as espoused by Marwick (2025). However, a detailed recording of computational analytics in coded scripts may be beyond the skill sets of many researchers and, while transparency is to be encouraged, a reasonable trade-off is sometimes made for lack of incentives or time pressure (Abdill et al. 2024). The latter may be especially pressing for small-scale studies, studies with a single author, studies by early career researchers, or studies without large amounts of funding backing them. Furthermore, if every study going forward were to produce their own hard-coded data pipeline, this would create a great wealth of methodologies and approaches, which does not necessarily lead to further standardisation of approaches or adoption of methodologies by other scholars. 
+While the analytical protocols encountered in the bibliographic analysis were incredibly varied, the data analytics (statistical tests and forms of visualisation) were fairly standardised across the spectrum. This uniformity of computational approaches makes this part of the research process uniquely suited to the type of computational and formal reproducibility efforts as espoused by @Marwick2025. However, a detailed recording of computational analytics in coded scripts may be beyond the skill sets of many researchers and, while transparency is to be encouraged, a reasonable trade-off is sometimes made for lack of incentives or time pressure [@abdill_how-guide_2024]. The latter may be especially pressing for small-scale studies, studies with a single author, studies by early career researchers, or studies without large amounts of funding backing them. Furthermore, if every study going forward were to produce their own hard-coded data pipeline, this would create a great wealth of methodologies and approaches, which does not necessarily lead to further standardisation of approaches or adoption of methodologies by other scholars. 
 
-Assumptions about how analytical data are constructed or are expected to behave must be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed (Baxter and Gale 1998; Hsu et al. 2018). 
+Assumptions about how analytical data are constructed or are expected to behave must be made explicit and inform the choice for an appropriate statistical test or necessary data transformation. An example might be the use of kernel density estimates in cases where a normal or Gaussian distribution cannot be assumed [@baxter_testing_1998; @hsu_application_2018].  
 
 ## Adoption of standardised terminologies
-Reproducibility of research greatly benefits from avoiding ambiguity in the terms and abbreviations used and, especially if ambiguity cannot be avoided, referring to established definitions for them. Thesauri such as the Arts and Architecture Thesaurus of the Getty Research Institute (Harping 2010) are predestined for this task, and so are controlled vocabularies if they include definitions of the terms. Adopting their use and actively referring to terms in them lower barriers for readers unfamiliar with regional specifics by making it easy to find definitions. In addition, it facilitates comparison between publications and the combination of datasets. While use of standard terminologies may not directly contribute to reproducibility in the sense of analytical or computational reproducibility, they contribute to the replicability of research. 
+Reproducibility of research greatly benefits from avoiding ambiguity in the terms and abbreviations used and, especially if ambiguity cannot be avoided, referring to established definitions for them. Thesauri such as the Arts and Architecture Thesaurus of the Getty Research Institute [@harpring_development_2010] are predestined for this task, and so are controlled vocabularies if they include definitions of the terms. Adopting their use and actively referring to terms in them lower barriers for readers unfamiliar with regional specifics by making it easy to find definitions. In addition, it facilitates comparison between publications and the combination of datasets. While use of standard terminologies may not directly contribute to reproducibility in the sense of analytical or computational reproducibility, they contribute to the replicability of research. 
 
 ## Visualisation
 Visualisations in a little over one third of the articles could not or only partially reproduced. Reasons can be generally grouped into three cases: the plot itself, hampered connections between the reported and the visualised data and a detachment of reported data and visualisation. Reproducibility barriers created by the visualisation itself are rare and represent, for example, regressions lines or ellipses without any further explanation. Consequently, their meaning cannot be understood: is, for example, an ellipsis a statistical confidence ellipsis or is it an annotation to highlight specific parts of the data? 
@@ -672,7 +708,7 @@ Most often, however, plots are not reproducible as a direct consequence of non-r
 All these findings highlight the importance of data pipelines for data processing, including visualisation, and the publication of raw data alongside it in the article or accompanying data publication: This combination guarantees that the link between the data and the visualisations cannot be break. Because every step is recorded, the risk for human error is significantly reduced. In fact, any direct human interaction with the dataset can be eliminated if the pipeline starts directly at the raw data. Moreover, reviewers and other persons can run the pipeline as well, providing an easy way to verify that data processing is reproducible. 
 
 ## Data availability statements
-We already highlighted in the introduction the opportunity within this study to analyse compliance with data availability statement requirements (see criticism in Marwick 2025). Some patterns are observable in how these statements are used, some of which seem to indicate a misunderstanding of what they mean and some seem specific to certain journal policies. 
+We already highlighted in the introduction the opportunity within this study to analyse compliance with data availability statement requirements (see criticism in @Marwick2025). Some patterns are observable in how these statements are used, some of which seem to indicate a misunderstanding of what they mean and some seem specific to certain journal policies. 
 13 publications did not feature a data availability statement, mostly in journals that do not usually feature them (METALLA) or only recently introduced them (Historical Metallurgy). It is also worth noting that two articles were found without such statements in the Journal of Archaeological Science, which employs a reproducibility editor. 
 
 Just over a third of all surveyed articles (37) featured data availability statements that accurately and completely summarised the availability of data in the publication: when data were included in the manuscript, the supplement or both, this was correctly noted. That makes the current state of use for data availability statements seem rather dire, but it is a little more complicated than that. 
@@ -682,24 +718,34 @@ Of the remaining 50 articles, five contained data in a different format than the
 Based on these situation, the usefulness of data availability statements could be questioned. However, they undeniably provide a quick orientation where data can be found or why it is not provided. Therefore, these findings should be interpret as encouragement for editors and reviewers to become more rigorous in the application of the editorial policies, and a call to all authors to be more attentive when writing data availability statements. 
 
 ## A way forward: ASTR
-A promising way forward towards increased computational reproducibility of analytical data is the adoption of the community-driven reporting format recently suggested by the developers of the R package ASTR “Archaeometric Standards and Tools in R”. In contrast to previous suggestions (e.g., Staudigel et al. 2003; Case et al. 2024), this community-driven reporting format defines a set of conventions that reduces implicit information in datasets to a minimum and makes them easy to read for machines and humans alike. It is software and language agnostic and compliant datasets can be prepared with any spreadsheet software. The accompanying R package () increases transparency and reproducibility of data pipelines by providing a citable and open source toolbox for common steps in the discipline’s data pipeline, such as data import, data transformation, visualisation, and statistics. While many of the functions in the ASTR package do not depend on a dataset in the reporting format, adhering to it provides a lot of convenience such as automatic conversion of units and dedicated functions for data subsetting. 
+A promising way forward towards increased computational reproducibility of analytical data is the adoption of the community-driven reporting format recently suggested by the developers of the R package ASTR “Archaeometric Standards and Tools in R”. In contrast to previous suggestions [e.g., @staudigel_electronic_2003; @case_gnd_guide_2024], this community-driven reporting format defines a set of conventions that reduces implicit information in datasets to a minimum and makes them easy to read for machines and humans alike. It is software and language agnostic and compliant datasets can be prepared with any spreadsheet software. The accompanying R package [@astr] increases transparency and reproducibility of data pipelines by providing a citable and open source toolbox for common steps in the discipline’s data pipeline, such as data import, data transformation, visualisation, and statistics. While many of the functions in the ASTR package do not depend on a dataset in the reporting format, adhering to it provides a lot of convenience such as automatic conversion of units and dedicated functions for data subsetting. 
 
+<!-- update ASTR citation -->
 
 # Conclusions
 The inherently destructive nature of archaeological research makes reproducibility a key criteria for data quality in the discipline, and the archaeological sciences are no different, especially if invasive and destructive sampling and analytical methods are involved. To investigate how reproducible the archaeological sciences currently are, a bibliographic survey was carried out on research articles publishing compositional or isotopic data on an archaeometallurgical topic in the field’s major journals between November 2025 and January 2026. A quantifiable description of an article’s reproducibility was gained through an index of 13 stages, each with a possible score of 0, 1 or 2, representing no, partial or full reproducibility. In contrast to previous studies, the stages were defined from a practitioner’s perspective and therefore combine for the first time aspects of analytical and computational reproducibility. 
 
 The bibliographic survey shows an overall good reproducibility with about 50% of the articles in each stage being fully reproducible, a median score of 16 per article and a maximum score of 25 out of 26. However, notable differences between stages can be observed. Potential for improving reproducibility was identified in five major areas: analytical protocols, handling of analytical uncertainty, transparency in data treatment, adoption of standardised terminologies, and visualisation. Recommendations for how reproducibility can be improved are given for each of the topics. Most importantly, data publications provide the option to record the necessary details about the sampling and analytical protocols that can often not be included in the main article due to length restrictions. The adoption of data pipelines for data processing and transformation, ideally starting from the raw data, ensures full reproducibility of data processing and transformation, including statistical tests and visualisations. 
 
-While the surveyed literature is restricted to archaeometallurgical articles, similar findings are expected when all fields in the archaeological sciences creating and publishing compositional and isotopic data would be included. The recommendations can be readily adopted by them. More formalised insights into the state of reproducibility for other fields data types are nevertheless required, and the presented index can serve as the starting points for this endeavour. These insights can be used to develop best practices and tools tailored for the archaeological sciences, such as the best practices for pXRF data (), serving as common reference points. Ideally, such best practices are developed in collaboration with neighbouring fields that use the same analytical methods: Because of the huge variety of methods and data types, the archaeological sciences are in the unique position to spearhead and harmonise such efforts. 
+While the surveyed literature is restricted to archaeometallurgical articles, similar findings are expected when all fields in the archaeological sciences creating and publishing compositional and isotopic data would be included. The recommendations can be readily adopted by them. More formalised insights into the state of reproducibility for other fields data types are nevertheless required, and the presented index can serve as the starting points for this endeavour. These insights can be used to develop best practices and tools tailored for the archaeological sciences, such as the best practices for pXRF data [@johnson_best_2024], serving as common reference points. Ideally, such best practices are developed in collaboration with neighbouring fields that use the same analytical methods: Because of the huge variety of methods and data types, the archaeological sciences are in the unique position to spearhead and harmonise such efforts. 
 
 # Acknowledgements
 
 
 # Funding
-This research was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – 571205551.
+This study was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – 571205551.
 
-# Author declarations
+# Statements and Declarations
 
+## Data availability statement
+Survey results, including comments for each score as well as all code created in the study are made available on as data compendium on Zenodo (<##DOI##>) and as [Github repository](https://github.com/archaeothommy/ReproducibilityArchaeometallurgy). 
+
+## Competing interests
+The authors have no competing interests to declare that are relevant to the content of this article.
+
+## Author contributions
+Berber S. van der Meulen-van der Veen: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Software, Writing – original draft, Writing – review & editing  
+Thomas Rose: Conceptualization, Data curation, Funding acquisition, Methodology, Software, Validation, Visualization, Writing – original draft, Writing – review & editing
 
 # References
 

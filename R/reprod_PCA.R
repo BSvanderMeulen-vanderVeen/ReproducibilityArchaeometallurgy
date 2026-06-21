@@ -29,15 +29,14 @@ reprod_PCA <- function(df, groups = "Site", palette_colour = c("red", "orange", 
 
   # common plot design
   plot_design <- list(
-    ggplot2::scale_color_discrete(name = NULL, palette = palette_colour),
+    ggplot2::scale_color_discrete(name = "Sites:", palette = palette_colour),
     ggplot2::scale_shape_manual(name = NULL, values = rep(16, 5)),
-    ggplot2::guides(shape = "none", color = ggplot2::guide_legend(nrow=2, byrow = TRUE)),
+    ggplot2::guides(shape = "none"),
     ggplot2::theme_bw(),
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       plot.margin = ggplot2::margin(7, 3, 0, 3, "mm"),
       aspect.ratio = 1,
-      legend.position = "bottom",
       legend.text = ggplot2::element_text(margin = ggplot2::margin(0, 1, 0, 0, "mm")),
       legend.key.spacing.y = ggplot2::unit(-5, "pt"),
     )
