@@ -10,3 +10,5 @@ analysis
 ^CONTRIBUTING\.md$
 ^\.binder/Dockerfile$
 ^\.binder$
+^\.positai$
+^\.claude$
