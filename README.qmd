@@ -19,8 +19,7 @@ Journal <- "Archaeological and Anthropological Sciences, submitted"
 <!-- badges: start -->
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/archaeothommy/ReproducibilityArchaeometallurgy/master?urlpath=rstudio)
-
-<!-- add badge for DOI -->
+[![Zenodo DOI badge](https://zenodo.org/badge/DOI/10.5281/zenodo.20931685.svg)](https://doi.org/10.5281/zenodo.20931684)
 
 <!-- badges: end -->
 
@@ -28,13 +27,13 @@ Journal <- "Archaeological and Anthropological Sciences, submitted"
 
 This repository contains the data, code, and manuscript source document for our paper:
 
-> van der Meulen-van der Veen, B. S., Rose, T., (2026). _`r Title`_. `r Journal`. <!-- <https://doi.org/xxx/xxx> -->
+> van der Meulen-van der Veen, B. S., Rose, T., (2026). _`r Title`_. `r Journal`. <!-- <https://doi.org/> -->
 
 ### How to cite
 
 Please cite this compendium as:
 
-> Rose, T., van der Meulen-van der Veen, B. S., (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for: `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
+> Rose, T., van der Meulen-van der Veen, B. S., (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for: `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/10.5281/zenodo.20931684>
 
 ## Contents
 
@@ -67,7 +66,7 @@ You can download the compendium as a zip from from this URL:
 - run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the [DESCRIPTION](/DESCRIPTION) file).
 - finally, open `analysis/paper/paper.qmd` and knit to produce the `paper.docx`, or run `rmarkdown::render("analysis/paper/paper.qmd")` in the R console
 
-### Licenses
+## Licenses
 
 **Text and figures :**  [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
 

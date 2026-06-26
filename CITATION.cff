@@ -8,23 +8,31 @@ title: >-
   reproducibility
 message: >-
   If you use this dataset, please cite it using the metadata
-  from this file.
+  from Zenodo.
 type: dataset
 authors:
   - given-names: Thomas
     family-names: Rose
     orcid: 'https://orcid.org/0000-0002-8186-3566'
     affiliation: >-
-      Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum,
-      Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany
+      Leibniz-Forschungsmuseum für Georessourcen/Deutsches
+      Bergbau-Museum Bochum, Research Area
+      Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum,
+      Germany
     email: roseth@mit.edu
   - family-names: van der Meulen-van der Veen
     given-names: Berber S.
     email: b.s.vandermeulen@uva.nl
     orcid: 'https://orcid.org/0000-0001-5297-0269'
     affiliation: >-
-      Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum,
-      Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany
+      Leibniz-Forschungsmuseum für Georessourcen/Deutsches
+      Bergbau-Museum Bochum, Research Area
+      Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum,
+      Germany
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20931684
+    description: Zenodo record
 repository-code: >-
   https://github.com/archaeothommy/ReproducibilityArchaeometallurgy
 abstract: >-

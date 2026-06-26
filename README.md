@@ -4,9 +4,9 @@
 
 <!-- badges: start -->
 
-[![](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/archaeothommy/ReproducibilityArchaeometallurgy/master?urlpath=rstudio)
-
-<!-- add badge for DOI -->
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/archaeothommy/ReproducibilityArchaeometallurgy/master?urlpath=rstudio)
+[![Zenodo DOI
+badge](https://zenodo.org/badge/DOI/10.5281/zenodo.20931685.svg)](https://doi.org/10.5281/zenodo.20931684)
 
 <!-- badges: end -->
 
@@ -18,7 +18,7 @@ for our paper:
 > van der Meulen-van der Veen, B. S., Rose, T., (2026). *The bare
 > necessities: Improving data quality in archaeometallurgy through
 > reproducibility*. Archaeological and Anthropological Sciences,
-> submitted. <!-- <https://doi.org/xxx/xxx> -->
+> submitted. <!-- <https://doi.org/> -->
 
 ### How to cite
 
@@ -26,8 +26,8 @@ Please cite this compendium as:
 
 > Rose, T., van der Meulen-van der Veen, B. S., (2026). *Compendium of R
 > code and data for: The bare necessities: Improving data quality in
-> archaeometallurgy through reproducibility*. Accessed 19 Jun 2026.
-> Online at <https://doi.org/xxx/xxx>
+> archaeometallurgy through reproducibility*. Accessed 26 Jun 2026.
+> Online at <https://doi.org/10.5281/zenodo.20931684>
 
 ## Contents
 
@@ -65,7 +65,7 @@ packages this analysis depends on (also listed in the
 `analysis/paper/paper.qmd` and knit to produce the `paper.docx`, or run
 `rmarkdown::render("analysis/paper/paper.qmd")` in the R console
 
-### Licenses
+## Licenses
 
 **Text and figures :**
 [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
