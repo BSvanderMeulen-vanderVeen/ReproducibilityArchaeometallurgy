@@ -5,62 +5,58 @@ cff-version: 1.2.0
 title: >-
   Compendium of R code and data for: The bare necessities:
   Improving data quality in archaeometallurgy through
-reproducibility
+  reproducibility
 message: >-
   If you use this dataset, please cite it using the metadata
-from this file.
+  from this file.
 type: dataset
 authors:
   - given-names: Thomas
-family-names: Rose
-orcid: 'https://orcid.org/0000-0002-8186-3566'
-affiliation: >-
-  Leibniz-Forschungsmuseum für Georessourcen/Deutsches
-Bergbau-Museum Bochum, Research Area
-Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum,
-Germany
-email: roseth@mit.edu
-- family-names: van der Meulen-van der Veen
-given-names: Berber S.
-email: b.s.vandermeulen@uva.nl
-orcid: 'https://orcid.org/0000-0001-5297-0269'
-affiliation: >-
-  Leibniz-Forschungsmuseum für Georessourcen/Deutsches
-Bergbau-Museum Bochum, Research Area
-Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum,
-Germany
+    family-names: Rose
+    orcid: 'https://orcid.org/0000-0002-8186-3566'
+    affiliation: >-
+      Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum,
+      Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany
+    email: roseth@mit.edu
+  - family-names: van der Meulen-van der Veen
+    given-names: Berber S.
+    email: b.s.vandermeulen@uva.nl
+    orcid: 'https://orcid.org/0000-0001-5297-0269'
+    affiliation: >-
+      Leibniz-Forschungsmuseum für Georessourcen/Deutsches Bergbau-Museum Bochum,
+      Research Area Archaeometallurgy, Am Bergbaumuseum 28, 44791 Bochum, Germany
 repository-code: >-
   https://github.com/archaeothommy/ReproducibilityArchaeometallurgy
 abstract: >-
   To test the current state of reproducibility in the
-archaeological sciences, a bibliographic survey was
-performed on articles publishing compositional and
-isotopic data in the field’s major journals between
-November 2025 and January 2026. While restricted to
-archaeometallurgy, it can be assumed that the findings are
-applicable to other subfields because of the featured
-analytical methods and the similar considerations in
-sampling and data processing. A reproducibility index was
-developed to provide a comparable and quantitative
-assessment. The index follows a practitioner’s
-perspective, combining elements of analytical and
-computational reproducibility. While about 50% of the
-articles are fully reproducible in each stage, pronounced
-differences can be observed between stages. Overall data
-quality would from benefit from increased reproducibility
-of analytical protocols and visualisations, improved
-handling of analytical uncertainty, transparency in data
-treatment, and the adoption of standardised terminologies,
-as well as more attention to the accuracy of data
-availability statements. Recommendations are provided for
-each topic. The adoption of data publications and data
-processing pipelines are identified as the most impactful
-measures because they address several of the identified
-target areas at once.
+  archaeological sciences, a bibliographic survey was
+  performed on articles publishing compositional and
+  isotopic data in the field’s major journals between
+  November 2025 and January 2026. While restricted to
+  archaeometallurgy, it can be assumed that the findings are
+  applicable to other subfields because of the featured
+  analytical methods and the similar considerations in
+  sampling and data processing. A reproducibility index was
+  developed to provide a comparable and quantitative
+  assessment. The index follows a practitioner’s
+  perspective, combining elements of analytical and
+  computational reproducibility. While about 50% of the
+  articles are fully reproducible in each stage, pronounced
+  differences can be observed between stages. Overall data
+  quality would from benefit from increased reproducibility
+  of analytical protocols and visualisations, improved
+  handling of analytical uncertainty, transparency in data
+  treatment, and the adoption of standardised terminologies,
+  as well as more attention to the accuracy of data
+  availability statements. Recommendations are provided for
+  each topic. The adoption of data publications and data
+  processing pipelines are identified as the most impactful
+  measures because they address several of the identified
+  target areas at once.
 keywords:
   - Archaeometallurgy
-- Data quality
-- Reproducibility
-- Literature survey
-- Publishing
+  - Data quality
+  - Reproducibility
+  - Literature survey
+  - Publishing
 license: CC-BY-4.0
