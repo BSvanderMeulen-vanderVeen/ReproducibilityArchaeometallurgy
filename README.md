@@ -15,18 +15,15 @@ badge](https://zenodo.org/badge/DOI/10.5281/zenodo.20931685.svg)](https://doi.or
 This repository contains the data, code, and manuscript source document
 for our paper:
 
-> van der Meulen-van der Veen, B. S., Rose, T., (2026). *The bare
-> necessities: Improving data quality in archaeometallurgy through
-> reproducibility*. Archaeological and Anthropological Sciences,
-> submitted. <!-- <https://doi.org/> -->
+> van der Meulen-van der Veen, B. S., Rose, T., (2026). *The bare necessities: Improving reproducibility in archaeometallurgy through an audit of current publishing practices*. Archaeological and Anthropological Sciences,
+> in review. <!-- <https://doi.org/> -->
 
 ### How to cite
 
 Please cite this compendium as:
 
 > Rose, T., van der Meulen-van der Veen, B. S., (2026). *Compendium of R
-> code and data for: The bare necessities: Improving data quality in
-> archaeometallurgy through reproducibility*. Accessed 26 Jun 2026.
+> code and data for: The bare necessities: Improving reproducibility in archaeometallurgy through an audit of current publishing practices*. Accessed 26 Jun 2026.
 > Online at <https://doi.org/10.5281/zenodo.20931684>
 
 ## Contents
